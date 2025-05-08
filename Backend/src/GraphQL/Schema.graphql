@@ -1,0 +1,145 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+type Query{
+    getBoards:[board!]!
+}
+
+type board{
+    id:ID!
+    name:String!
+    columns:[Column!]!
+}
+type Column{
+    id:ID!
+    name:String
+    tasks:[task!]!
+}
+type task{
+    id:ID!
+    title:String!
+    description:String!
+    status:String!
+    statusId:ID!
+    subtasks:[SubTask!]!
+}
+type SubTask{
+    id:ID!
+    title:String!
+    isCompleted:Boolean
+}
+
+
+
+type Mutation {
+    # Update a subtask (returns full updated SubTask)
+    editSubTask(
+        SubTaskID: ID!,
+        subTaskTitle: String!,
+        isCompleted: Boolean!
+    ): SubTask
+
+    # Add a new subtask (returns created subTask)
+    addSubTask(
+        subTaskTitle: String!,
+        isCompleted:Boolean
+    ): SubTask!
+
+
+    #   DELETE SUBTASK
+    deleteSubTask(
+        SubTaskID: ID!
+    ): Boolean
+
+
+
+
+
+
+
+    # Update a task (returns full updated Task)
+    editTask(
+        taskID: ID!,
+        taskTitle: String!,
+        taskDesc: String!,
+        taskStatus: String!
+    ): task
+
+    # Add a new task (returns created Task)
+    addTask(
+        taskTitle: String!,
+        taskDesc: String!,
+        taskStatus: String!
+    ): task!
+
+    # Add a new task (returns created Task)
+    deleteTask(
+        taskID: ID!
+    ): Boolean
+
+
+
+
+
+    # Assign a subtask to a task (returns updated Task or SubTask or TaskWithSubtasks)
+    editTask_Sub(
+        taskID: ID!,
+        subTaskID: ID!
+    ): task
+
+
+
+
+    # Update a column (returns full updated Column)
+    editColumn(
+        columnID: ID!,
+        columnName: String!
+    ): Column
+
+    # Add a column (returns new Column)
+    addColumn(
+        columnName: String!
+    ): Column!
+    # delete column
+    deleteColumn(
+        columnID: ID!
+    ): Boolean
+
+
+
+    # Update board name (returns updated Board)
+    editBoard(
+        boardID: ID!,
+        boardName: String!
+    ): board
+    # delete board
+    deleteBoard(
+        boardID: ID!
+    ): Boolean
+    # Add a board (returns new Board)
+    addBoard(
+        boardName: String!
+        boardColumnsId:[String!]!
+    ): board
+
+
+
+
+    # Assign a column to a board (returns updated Board)
+    editColumnBoard(
+        boardID: ID!,
+        columnID: ID!
+    ): board
+
+    editColumnTask(
+        columnID: ID!,
+        taskID: ID!
+    ): Column
+}
+
+
+
+
+
+
