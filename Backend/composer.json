@@ -1,0 +1,13 @@
+{
+  "require": {
+    "webonyx/graphql-php": "^15.20",
+    "graphql-by-pop/graphiql": "^12.2",
+    "mll-lab/laravel-graphiql": "^3.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "Core\\": "Core/"
+    }
+  }
+}
