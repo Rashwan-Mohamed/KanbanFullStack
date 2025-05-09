@@ -13,6 +13,7 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
       theOne = { ...item }
     }
   })
+
   const form = useRef(null)
   const ddelete = useRef(null)
   const dioper = useRef()
@@ -45,13 +46,6 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
     // to delete task, we need {selected,status,id}
     dispatch(deleteTask({ selected, status: status.status, id }))
     setTaskShow(false)
-    // if (len === 1) {
-    //   setSelected('NO BOARD FOUND')
-    // } else if ((indeed === 0) & (len > 1)) {
-    //   setSelected(boards[1].name)
-    // } else {
-    //   setSelected(boards[0].name)
-    // }
   }
   const unShow = (e) => {
     if (!form.current.contains(e.target)) {
@@ -75,6 +69,7 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
   }, [toggle])
 
   useEffect(() => {
+
     callDispatch()
     setPrevStatus(status.status)
   }, [subtasks, status])
@@ -82,7 +77,9 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
   //edit board, when edit board is initiated, give it the specific board to edit, then give it an order to appear, then disappear
   // thus edit board should be in board, yes
   //prevStatus
+
   const callDispatch = () => {
+    let column = theOne.columns.find((item) => item.name === prevStatus)
     dispatch(
       editTask({
         prevStatus,
@@ -95,6 +92,7 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
       })
     )
   }
+
   return (
     <>
       {sure && (
@@ -179,13 +177,13 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
               </span>
             )}
           </div>
-          <p> {description ? description : 'No description'}</p>
+          <p> {description ?? 'No description'}</p>
           <ul>
             <h5>
               Subtasks ({com || 0} of {len})
             </h5>
             {subtasks.map((sub, index) => {
-              let { title, isCompleted } = sub
+              let { title, isCompleted, id } = sub
               return (
                 <li
                   onClick={() => {
@@ -198,13 +196,13 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
                       return newRr
                     })
                   }}
-                  key={index}
+                  key={id ?? index}
                 >
                   <label htmlFor='checkTask'>
                     <input
                       type='checkbox'
                       checked={isCompleted}
-                      onChange={() => {}}
+                      onChange={() => { }}
                       name='checkTask'
                       id='checkTask'
                     />

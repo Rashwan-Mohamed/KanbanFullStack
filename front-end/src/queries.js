@@ -14,6 +14,7 @@ export const GET_BOARDS = gql`
                 title
                 description
                 status
+                statusId
           subtasks {
                     id
                     title
@@ -55,8 +56,8 @@ export const DELETE_BOARD = gql`
 
 
 export const ADD_COLUMN = gql`
-  mutation AddColumn($columnName: String!) {
-    addColumn(columnName:$columnName) {
+  mutation AddColumn($columnName: [String!]!,$boardId:ID!) {
+    addColumn(columnName:$columnName,boardId:$boardId) {
       id
       name
     }
@@ -71,7 +72,7 @@ export const EDIT_COLUMN = gql`
   }
 `;
 export const DELETE_COLUMN = gql`
-  mutation DeleteColumn($columnID: ID!) {
+  mutation DeleteColumn($columnID: [ID!]!) {
     deleteColumn(columnID: $columnID) 
   }
 `;

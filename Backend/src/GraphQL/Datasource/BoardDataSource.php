@@ -11,9 +11,9 @@
        c.name  as column_name,
        t.id    as task_id,
        t.title as task_title,
-       t.description,
-       t.status,
-       t.statusId,
+       t.description as task_description,
+       t.status as task_status,
+       t.statusId as statusId,
        s.id    as subtask_id,
        s.title as subtask_title,
        s.isCompleted
@@ -54,12 +54,4 @@ FROM boards b
             return $this->db->query($this->GET_BOARD_ID, ['name' => $boardName])->get();
         }
 
-        public function addColumnBoard($boardId, $ColumnsID)
-        {
-            foreach ($ColumnsID as $x => $y) {
-                $id = $y[0]['id'];
-                $bId = $boardId[0]['id'];
-                $this->db->query($this->ADD_BOARD_COLUMN, ['boardId' => $bId, 'columnId' => $id]);
-            }
-        }
     }
