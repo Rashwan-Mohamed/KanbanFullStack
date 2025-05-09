@@ -19,11 +19,18 @@
 
         public function deleteColumn()
         {
-            $this->ds()->deleteColumn($this->args['columnID']);
+            $columnsIdArr = $this->args['columnsId'];
+            foreach ($columnsIdArr as $columnId) {
+                $this->ds()->deleteColumn($columnId);
+            }
         }
 
         public function addColumn()
         {
-            $this->ds()->addColumn($this->args['columnName']);
+            $arrColumns = $this->args['columnName'];
+            foreach ($arrColumns as $columnName) {
+                $this->ds()->addColumn($columnName, $this->args['boardId']);
+
+            }
         }
     }

@@ -37,7 +37,6 @@ const Board = () => {
     )
   }
   const { columns, id } = board
-  console.log('updated')
   return (
     <>
       <section

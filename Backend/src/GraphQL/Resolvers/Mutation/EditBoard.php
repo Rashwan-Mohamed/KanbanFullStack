@@ -27,12 +27,9 @@
         public function addBoard()
         {
             $columnsNamesArr = $this->args['boardColumnsId'];
-            $ColumnsID = [];
+            $boardId = $this->ds()->addBoard($this->args['boardName']);
             foreach ($columnsNamesArr as $columnsName) {
-                $ColumnsID[] = (new ColumnDataSource())->addColumn($columnsName);
+                (new ColumnDataSource())->addColumn($columnsName, $boardId[0]['id']);
             }
-            $boardId = $this->ds()->addBoard($this->args['boardName'], $this->args['boardColumnsId']);
-            $this->ds()->addColumnBoard($boardId, $ColumnsID);
-
         }
     }

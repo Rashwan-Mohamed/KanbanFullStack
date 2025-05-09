@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit'
-import {nanoid} from 'nanoid'
+import { createSlice } from '@reduxjs/toolkit'
+import { nanoid } from 'nanoid'
 
 // const initialState = [...data.boards]
 const initialState = [{}]
@@ -16,7 +16,7 @@ export const boardSlice = createSlice({
             reducer: (state, action) => {
                 state.push(action.payload)
             },
-            prepare: ({name, columns}) => {
+            prepare: ({ name, columns }) => {
                 let newColumns = []
                 columns.forEach((col) => {
                     let mutObj = {}
@@ -36,7 +36,7 @@ export const boardSlice = createSlice({
         },
         editBoard: {
             reducer: (state, action) => {
-                const {id} = action.payload
+                const { id } = action.payload
                 let inded
                 state.forEach((item, ind) => {
                     if (item.id === id) {
@@ -50,7 +50,7 @@ export const boardSlice = createSlice({
                     ...state.slice(inded + 1),
                 ]
             },
-            prepare: ({id, name, columns}) => {
+            prepare: ({ id, name, columns }) => {
                 let newColumns = []
                 columns.forEach((col) => {
                     let mutObj = {}
@@ -64,7 +64,7 @@ export const boardSlice = createSlice({
                     mutObj.name = col.name
                     mutObj.tasks = []
                     col.tasks.forEach((cert) => {
-                        mutObj.tasks.push({...cert})
+                        mutObj.tasks.push({ ...cert })
                     })
 
                     if (mutObj.tasks.length > 0) {
@@ -84,13 +84,13 @@ export const boardSlice = createSlice({
             },
         },
         deleteBoard: (state, action) => {
-            const {name} = action.payload
+            const { name } = action.payload
 
             return (state = state.filter((item) => item.name !== name))
         },
         addTask: {
             reducer: (state, action) => {
-                const {selected, status, task} = action.payload
+                const { selected, status, task } = action.payload
                 let one = state.find((item) => item.name === selected)
 
                 one.columns.forEach((item) => {
@@ -101,7 +101,7 @@ export const boardSlice = createSlice({
 
                 return state
             },
-            prepare: ({selected, status, statusId, title, desc, tasks}) => {
+            prepare: ({ selected, status, statusId, title, desc, tasks }) => {
                 return {
                     payload: {
                         selected,
@@ -120,16 +120,17 @@ export const boardSlice = createSlice({
         },
         editTask: {
             reducer: (state, action) => {
-                const {prevStatus, id, selected, status, task} = action.payload
+                //tasks
+                const { prevStatus, id, selected, status, task } = action.payload
                 let one = state.find((item) => item.name === selected)
                 let indeed
-                let column
-                column = one.columns.find((item) => item.name === prevStatus)
+                let column = one.columns.find((item) => item.name === prevStatus)
                 column.tasks.forEach((item, index) => {
                     if (item.id === id) {
                         indeed = index
                     }
                 })
+
                 if (prevStatus === status) {
                     column.tasks = [
                         ...column.tasks.slice(0, indeed),
@@ -147,15 +148,15 @@ export const boardSlice = createSlice({
                 return state
             },
             prepare: ({
-                          prevStatus,
-                          id,
-                          selected,
-                          status,
-                          statusId,
-                          title,
-                          desc,
-                          tasks,
-                      }) => {
+                prevStatus,
+                id,
+                selected,
+                status,
+                statusId,
+                title,
+                desc,
+                tasks,
+            }) => {
                 return {
                     payload: {
                         prevStatus,
@@ -175,7 +176,7 @@ export const boardSlice = createSlice({
             },
         },
         deleteTask: (state, action) => {
-            const {selected, status, id} = action.payload
+            const { selected, status, id } = action.payload
             let one = state.find((item) => item.name === selected)
             let indeed
             let column

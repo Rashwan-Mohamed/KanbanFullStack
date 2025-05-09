@@ -46,8 +46,9 @@
                     $boards[$boardId]['columns'][$columnId]['tasks'][$taskId] = [
                         'id' => $taskId,
                         'title' => $row['task_title'],
-                        'description' => $row['description'],
-                        'status' => $row['status'],
+                        'description' => $row['task_description'],
+                        'status' => $row['task_status'],
+                        'statusId' => $row['statusId'],
                         'subtasks' => []
                     ];
                 }
@@ -73,5 +74,4 @@
 
             return array_values($boards);
         }
-
     }
