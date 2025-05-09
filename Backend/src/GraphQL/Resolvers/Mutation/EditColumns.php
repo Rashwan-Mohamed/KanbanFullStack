@@ -14,7 +14,11 @@
 
         public function editColumn()
         {
-            $this->ds()->editColumn($this->args['columnID'], $this->args['columnName']);
+
+            $colNames = $this->args['columnName'];
+            $colIds = $this->args['columnID'];
+            $boardId = $this->args['boardID'];
+            $this->ds()->editColumn($colIds,  $colNames,$boardId);
         }
 
         public function deleteColumn()

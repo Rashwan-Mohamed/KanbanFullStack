@@ -21,7 +21,9 @@
 
         public function deleteBoard()
         {
-            $this->ds()->deleteBoard($this->args['boardID']);
+            $boId = $this->args['boardID'];
+            (new ColumnDataSource())->deleteBoardColumn($boId);
+            $this->ds()->deleteBoard($boId);
         }
 
         public function addBoard()
