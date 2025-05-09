@@ -3,10 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { editBoard } from './boardSlice'
 import { UseAppContext } from '../../context'
 import useCloseEscape from './components/useCloseEscape'
+import { EDIT_BOARD, EDIT_COLUMN } from '../../queries'
+import { useMutation } from '@apollo/client'
 function EditBoard({ setBoardShow }) {
   const { setSelected, selected } = UseAppContext()
   const boards = useSelector((state) => state.boards)
 
+  const [editDF, { data, loading, error }] = useMutation(EDIT_BOARD)
+  const [editCF, { dsata, aloading, cerror }] = useMutation(EDIT_COLUMN)
   let theOne
   boards.forEach((item) => {
     if (item.name === selected) {
@@ -89,6 +93,10 @@ function EditBoard({ setBoardShow }) {
 
     if (proceed) {
       setSelected(name)
+      editDF({ variables: { boardID: theOne.id, boardName: name } })
+      let colName = columns.map((col) => col.name)
+      let colId = columns.map((col) => col.id)
+      editCF({ variables: { columnID: colId, columnName: colName, boardID: theOne.id } })
       dispatch(editBoard({ id: theOne.id, name, columns }))
       setCloumns([{ name: '' }])
       setName('')

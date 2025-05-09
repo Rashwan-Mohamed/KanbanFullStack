@@ -49,7 +49,6 @@ FROM boards b
 
         public function addBoard($boardName)
         {
-            // first iterate over the columnsIDs array and add each column to the DB by calling its method
             $this->db->query($this->ADD_TO_BOARD_STATEMENT, ['name' => $boardName]);
             return $this->db->query($this->GET_BOARD_ID, ['name' => $boardName])->get();
         }

@@ -27,19 +27,34 @@ type task {
 type SubTask {
     id: ID!
     title: String!
-    isCompleted: Boolean
+    isCompleted: Boolean!
 }
 
+
+input subtask{
+    title: String!
+    isCompleted: Boolean!
+    id:ID
+}
+input inputTask{
+    title: String!
+    description: String!
+    status: String!
+    statusId: ID!
+    subtasks: [subtask!]!
+    taskId:ID
+}
 type Mutation {
+
+
+
     # Update a subtask (returns full updated SubTask)
     editSubTask(
-        SubTaskID: ID!
-        subTaskTitle: String!
-        isCompleted: Boolean!
+        subtask:subtask
     ): SubTask
 
     # Add a new subtask (returns created subTask)
-    addSubTask(subTaskTitle: String!, isCompleted: Boolean): SubTask!
+    addSubTask(subtask:subtask): SubTask
 
     #   DELETE SUBTASK
     deleteSubTask(SubTaskID: ID!): Boolean
@@ -48,18 +63,16 @@ type Mutation {
 
 
     # Update a task (returns full updated Task)
-    editTask(
-        taskID: ID!
-        taskTitle: String!
-        taskDesc: String!
-        taskStatus: String!
-    ): task
-
+    editTask(inputTask:inputTask!): task
+    # Update a task status
+    editTaskStatus(taskId:ID!,statusID:ID!): ID
     # Add a new task (returns created Task)
-    addTask(taskTitle: String!, taskDesc: String!, taskStatus: String!): task!
+    addTask(inputTask:inputTask!): task
 
     # Add a new task (returns created Task)
     deleteTask(taskID: ID!): Boolean
+
+
 
     # Assign a subtask to a task (returns updated Task or SubTask or TaskWithSubtasks)
     editTask_Sub(taskID: ID!, subTaskID: ID!): task
@@ -68,8 +81,7 @@ type Mutation {
 
 
     # Update a column (returns full updated Column)
-    editColumn(columnID: ID!, columnName: String!): Column
-
+    editColumn(columnID: [ID]!, columnName: [String!]!,boardID:ID!): Column
     # Add a column (returns new Column)
     addColumn(columnName: [String!]!,boardId:ID!): Column
     # delete column

@@ -4,15 +4,15 @@ import { editTask, deleteTask } from '../boardSlice'
 import { UseAppContext } from '../../../context'
 import useCloseEscape from './useCloseEscape'
 import CustomDrop from './customDrop'
+import { useMutation } from '@apollo/client'
+import { DELETE_TASK, EDIT_TASK_STATUS } from '../../../queries'
+
 function Task({ selectedTask, setTaskShow, setEditTask }) {
   const { selected, dark } = UseAppContext()
   const boards = useSelector((state) => state.boards)
-  let theOne
-  boards.forEach((item) => {
-    if (item.name === selected) {
-      theOne = { ...item }
-    }
-  })
+  let theOne = boards.find((item) => (item.name === selected))
+  const [deleteTF, { data, loading, error }] = useMutation(DELETE_TASK)
+  const [editTSF, { sdata, aloading, derror }] = useMutation(EDIT_TASK_STATUS)
 
   const form = useRef(null)
   const ddelete = useRef(null)
@@ -44,6 +44,7 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
   }, [close])
   const handleDelete = () => {
     // to delete task, we need {selected,status,id}
+    deleteTF({ variables: { taskID: id } })
     dispatch(deleteTask({ selected, status: status.status, id }))
     setTaskShow(false)
   }
@@ -69,7 +70,8 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
   }, [toggle])
 
   useEffect(() => {
-
+    console.log(status);
+    editTSF({ variables: { taskId: id, statusID: status.statusId } })
     callDispatch()
     setPrevStatus(status.status)
   }, [subtasks, status])
@@ -79,7 +81,6 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
   //prevStatus
 
   const callDispatch = () => {
-    let column = theOne.columns.find((item) => item.name === prevStatus)
     dispatch(
       editTask({
         prevStatus,

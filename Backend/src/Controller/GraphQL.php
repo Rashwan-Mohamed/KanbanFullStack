@@ -6,6 +6,7 @@
     use App\GraphQL\Resolvers\Mutation\EditBoard;
     use App\GraphQL\Resolvers\Mutation\EditColumns;
     use App\GraphQL\Resolvers\Mutation\EditSubTask;
+    use App\GraphQL\Resolvers\Mutation\EditTask;
     use App\GraphQL\Resolvers\Queries\GetBoards;
     use GraphQL\GraphQL as GraphQLBase;
     use GraphQL\Language\Parser;
@@ -44,6 +45,10 @@
                     'editColumn' => fn($rootValue, $args) => (new EditColumns($args))->editColumn(),
                     'deleteColumn' => fn($rootValue, $args) => (new EditColumns($args))->deleteColumn(),
                     'addColumn' => fn($rootValue, $args) => (new EditColumns($args))->addColumn(),
+                    'editTask' => fn($rootValue, $args) => (new EditTask($args))->editTask(),
+                    'editTaskStatus' => fn($rootValue, $args) => (new EditTask($args))->editTaskStatus(),
+                    'deleteTask' => fn($rootValue, $args) => (new EditTask($args))->deleteTask(),
+                    'addTask' => fn($rootValue, $args) => (new EditTask($args))->addTask(),
                 ];
 
 

@@ -2,7 +2,8 @@
   "require": {
     "webonyx/graphql-php": "^15.20",
     "graphql-by-pop/graphiql": "^12.2",
-    "mll-lab/laravel-graphiql": "^3.3"
+    "mll-lab/laravel-graphiql": "^3.3",
+    "ext-pdo": "*"
   },
   "autoload": {
     "psr-4": {

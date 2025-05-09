@@ -64,8 +64,8 @@ export const ADD_COLUMN = gql`
   }
 `;
 export const EDIT_COLUMN = gql`
-  mutation EditColumn($columnID: ID!, $columnName: String!) {
-    editColumn(columnID: $columnID, columnName: $columnName) {
+  mutation EditColumn($columnID: [ID]!, $columnName: [String!]!,$boardID:ID!) {
+    editColumn(columnID: $columnID, columnName: $columnName,boardID:$boardID) {
       id
       name
     }
@@ -81,14 +81,10 @@ export const DELETE_COLUMN = gql`
 
 export const ADD_TASK = gql`
   mutation AddTask(
-    $taskTitle: String!
-    $taskDesc: String!
-    $taskStatus: String!
+  $inputTask:inputTask!
   ) {
     addTask(
-      taskTitle: $taskTitle
-      taskDesc: $taskDesc
-      taskStatus: $taskStatus
+      inputTask:$inputTask
     ) {
       id
       title
@@ -98,23 +94,18 @@ export const ADD_TASK = gql`
   }
 `;
 export const EDIT_TASK = gql`
-  mutation EditTask(
-    $taskID: ID!
-    $taskTitle: String!
-    $taskDesc: String!
-    $taskStatus: String!
-  ) {
-    editTask(
-      taskID: $taskID
-      taskTitle: $taskTitle
-      taskDesc: $taskDesc
-      taskStatus: $taskStatus
-    ) {
+  mutation EditTask($inputTask:inputTask!) {
+    editTask(inputTask:$inputTask) {
       id
       title
       description
       status
     }
+  }
+`;
+export const EDIT_TASK_STATUS = gql`
+  mutation EditTaskStatus($taskId: ID!, $statusID: ID!) {
+    editTaskStatus(taskId: $taskId, statusID: $statusID)
   }
 `;
 export const DELETE_TASK = gql`

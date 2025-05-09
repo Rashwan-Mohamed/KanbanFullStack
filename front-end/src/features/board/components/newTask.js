@@ -5,8 +5,10 @@ import useCloseEscape from './useCloseEscape'
 
 import { UseAppContext } from '../../../context'
 import CustomDrop from './customDrop'
+import { ADD_TASK } from '../../../queries'
+import { useMutation } from '@apollo/client'
 function NewTask({ setTaskShow }) {
-  const { setSelected, selected } = UseAppContext()
+  const { selected } = UseAppContext()
   const boards = useSelector((state) => state.boards)
   let theOne
   boards.forEach((item) => {
@@ -14,6 +16,8 @@ function NewTask({ setTaskShow }) {
       theOne = { ...item }
     }
   })
+  const [addTF, { data, loading, error }] = useMutation(ADD_TASK)
+
   const form = useRef(null)
   const [tasks, setTasks] = useState([{ title: '', isCompleted: false }])
   const [entries, setEntries] = useState({ title: '', desc: '' })
@@ -79,8 +83,16 @@ function NewTask({ setTaskShow }) {
         })
       }
     }
-
+    // proceed
+    /** $taskTitle: String!
+    $taskDesc: String!
+    $taskStatus: String!
+    $taskStatusId:ID!
+    $subTasks:[subtask!]! */
     if (proceed) {
+      let quriedTask = { title: entries.title, description: entries.desc, status: status.status, statusId: status.statusId, subtasks: tasks }
+      console.log(quriedTask, 'her Im come to me');
+      addTF({ variables: { inputTask: quriedTask } })
       dispatch(addTask({ selected, ...status, ...entries, tasks }))
       setTasks([{ name: '' }])
       setEntries({ title: '', desc: '' })
