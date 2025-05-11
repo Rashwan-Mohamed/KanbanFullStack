@@ -3,6 +3,8 @@
     namespace App\GraphQL\Datasource;
 
 
+    use Exception;
+
     class BoardDataSource extends BaseDataSource
     {
         private string $GET_BOARDS_STATEMENT = "SELECT b.id    as board_id,
@@ -32,7 +34,13 @@ FROM boards b
 
         public function getBoardsWithRelations()
         {
-            $flat = $this->db->query($this->GET_BOARDS_STATEMENT)->get();
+            try {
+                $flat = $this->db->query($this->GET_BOARDS_STATEMENT)->get();
+            } catch (Exception $e) {
+                error_log("Delete Task Error: " . $e->getMessage());
+                echo "Delete Task Error: " . $e->getMessage();
+                throw new Exception("Task deletion failed.");
+            }
             return $this->groupData($flat);
         }
 

@@ -1,68 +1,50 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { editTask } from '../boardSlice'
-
 import { UseAppContext } from '../../../context'
 import CustomDrop from './customDrop'
 import { useEffect } from 'react'
+import { EDIT_TASK } from '../../../queries'
+import { useMutation } from '@apollo/client'
+
 function EditTask({ setEditTask, selectedTask }) {
   const { selected } = UseAppContext()
+  const [editTaskFunc, { data, loading, error }] = useMutation(EDIT_TASK)
   const boards = useSelector((state) => state.boards)
-  let theOne
-  boards.forEach((item) => {
-    if (item.name === selected) {
-      theOne = { ...item }
-    }
-  })
-  const [currnent, setCurrent] = useState(() => {
-    let nner
-    theOne.columns.forEach((item) => {
-      item.tasks.find((task) => {
-        if (task.id === selectedTask.id) {
-          return (nner = task)
-        }
-      })
-    })
-    return nner
-  })
-  const { id, subtasks } = currnent
-
-  const form = useRef(null)
+  let theOne = boards.find(item => item.name === selected);
+  theOne = theOne ? { ...theOne } : undefined; // Creates a copy if found
+  const [current, setCurrent] = useState(() =>
+    theOne?.columns?.flatMap(column => column.tasks).find(task => task.id === selectedTask.id) || null
+  );
+  const { id, subtasks } = current
   const [tasks, setTasks] = useState(subtasks)
+  const form = useRef(null)
+
   const [entries, setEntries] = useState({
-    title: currnent.title,
-    desc: currnent.description,
+    title: current.title,
+    desc: current.description,
   })
   const [usedBoard, setUsedBoard] = useState('trial')
 
-  const [used, setUsed] = useState(() => {
-    let alig = []
-    subtasks.forEach((item) => {
-      alig.push('trial')
-    })
-    return alig
-  })
+  const [used, setUsed] = useState(() => subtasks.map(() => 'trial'));
   const [status, setStatus] = useState({
-    status: currnent.status,
-    statusId: currnent.statusId,
+    status: current.status,
+    statusId: current.statusId,
   })
+  const dispatch = useDispatch()
   const unShow = (e) => {
     if (!form.current.contains(e.target)) {
       setEditTask(false)
     }
   }
 
-  const dispatch = useDispatch()
   useEffect(() => {
-    theOne.columns.forEach((item) => {
-      item.tasks.find((task) => {
-        if (task.id === id) {
-          setCurrent(task)
-        }
-      })
-    })
-  }, [theOne])
-  const handleSubmit = (e) => {
+    const task = theOne.columns.flatMap(column => column.tasks).find(task => task.id === id);
+    if (task) setCurrent(task);
+  }, [theOne, id]);
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
     let proceed = true
     let repeatedBoard = false
@@ -84,6 +66,7 @@ function EditTask({ setEditTask, selectedTask }) {
     if (entries.title && usedBoard !== 'trial' && !repeatedBoard) {
       setUsedBoard('trial')
     }
+    let tasksTitle = [];
     for (let i = 0; i < tasks.length; i++) {
       let required = false
       if (!tasks[i].title) {
@@ -96,6 +79,17 @@ function EditTask({ setEditTask, selectedTask }) {
         })
       }
 
+      if (tasksTitle.includes(tasks[i].title)) {
+        proceed = false
+        required = true
+        setUsed((old) => {
+          let useds = [...old]
+          useds[i] = 'used'
+          return useds
+        })
+      }
+
+
       if (!required && used[i] !== 'trial') {
         setUsed((old) => {
           let useds = [...old]
@@ -103,24 +97,53 @@ function EditTask({ setEditTask, selectedTask }) {
           return useds
         })
       }
+      tasksTitle.push(tasks[i].title)
     }
-
+    /**
+     *     title: String!
+    description: String!
+    status: String!
+    statusId: ID!
+    subtasks: [subtask!]!
+    taskId:ID
+     */
+    //newSubIds
     if (proceed) {
-      dispatch(
-        editTask({
-          prevStatus: currnent.status,
-          id,
-          selected,
-          ...status,
-          ...entries,
-          tasks,
-        })
-      )
+
+      let it = {
+        title: entries.title,
+        description: entries.desc ?? '',
+        status: status.status,
+        statusId: status.statusId,
+        taskId: id,
+        subtasks: tasks
+      }
+      try {
+        const { data } = await editTaskFunc({ variables: { inputTask: it } })
+        let newSubIds = data.editTask.newSubIds
+        console.log(newSubIds, 'Resho');
+        dispatch(
+          editTask({
+            prevStatus: current.status,
+            id,
+            selected,
+            ...status,
+            title: entries.title,
+            description: entries.desc ?? ''
+            , tasks, newSubIds
+          })
+        )
+      } catch (error) {
+        console.log(error);
+      }
+
       setTasks([{ name: '' }])
       setEntries({ title: '', desc: '' })
       setEditTask(false)
     }
   }
+
+
   return (
     <div onClick={unShow} className='modalOverlay'>
       <form onSubmit={handleSubmit} ref={form} className='newBoard'>

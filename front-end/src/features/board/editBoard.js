@@ -35,7 +35,7 @@ function EditBoard({ setBoardShow }) {
       setBoardShow(false)
     }
   }, [close])
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     let proceed = true
     let repeatedBoard = false
@@ -96,11 +96,19 @@ function EditBoard({ setBoardShow }) {
       editDF({ variables: { boardID: theOne.id, boardName: name } })
       let colName = columns.map((col) => col.name)
       let colId = columns.map((col) => col.id)
-      editCF({ variables: { columnID: colId, columnName: colName, boardID: theOne.id } })
-      dispatch(editBoard({ id: theOne.id, name, columns }))
-      setCloumns([{ name: '' }])
-      setName('')
-      setBoardShow(false)
+      try {
+        const { data } = await editCF({ variables: { columnID: colId, columnName: colName, boardID: theOne.id } })
+        console.log(data);
+        let colIds = data.editColumn.colIds
+        dispatch(editBoard({ id: theOne.id, name, columns, colIds }))
+      } catch (error) {
+        console.log(error);
+      }
+      finally {
+        setCloumns([{ name: '' }])
+        setName('')
+        setBoardShow(false)
+      }
     }
   }
   const dispatch = useDispatch()

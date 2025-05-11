@@ -16,13 +16,14 @@
         public function editColumn($columnIds, $columnNames, $boardId)
         {
             // this function receives three parameters. 1. array of columnsId 2.array of corresponding columns name 3.the board ID associated with these columns
-            // you have to do somethings, first check if that column id exist, if yes, modify its name, if no add it and add it the that board
+            // you have to do something, first check if that column id exist, if yes, modify its name, if no add it and add it the that board
             // then get columns ids associated with that boardId, if a column Id doesn't exist in that list it means it has been dropped! then drop it
+            $newColumnsIds = [];
             foreach ($columnIds as $index => $columnId) {
                 if (isset($columnId)) {
                     $this->db->query($this->EDIT_COLUMN_STATEMENT, ['name' => $columnNames[$index], 'id' => $columnId]);
                 } else {
-                    $this->addColumn($columnNames[$index], $boardId);
+                    $newColumnsIds[] = $this->addColumn($columnNames[$index], $boardId);
                 }
             }
             $existingCol = $this->db->query($this->GET_BOARD_COLUMN, ['id' => $boardId])->get();
@@ -33,11 +34,13 @@
                     $this->deleteColumn($idea);
                 }
             }
+            return $newColumnsIds;
         }
 
 
         public function deleteColumn($columnId)
         {
+            (new TaskDataSource)->deleteTaskAssocColumn($columnId);
             $this->db->query($this->DELETE_FROM_COLUMNS_STATEMENT, ['id' => $columnId]);
         }
 
@@ -57,5 +60,6 @@
             $y = $this->db->query($this->GET_COLUMN_ID)->get();
             $id = $y[0]['id'];
             $this->db->query($this->ADD_BOARD_COLUMN, ['boardId' => $boardId, 'columnId' => $id]);
+            return $id;
         }
     }

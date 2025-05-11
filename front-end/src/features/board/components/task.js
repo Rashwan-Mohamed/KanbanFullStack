@@ -1,11 +1,12 @@
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { editTask, deleteTask } from '../boardSlice'
 import { UseAppContext } from '../../../context'
 import useCloseEscape from './useCloseEscape'
 import CustomDrop from './customDrop'
 import { useMutation } from '@apollo/client'
-import { DELETE_TASK, EDIT_TASK_STATUS } from '../../../queries'
+import { CHANGE_SUBTASK, DELETE_TASK, EDIT_TASK_STATUS } from '../../../queries'
+import Assure from './Assure'
 
 function Task({ selectedTask, setTaskShow, setEditTask }) {
   const { selected, dark } = UseAppContext()
@@ -13,9 +14,9 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
   let theOne = boards.find((item) => (item.name === selected))
   const [deleteTF, { data, loading, error }] = useMutation(DELETE_TASK)
   const [editTSF, { sdata, aloading, derror }] = useMutation(EDIT_TASK_STATUS)
-
+  const [changeSTF, { adata, dloading, cerror }] = useMutation(CHANGE_SUBTASK)
   const form = useRef(null)
-  const ddelete = useRef(null)
+  // const ddelete = useRef(null)
   const dioper = useRef()
   const drop = useRef()
   const [toggle, setToggle] = useState(false)
@@ -27,14 +28,9 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
   const [subtasks, setSubTasks] = useState(selectedTask.subtasks)
   const [sure, setSure] = useState(false)
   const { id, title, description } = selectedTask
-  let com = 0
-  let len = subtasks.length
   const dispatch = useDispatch()
-  subtasks.forEach((item) => {
-    if (item.isCompleted) {
-      com++
-    }
-  })
+  let len = subtasks.length
+  const com = subtasks.filter(item => item.isCompleted).length;
   let close = useCloseEscape()
 
   useEffect(() => {
@@ -42,6 +38,7 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
       setTaskShow(false)
     }
   }, [close])
+
   const handleDelete = () => {
     // to delete task, we need {selected,status,id}
     deleteTF({ variables: { taskID: id } })
@@ -70,11 +67,15 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
   }, [toggle])
 
   useEffect(() => {
-    console.log(status);
-    editTSF({ variables: { taskId: id, statusID: status.statusId } })
     callDispatch()
     setPrevStatus(status.status)
   }, [subtasks, status])
+
+
+  // this sends graphQL query to change taskStatus only when it changes
+  useEffect(() => {
+    editTSF({ variables: { taskId: id, statusID: status.statusId } })
+  }, [status])
   //// to dispatch and action, edit task and delete task
   //edit board, when edit board is initiated, give it the specific board to edit, then give it an order to appear, then disappear
   // thus edit board should be in board, yes
@@ -97,39 +98,7 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
   return (
     <>
       {sure && (
-        <div
-          onClick={(e) => {
-            if (!ddelete.current.contains(e.target)) {
-              setSure(false)
-            }
-          }}
-          className='confirmDelete'
-        >
-          <article ref={ddelete}>
-            <h3>Delete this task?</h3>
-            <p>
-              Are you sure you want to delete the '{`${title}`}' task? This
-              action will remove all columns and tasks and cannot be reversed.
-            </p>
-            <div>
-              <button
-                onClick={() => {
-                  setSure(false)
-                  handleDelete()
-                }}
-              >
-                delete
-              </button>
-              <button
-                onClick={() => {
-                  setSure(false)
-                }}
-              >
-                cancel
-              </button>
-            </div>
-          </article>
-        </div>
+        <Assure setSure={setSure} handleSure={handleDelete} title={title} ></Assure>
       )}
       <div
         style={{ display: sure ? 'none' : '' }}
@@ -192,10 +161,12 @@ function Task({ selectedTask, setTaskShow, setEditTask }) {
                       let newRr = old.map((item) => {
                         return { ...item }
                       })
-
                       newRr[index].isCompleted = !newRr[index].isCompleted
+
                       return newRr
                     })
+                    // here I will dispatch that to GQL
+                    changeSTF({ variables: { SubTaskID: id } })
                   }}
                   key={id ?? index}
                 >

@@ -16,18 +16,18 @@ export const boardSlice = createSlice({
             reducer: (state, action) => {
                 state.push(action.payload)
             },
-            prepare: ({ name, columns }) => {
+            prepare: ({ name, columns, boardId, columnIds }) => {
                 let newColumns = []
-                columns.forEach((col) => {
+                columns.forEach((col, index) => {
                     let mutObj = {}
-                    mutObj.id = nanoid()
+                    mutObj.id = columnIds[index]
                     mutObj.name = col.name
                     mutObj.tasks = []
                     newColumns.push(mutObj)
                 })
                 return {
                     payload: {
-                        id: nanoid(),
+                        id: boardId,
                         name,
                         columns: newColumns,
                     },
@@ -50,12 +50,14 @@ export const boardSlice = createSlice({
                     ...state.slice(inded + 1),
                 ]
             },
-            prepare: ({ id, name, columns }) => {
+            prepare: ({ id, name, columns, colIds }) => {
                 let newColumns = []
+                let nci = 0;
                 columns.forEach((col) => {
                     let mutObj = {}
                     if (col.id === undefined) {
-                        col.id = nanoid()
+                        col.id = colIds[nci]
+                        nci++;
                     }
                     if (!col.tasks) {
                         col.tasks = []
@@ -101,18 +103,20 @@ export const boardSlice = createSlice({
 
                 return state
             },
-            prepare: ({ selected, status, statusId, title, desc, tasks }) => {
+            prepare: ({ selected, status, statusId, title, description, tasks, subTasksIds, taskId }) => {
+                tasks = tasks.map((sub, index) => ({ ...sub, id: subTasksIds[index] }));
                 return {
                     payload: {
                         selected,
                         status,
                         task: {
-                            id: nanoid(),
+                            id: taskId,
                             title,
-                            description: desc,
+                            description,
                             status,
                             statusId,
                             subtasks: tasks,
+
                         },
                     },
                 }
@@ -154,9 +158,10 @@ export const boardSlice = createSlice({
                 status,
                 statusId,
                 title,
-                desc,
-                tasks,
+                description,
+                tasks, newSubIds
             }) => {
+                tasks = tasks.map(sub => sub.id ? sub : { ...sub, id: newSubIds.shift() });
                 return {
                     payload: {
                         prevStatus,
@@ -166,7 +171,7 @@ export const boardSlice = createSlice({
                         task: {
                             id,
                             title,
-                            description: desc,
+                            description,
                             status,
                             statusId,
                             subtasks: tasks,

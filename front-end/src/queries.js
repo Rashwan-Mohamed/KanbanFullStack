@@ -29,13 +29,8 @@ export const GET_BOARDS = gql`
 export const ADD_BOARD = gql`
   mutation AddBoard($boardName: String!, $boardColumnsId: [String!]!) {
     addBoard(boardName: $boardName, boardColumnsId: $boardColumnsId) {
-      id
-      name
-      columns {
-        id
-        name
-      }
-    }
+    boardId
+    columnIds}
   }
 `;
 export const EDIT_BOARD = gql`
@@ -57,17 +52,13 @@ export const DELETE_BOARD = gql`
 
 export const ADD_COLUMN = gql`
   mutation AddColumn($columnName: [String!]!,$boardId:ID!) {
-    addColumn(columnName:$columnName,boardId:$boardId) {
-      id
-      name
-    }
+    addColumn(columnName:$columnName,boardId:$boardId)
   }
 `;
 export const EDIT_COLUMN = gql`
   mutation EditColumn($columnID: [ID]!, $columnName: [String!]!,$boardID:ID!) {
     editColumn(columnID: $columnID, columnName: $columnName,boardID:$boardID) {
-      id
-      name
+     colIds
     }
   }
 `;
@@ -78,7 +69,6 @@ export const DELETE_COLUMN = gql`
 `;
 
 
-
 export const ADD_TASK = gql`
   mutation AddTask(
   $inputTask:inputTask!
@@ -86,20 +76,15 @@ export const ADD_TASK = gql`
     addTask(
       inputTask:$inputTask
     ) {
-      id
-      title
-      description
-      status
+  taskId
+  subTasksIds
     }
   }
 `;
 export const EDIT_TASK = gql`
   mutation EditTask($inputTask:inputTask!) {
     editTask(inputTask:$inputTask) {
-      id
-      title
-      description
-      status
+      newSubIds
     }
   }
 `;
@@ -152,10 +137,12 @@ export const EDIT_SUBTASK = gql`
 export const DELETE_SUBTASK = gql`
   mutation DeleteSubTask($SubTaskID: ID!) {
     deleteSubTask(SubTaskID: $SubTaskID) 
-  }
-`;
-
-
+  }`;
+export const CHANGE_SUBTASK = gql`
+mutation ChangeSubTask($SubTaskID: ID!){
+changeSubTask(SubTaskID:$SubTaskID)
+}
+`
 
 
 

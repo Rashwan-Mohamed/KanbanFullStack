@@ -44,6 +44,21 @@ input inputTask{
     subtasks: [subtask!]!
     taskId:ID
 }
+
+type AddBoardResponse {
+    boardId: ID!
+    columnIds: [ID!]!
+}
+type addTaskResponse{
+    taskId:ID!
+    subTasksIds:[ID!]!
+}
+type editColumnResponse{
+    colIds:[ID]
+}
+type editTaskResponse{
+    newSubIds:[ID]
+}
 type Mutation {
 
 
@@ -59,15 +74,17 @@ type Mutation {
     #   DELETE SUBTASK
     deleteSubTask(SubTaskID: ID!): Boolean
 
+    # change subtask to completed or not
+    changeSubTask(SubTaskID: ID!):Boolean
 
 
 
-    # Update a task (returns full updated Task)
-    editTask(inputTask:inputTask!): task
+    # Update a task (returns full updated Task) newSubIds
+    editTask(inputTask:inputTask!): editTaskResponse
     # Update a task status
     editTaskStatus(taskId:ID!,statusID:ID!): ID
     # Add a new task (returns created Task)
-    addTask(inputTask:inputTask!): task
+    addTask(inputTask:inputTask!): addTaskResponse
 
     # Add a new task (returns created Task)
     deleteTask(taskID: ID!): Boolean
@@ -81,9 +98,9 @@ type Mutation {
 
 
     # Update a column (returns full updated Column)
-    editColumn(columnID: [ID]!, columnName: [String!]!,boardID:ID!): Column
+    editColumn(columnID: [ID]!, columnName: [String!]!,boardID:ID!): editColumnResponse
     # Add a column (returns new Column)
-    addColumn(columnName: [String!]!,boardId:ID!): Column
+    addColumn(columnName: [String!]!,boardId:ID!): [ID]
     # delete column
     deleteColumn(columnID: [ID!]!): Boolean
 
@@ -95,7 +112,7 @@ type Mutation {
     # delete board
     deleteBoard(boardID: ID!): Boolean
     # Add a board (returns new Board)
-    addBoard(boardName: String!, boardColumnsId: [String!]!): board
+    addBoard(boardName: String!, boardColumnsId: [String!]!):AddBoardResponse
 
 
 

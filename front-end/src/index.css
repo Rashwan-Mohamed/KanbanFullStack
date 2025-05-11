@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap");
 *,
 *::after,
 *::before {
@@ -21,7 +21,7 @@
   --first: #3e3f4e;
   --second: #8686861a;
   /* fonts */
-  --plus: 'Plus Jakarta Sans';
+  --plus: "Plus Jakarta Sans";
   --paddingLeft: 32px;
   /* status color */
   --circle0: #49c4e5;
@@ -37,7 +37,7 @@ button {
   cursor: pointer;
 }
 body {
-  font-family: var(--plus), 'sans-serif';
+  font-family: var(--plus), "sans-serif";
   background-color: var(--primary);
 }
 main {
@@ -504,7 +504,7 @@ aside footer {
   position: relative;
 }
 .newBoard > div:nth-of-type(1) input:after {
-  content: 'reduired';
+  content: "reduired";
   position: absolute;
   right: 0;
   top: 0;
@@ -750,7 +750,7 @@ aside footer {
 .selectedTask > ul > li:hover {
   background: rgba(99, 95, 199, 0.25);
 }
-.selectedTask > ul > li input[type='checkbox'] {
+.selectedTask > ul > li input[type="checkbox"] {
   background-color: var(--secondary);
   border: 1px solid rgba(130, 143, 163, 0.4);
   outline: none;
@@ -763,9 +763,9 @@ aside footer {
   cursor: pointer;
   transition: all 200ms ease-in-out;
 }
-.selectedTask > ul > li input[type='checkbox']:checked {
+.selectedTask > ul > li input[type="checkbox"]:checked {
   background-color: #635fc7;
-  background-image: url('../public/assets/icon-check.svg');
+  background-image: url("../public/assets/icon-check.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -808,7 +808,7 @@ aside footer {
 }
 .completedSubT::after {
   position: absolute;
-  content: '';
+  content: "";
   height: 1px;
   width: 100%;
   left: 0;
@@ -882,10 +882,10 @@ aside footer {
 .whiteMain .selectedTask > ul > li:hover {
   background: rgba(99, 95, 199, 0.25);
 }
-.whiteMain .selectedTask > ul > li input[type='checkbox'] {
+.whiteMain .selectedTask > ul > li input[type="checkbox"] {
   background-color: white;
 }
-.whiteMain .selectedTask > ul > li input[type='checkbox']:checked {
+.whiteMain .selectedTask > ul > li input[type="checkbox"]:checked {
   background-color: #635fc7;
 }
 .whiteMain .confirmDelete article {
@@ -894,6 +894,9 @@ aside footer {
 
 .whiteMain .confirmDelete article button:nth-of-type(2) {
   background-color: #f0effa;
+}
+.addNewColumn {
+  grid-row: 1/-1;
 }
 
 @media screen and (max-width: 768px) {
