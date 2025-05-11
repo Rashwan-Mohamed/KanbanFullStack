@@ -5,6 +5,7 @@ import { UseAppContext } from '../../context'
 import EditTask from './components/editTask'
 import Task from './components/task'
 import NoBoardFound from './components/NoBoardFound'
+import AddData from '../AddData'
 
 const Board = () => {
   const { selected, dark, hideSide, setHideSide } = UseAppContext()
@@ -29,6 +30,7 @@ const Board = () => {
   const { columns, id } = board
   return (
     <>
+      {/* <AddData></AddData> */}
       <section
         style={{
           backgroundColor: !dark ? 'var(--whiteFirst)' : '',

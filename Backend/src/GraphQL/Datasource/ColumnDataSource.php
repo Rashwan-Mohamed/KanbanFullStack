@@ -49,7 +49,7 @@
             $columns = $this->db->query($this->GET_BOARD_COLUMN, ['id' => $boardId])->get();
             foreach ($columns as $col) {
                 $idea = $col['columnId'];
-                $this->db->query($this->DELETE_FROM_COLUMNS_STATEMENT, ['id' => $idea]);
+                $this->deleteColumn($idea);
             }
         }
 

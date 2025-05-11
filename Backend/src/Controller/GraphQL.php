@@ -35,6 +35,7 @@
 
         public static function handle()
         {
+//            require_once __DIR__ . '/../../Core/insertData.php';
             try {
                 $schema = self::getSchema();
                 $rootResolver = [
