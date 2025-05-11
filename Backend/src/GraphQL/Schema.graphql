@@ -59,9 +59,16 @@ type editColumnResponse{
 type editTaskResponse{
     newSubIds:[ID]
 }
+type User {
+    id: ID!
+    username: String!
+    email: String!
+}
 type Mutation {
 
-
+    register(username: String!, email: String!, password: String!): String
+    login(email: String!, password: String!): User
+    logout: String
 
     # Update a subtask (returns full updated SubTask)
     editSubTask(
