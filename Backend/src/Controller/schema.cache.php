@@ -2,7 +2,7 @@
   'loc' => 
   array (
     'start' => 0,
-    'end' => 2258,
+    'end' => 2626,
   ),
   'kind' => 'Document',
   'definitions' => 
@@ -1635,16 +1635,482 @@
     array (
       'loc' => 
       array (
-        'start' => 695,
-        'end' => 2256,
+        'start' => 697,
+        'end' => 764,
       ),
       'kind' => 'ObjectTypeDefinition',
       'name' => 
       array (
         'loc' => 
         array (
-          'start' => 700,
-          'end' => 708,
+          'start' => 702,
+          'end' => 718,
+        ),
+        'kind' => 'Name',
+        'value' => 'AddBoardResponse',
+      ),
+      'interfaces' => 
+      array (
+      ),
+      'directives' => 
+      array (
+      ),
+      'fields' => 
+      array (
+        0 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 726,
+            'end' => 738,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 726,
+              'end' => 733,
+            ),
+            'kind' => 'Name',
+            'value' => 'boardId',
+          ),
+          'arguments' => 
+          array (
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 735,
+              'end' => 738,
+            ),
+            'kind' => 'NonNullType',
+            'type' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 735,
+                'end' => 737,
+              ),
+              'kind' => 'NamedType',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 735,
+                  'end' => 737,
+                ),
+                'kind' => 'Name',
+                'value' => 'ID',
+              ),
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+        1 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 744,
+            'end' => 761,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 744,
+              'end' => 753,
+            ),
+            'kind' => 'Name',
+            'value' => 'columnIds',
+          ),
+          'arguments' => 
+          array (
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 755,
+              'end' => 761,
+            ),
+            'kind' => 'NonNullType',
+            'type' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 755,
+                'end' => 760,
+              ),
+              'kind' => 'ListType',
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 756,
+                  'end' => 759,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 756,
+                    'end' => 758,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 756,
+                      'end' => 758,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'ID',
+                  ),
+                ),
+              ),
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+      ),
+    ),
+    9 => 
+    array (
+      'loc' => 
+      array (
+        'start' => 766,
+        'end' => 830,
+      ),
+      'kind' => 'ObjectTypeDefinition',
+      'name' => 
+      array (
+        'loc' => 
+        array (
+          'start' => 771,
+          'end' => 786,
+        ),
+        'kind' => 'Name',
+        'value' => 'addTaskResponse',
+      ),
+      'interfaces' => 
+      array (
+      ),
+      'directives' => 
+      array (
+      ),
+      'fields' => 
+      array (
+        0 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 793,
+            'end' => 803,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 793,
+              'end' => 799,
+            ),
+            'kind' => 'Name',
+            'value' => 'taskId',
+          ),
+          'arguments' => 
+          array (
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 800,
+              'end' => 803,
+            ),
+            'kind' => 'NonNullType',
+            'type' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 800,
+                'end' => 802,
+              ),
+              'kind' => 'NamedType',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 800,
+                  'end' => 802,
+                ),
+                'kind' => 'Name',
+                'value' => 'ID',
+              ),
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+        1 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 809,
+            'end' => 827,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 809,
+              'end' => 820,
+            ),
+            'kind' => 'Name',
+            'value' => 'subTasksIds',
+          ),
+          'arguments' => 
+          array (
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 821,
+              'end' => 827,
+            ),
+            'kind' => 'NonNullType',
+            'type' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 821,
+                'end' => 826,
+              ),
+              'kind' => 'ListType',
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 822,
+                  'end' => 825,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 822,
+                    'end' => 824,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 822,
+                      'end' => 824,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'ID',
+                  ),
+                ),
+              ),
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+      ),
+    ),
+    10 => 
+    array (
+      'loc' => 
+      array (
+        'start' => 832,
+        'end' => 876,
+      ),
+      'kind' => 'ObjectTypeDefinition',
+      'name' => 
+      array (
+        'loc' => 
+        array (
+          'start' => 837,
+          'end' => 855,
+        ),
+        'kind' => 'Name',
+        'value' => 'editColumnResponse',
+      ),
+      'interfaces' => 
+      array (
+      ),
+      'directives' => 
+      array (
+      ),
+      'fields' => 
+      array (
+        0 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 862,
+            'end' => 873,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 862,
+              'end' => 868,
+            ),
+            'kind' => 'Name',
+            'value' => 'colIds',
+          ),
+          'arguments' => 
+          array (
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 869,
+              'end' => 873,
+            ),
+            'kind' => 'ListType',
+            'type' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 870,
+                'end' => 872,
+              ),
+              'kind' => 'NamedType',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 870,
+                  'end' => 872,
+                ),
+                'kind' => 'Name',
+                'value' => 'ID',
+              ),
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+      ),
+    ),
+    11 => 
+    array (
+      'loc' => 
+      array (
+        'start' => 878,
+        'end' => 923,
+      ),
+      'kind' => 'ObjectTypeDefinition',
+      'name' => 
+      array (
+        'loc' => 
+        array (
+          'start' => 883,
+          'end' => 899,
+        ),
+        'kind' => 'Name',
+        'value' => 'editTaskResponse',
+      ),
+      'interfaces' => 
+      array (
+      ),
+      'directives' => 
+      array (
+      ),
+      'fields' => 
+      array (
+        0 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 906,
+            'end' => 920,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 906,
+              'end' => 915,
+            ),
+            'kind' => 'Name',
+            'value' => 'newSubIds',
+          ),
+          'arguments' => 
+          array (
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 916,
+              'end' => 920,
+            ),
+            'kind' => 'ListType',
+            'type' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 917,
+                'end' => 919,
+              ),
+              'kind' => 'NamedType',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 917,
+                  'end' => 919,
+                ),
+                'kind' => 'Name',
+                'value' => 'ID',
+              ),
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+      ),
+    ),
+    12 => 
+    array (
+      'loc' => 
+      array (
+        'start' => 925,
+        'end' => 2624,
+      ),
+      'kind' => 'ObjectTypeDefinition',
+      'name' => 
+      array (
+        'loc' => 
+        array (
+          'start' => 930,
+          'end' => 938,
         ),
         'kind' => 'Name',
         'value' => 'Mutation',
@@ -1661,16 +2127,16 @@
         array (
           'loc' => 
           array (
-            'start' => 777,
-            'end' => 830,
+            'start' => 1007,
+            'end' => 1060,
           ),
           'kind' => 'FieldDefinition',
           'name' => 
           array (
             'loc' => 
             array (
-              'start' => 777,
-              'end' => 788,
+              'start' => 1007,
+              'end' => 1018,
             ),
             'kind' => 'Name',
             'value' => 'editSubTask',
@@ -1681,16 +2147,16 @@
             array (
               'loc' => 
               array (
-                'start' => 799,
-                'end' => 814,
+                'start' => 1029,
+                'end' => 1044,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 799,
-                  'end' => 806,
+                  'start' => 1029,
+                  'end' => 1036,
                 ),
                 'kind' => 'Name',
                 'value' => 'subtask',
@@ -1699,16 +2165,16 @@
               array (
                 'loc' => 
                 array (
-                  'start' => 807,
-                  'end' => 814,
+                  'start' => 1037,
+                  'end' => 1044,
                 ),
                 'kind' => 'NamedType',
                 'name' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 807,
-                    'end' => 814,
+                    'start' => 1037,
+                    'end' => 1044,
                   ),
                   'kind' => 'Name',
                   'value' => 'subtask',
@@ -1723,16 +2189,16 @@
           array (
             'loc' => 
             array (
-              'start' => 823,
-              'end' => 830,
+              'start' => 1053,
+              'end' => 1060,
             ),
             'kind' => 'NamedType',
             'name' => 
             array (
               'loc' => 
               array (
-                'start' => 823,
-                'end' => 830,
+                'start' => 1053,
+                'end' => 1060,
               ),
               'kind' => 'Name',
               'value' => 'SubTask',
@@ -1746,16 +2212,16 @@
         array (
           'loc' => 
           array (
-            'start' => 889,
-            'end' => 925,
+            'start' => 1119,
+            'end' => 1155,
           ),
           'kind' => 'FieldDefinition',
           'name' => 
           array (
             'loc' => 
             array (
-              'start' => 889,
-              'end' => 899,
+              'start' => 1119,
+              'end' => 1129,
             ),
             'kind' => 'Name',
             'value' => 'addSubTask',
@@ -1766,16 +2232,16 @@
             array (
               'loc' => 
               array (
-                'start' => 900,
-                'end' => 915,
+                'start' => 1130,
+                'end' => 1145,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 900,
-                  'end' => 907,
+                  'start' => 1130,
+                  'end' => 1137,
                 ),
                 'kind' => 'Name',
                 'value' => 'subtask',
@@ -1784,16 +2250,16 @@
               array (
                 'loc' => 
                 array (
-                  'start' => 908,
-                  'end' => 915,
+                  'start' => 1138,
+                  'end' => 1145,
                 ),
                 'kind' => 'NamedType',
                 'name' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 908,
-                    'end' => 915,
+                    'start' => 1138,
+                    'end' => 1145,
                   ),
                   'kind' => 'Name',
                   'value' => 'subtask',
@@ -1808,16 +2274,16 @@
           array (
             'loc' => 
             array (
-              'start' => 918,
-              'end' => 925,
+              'start' => 1148,
+              'end' => 1155,
             ),
             'kind' => 'NamedType',
             'name' => 
             array (
               'loc' => 
               array (
-                'start' => 918,
-                'end' => 925,
+                'start' => 1148,
+                'end' => 1155,
               ),
               'kind' => 'Name',
               'value' => 'SubTask',
@@ -1831,16 +2297,16 @@
         array (
           'loc' => 
           array (
-            'start' => 957,
-            'end' => 995,
+            'start' => 1187,
+            'end' => 1225,
           ),
           'kind' => 'FieldDefinition',
           'name' => 
           array (
             'loc' => 
             array (
-              'start' => 957,
-              'end' => 970,
+              'start' => 1187,
+              'end' => 1200,
             ),
             'kind' => 'Name',
             'value' => 'deleteSubTask',
@@ -1851,16 +2317,16 @@
             array (
               'loc' => 
               array (
-                'start' => 971,
-                'end' => 985,
+                'start' => 1201,
+                'end' => 1215,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 971,
-                  'end' => 980,
+                  'start' => 1201,
+                  'end' => 1210,
                 ),
                 'kind' => 'Name',
                 'value' => 'SubTaskID',
@@ -1869,24 +2335,24 @@
               array (
                 'loc' => 
                 array (
-                  'start' => 982,
-                  'end' => 985,
+                  'start' => 1212,
+                  'end' => 1215,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 982,
-                    'end' => 984,
+                    'start' => 1212,
+                    'end' => 1214,
                   ),
                   'kind' => 'NamedType',
                   'name' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 982,
-                      'end' => 984,
+                      'start' => 1212,
+                      'end' => 1214,
                     ),
                     'kind' => 'Name',
                     'value' => 'ID',
@@ -1902,16 +2368,16 @@
           array (
             'loc' => 
             array (
-              'start' => 988,
-              'end' => 995,
+              'start' => 1218,
+              'end' => 1225,
             ),
             'kind' => 'NamedType',
             'name' => 
             array (
               'loc' => 
               array (
-                'start' => 988,
-                'end' => 995,
+                'start' => 1218,
+                'end' => 1225,
               ),
               'kind' => 'Name',
               'value' => 'Boolean',
@@ -1925,19 +2391,19 @@
         array (
           'loc' => 
           array (
-            'start' => 1058,
-            'end' => 1094,
+            'start' => 1275,
+            'end' => 1312,
           ),
           'kind' => 'FieldDefinition',
           'name' => 
           array (
             'loc' => 
             array (
-              'start' => 1058,
-              'end' => 1066,
+              'start' => 1275,
+              'end' => 1288,
             ),
             'kind' => 'Name',
-            'value' => 'editTask',
+            'value' => 'changeSubTask',
           ),
           'arguments' => 
           array (
@@ -1945,45 +2411,45 @@
             array (
               'loc' => 
               array (
-                'start' => 1067,
-                'end' => 1087,
+                'start' => 1289,
+                'end' => 1303,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 1067,
-                  'end' => 1076,
+                  'start' => 1289,
+                  'end' => 1298,
                 ),
                 'kind' => 'Name',
-                'value' => 'inputTask',
+                'value' => 'SubTaskID',
               ),
               'type' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 1077,
-                  'end' => 1087,
+                  'start' => 1300,
+                  'end' => 1303,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 1077,
-                    'end' => 1086,
+                    'start' => 1300,
+                    'end' => 1302,
                   ),
                   'kind' => 'NamedType',
                   'name' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 1077,
-                      'end' => 1086,
+                      'start' => 1300,
+                      'end' => 1302,
                     ),
                     'kind' => 'Name',
-                    'value' => 'inputTask',
+                    'value' => 'ID',
                   ),
                 ),
               ),
@@ -1996,19 +2462,19 @@
           array (
             'loc' => 
             array (
-              'start' => 1090,
-              'end' => 1094,
+              'start' => 1305,
+              'end' => 1312,
             ),
             'kind' => 'NamedType',
             'name' => 
             array (
               'loc' => 
               array (
-                'start' => 1090,
-                'end' => 1094,
+                'start' => 1305,
+                'end' => 1312,
               ),
               'kind' => 'Name',
-              'value' => 'task',
+              'value' => 'Boolean',
             ),
           ),
           'directives' => 
@@ -2019,19 +2485,19 @@
         array (
           'loc' => 
           array (
-            'start' => 1128,
-            'end' => 1171,
+            'start' => 1383,
+            'end' => 1431,
           ),
           'kind' => 'FieldDefinition',
           'name' => 
           array (
             'loc' => 
             array (
-              'start' => 1128,
-              'end' => 1142,
+              'start' => 1383,
+              'end' => 1391,
             ),
             'kind' => 'Name',
-            'value' => 'editTaskStatus',
+            'value' => 'editTask',
           ),
           'arguments' => 
           array (
@@ -2039,160 +2505,16 @@
             array (
               'loc' => 
               array (
-                'start' => 1143,
-                'end' => 1153,
+                'start' => 1392,
+                'end' => 1412,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 1143,
-                  'end' => 1149,
-                ),
-                'kind' => 'Name',
-                'value' => 'taskId',
-              ),
-              'type' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1150,
-                  'end' => 1153,
-                ),
-                'kind' => 'NonNullType',
-                'type' => 
-                array (
-                  'loc' => 
-                  array (
-                    'start' => 1150,
-                    'end' => 1152,
-                  ),
-                  'kind' => 'NamedType',
-                  'name' => 
-                  array (
-                    'loc' => 
-                    array (
-                      'start' => 1150,
-                      'end' => 1152,
-                    ),
-                    'kind' => 'Name',
-                    'value' => 'ID',
-                  ),
-                ),
-              ),
-              'directives' => 
-              array (
-              ),
-            ),
-            1 => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1154,
-                'end' => 1166,
-              ),
-              'kind' => 'InputValueDefinition',
-              'name' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1154,
-                  'end' => 1162,
-                ),
-                'kind' => 'Name',
-                'value' => 'statusID',
-              ),
-              'type' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1163,
-                  'end' => 1166,
-                ),
-                'kind' => 'NonNullType',
-                'type' => 
-                array (
-                  'loc' => 
-                  array (
-                    'start' => 1163,
-                    'end' => 1165,
-                  ),
-                  'kind' => 'NamedType',
-                  'name' => 
-                  array (
-                    'loc' => 
-                    array (
-                      'start' => 1163,
-                      'end' => 1165,
-                    ),
-                    'kind' => 'Name',
-                    'value' => 'ID',
-                  ),
-                ),
-              ),
-              'directives' => 
-              array (
-              ),
-            ),
-          ),
-          'type' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1169,
-              'end' => 1171,
-            ),
-            'kind' => 'NamedType',
-            'name' => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1169,
-                'end' => 1171,
-              ),
-              'kind' => 'Name',
-              'value' => 'ID',
-            ),
-          ),
-          'directives' => 
-          array (
-          ),
-        ),
-        5 => 
-        array (
-          'loc' => 
-          array (
-            'start' => 1222,
-            'end' => 1257,
-          ),
-          'kind' => 'FieldDefinition',
-          'name' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1222,
-              'end' => 1229,
-            ),
-            'kind' => 'Name',
-            'value' => 'addTask',
-          ),
-          'arguments' => 
-          array (
-            0 => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1230,
-                'end' => 1250,
-              ),
-              'kind' => 'InputValueDefinition',
-              'name' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1230,
-                  'end' => 1239,
+                  'start' => 1392,
+                  'end' => 1401,
                 ),
                 'kind' => 'Name',
                 'value' => 'inputTask',
@@ -2201,24 +2523,24 @@
               array (
                 'loc' => 
                 array (
-                  'start' => 1240,
-                  'end' => 1250,
+                  'start' => 1402,
+                  'end' => 1412,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 1240,
-                    'end' => 1249,
+                    'start' => 1402,
+                    'end' => 1411,
                   ),
                   'kind' => 'NamedType',
                   'name' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 1240,
-                      'end' => 1249,
+                      'start' => 1402,
+                      'end' => 1411,
                     ),
                     'kind' => 'Name',
                     'value' => 'inputTask',
@@ -2234,42 +2556,42 @@
           array (
             'loc' => 
             array (
-              'start' => 1253,
-              'end' => 1257,
+              'start' => 1415,
+              'end' => 1431,
             ),
             'kind' => 'NamedType',
             'name' => 
             array (
               'loc' => 
               array (
-                'start' => 1253,
-                'end' => 1257,
+                'start' => 1415,
+                'end' => 1431,
               ),
               'kind' => 'Name',
-              'value' => 'task',
+              'value' => 'editTaskResponse',
             ),
           ),
           'directives' => 
           array (
           ),
         ),
-        6 => 
+        5 => 
         array (
           'loc' => 
           array (
-            'start' => 1310,
-            'end' => 1342,
+            'start' => 1465,
+            'end' => 1508,
           ),
           'kind' => 'FieldDefinition',
           'name' => 
           array (
             'loc' => 
             array (
-              'start' => 1310,
-              'end' => 1320,
+              'start' => 1465,
+              'end' => 1479,
             ),
             'kind' => 'Name',
-            'value' => 'deleteTask',
+            'value' => 'editTaskStatus',
           ),
           'arguments' => 
           array (
@@ -2277,136 +2599,42 @@
             array (
               'loc' => 
               array (
-                'start' => 1321,
-                'end' => 1332,
+                'start' => 1480,
+                'end' => 1490,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 1321,
-                  'end' => 1327,
+                  'start' => 1480,
+                  'end' => 1486,
                 ),
                 'kind' => 'Name',
-                'value' => 'taskID',
+                'value' => 'taskId',
               ),
               'type' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 1329,
-                  'end' => 1332,
+                  'start' => 1487,
+                  'end' => 1490,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 1329,
-                    'end' => 1331,
+                    'start' => 1487,
+                    'end' => 1489,
                   ),
                   'kind' => 'NamedType',
                   'name' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 1329,
-                      'end' => 1331,
-                    ),
-                    'kind' => 'Name',
-                    'value' => 'ID',
-                  ),
-                ),
-              ),
-              'directives' => 
-              array (
-              ),
-            ),
-          ),
-          'type' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1335,
-              'end' => 1342,
-            ),
-            'kind' => 'NamedType',
-            'name' => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1335,
-                'end' => 1342,
-              ),
-              'kind' => 'Name',
-              'value' => 'Boolean',
-            ),
-          ),
-          'directives' => 
-          array (
-          ),
-        ),
-        7 => 
-        array (
-          'loc' => 
-          array (
-            'start' => 1442,
-            'end' => 1489,
-          ),
-          'kind' => 'FieldDefinition',
-          'name' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1442,
-              'end' => 1454,
-            ),
-            'kind' => 'Name',
-            'value' => 'editTask_Sub',
-          ),
-          'arguments' => 
-          array (
-            0 => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1455,
-                'end' => 1466,
-              ),
-              'kind' => 'InputValueDefinition',
-              'name' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1455,
-                  'end' => 1461,
-                ),
-                'kind' => 'Name',
-                'value' => 'taskID',
-              ),
-              'type' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1463,
-                  'end' => 1466,
-                ),
-                'kind' => 'NonNullType',
-                'type' => 
-                array (
-                  'loc' => 
-                  array (
-                    'start' => 1463,
-                    'end' => 1465,
-                  ),
-                  'kind' => 'NamedType',
-                  'name' => 
-                  array (
-                    'loc' => 
-                    array (
-                      'start' => 1463,
-                      'end' => 1465,
+                      'start' => 1487,
+                      'end' => 1489,
                     ),
                     'kind' => 'Name',
                     'value' => 'ID',
@@ -2421,42 +2649,42 @@
             array (
               'loc' => 
               array (
-                'start' => 1468,
-                'end' => 1482,
+                'start' => 1491,
+                'end' => 1503,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 1468,
-                  'end' => 1477,
+                  'start' => 1491,
+                  'end' => 1499,
                 ),
                 'kind' => 'Name',
-                'value' => 'subTaskID',
+                'value' => 'statusID',
               ),
               'type' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 1479,
-                  'end' => 1482,
+                  'start' => 1500,
+                  'end' => 1503,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 1479,
-                    'end' => 1481,
+                    'start' => 1500,
+                    'end' => 1502,
                   ),
                   'kind' => 'NamedType',
                   'name' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 1479,
-                      'end' => 1481,
+                      'start' => 1500,
+                      'end' => 1502,
                     ),
                     'kind' => 'Name',
                     'value' => 'ID',
@@ -2472,19 +2700,207 @@
           array (
             'loc' => 
             array (
-              'start' => 1485,
-              'end' => 1489,
+              'start' => 1506,
+              'end' => 1508,
             ),
             'kind' => 'NamedType',
             'name' => 
             array (
               'loc' => 
               array (
-                'start' => 1485,
-                'end' => 1489,
+                'start' => 1506,
+                'end' => 1508,
               ),
               'kind' => 'Name',
-              'value' => 'task',
+              'value' => 'ID',
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+        6 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 1559,
+            'end' => 1605,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 1559,
+              'end' => 1566,
+            ),
+            'kind' => 'Name',
+            'value' => 'addTask',
+          ),
+          'arguments' => 
+          array (
+            0 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 1567,
+                'end' => 1587,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 1567,
+                  'end' => 1576,
+                ),
+                'kind' => 'Name',
+                'value' => 'inputTask',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 1577,
+                  'end' => 1587,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 1577,
+                    'end' => 1586,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 1577,
+                      'end' => 1586,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'inputTask',
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 1590,
+              'end' => 1605,
+            ),
+            'kind' => 'NamedType',
+            'name' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 1590,
+                'end' => 1605,
+              ),
+              'kind' => 'Name',
+              'value' => 'addTaskResponse',
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+        7 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 1658,
+            'end' => 1690,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 1658,
+              'end' => 1668,
+            ),
+            'kind' => 'Name',
+            'value' => 'deleteTask',
+          ),
+          'arguments' => 
+          array (
+            0 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 1669,
+                'end' => 1680,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 1669,
+                  'end' => 1675,
+                ),
+                'kind' => 'Name',
+                'value' => 'taskID',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 1677,
+                  'end' => 1680,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 1677,
+                    'end' => 1679,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 1677,
+                      'end' => 1679,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'ID',
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 1683,
+              'end' => 1690,
+            ),
+            'kind' => 'NamedType',
+            'name' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 1683,
+                'end' => 1690,
+              ),
+              'kind' => 'Name',
+              'value' => 'Boolean',
             ),
           ),
           'directives' => 
@@ -2495,16 +2911,160 @@
         array (
           'loc' => 
           array (
-            'start' => 1556,
-            'end' => 1627,
+            'start' => 1790,
+            'end' => 1837,
           ),
           'kind' => 'FieldDefinition',
           'name' => 
           array (
             'loc' => 
             array (
-              'start' => 1556,
-              'end' => 1566,
+              'start' => 1790,
+              'end' => 1802,
+            ),
+            'kind' => 'Name',
+            'value' => 'editTask_Sub',
+          ),
+          'arguments' => 
+          array (
+            0 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 1803,
+                'end' => 1814,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 1803,
+                  'end' => 1809,
+                ),
+                'kind' => 'Name',
+                'value' => 'taskID',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 1811,
+                  'end' => 1814,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 1811,
+                    'end' => 1813,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 1811,
+                      'end' => 1813,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'ID',
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
+            1 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 1816,
+                'end' => 1830,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 1816,
+                  'end' => 1825,
+                ),
+                'kind' => 'Name',
+                'value' => 'subTaskID',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 1827,
+                  'end' => 1830,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 1827,
+                    'end' => 1829,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 1827,
+                      'end' => 1829,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'ID',
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 1833,
+              'end' => 1837,
+            ),
+            'kind' => 'NamedType',
+            'name' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 1833,
+                'end' => 1837,
+              ),
+              'kind' => 'Name',
+              'value' => 'task',
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+        9 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 1904,
+            'end' => 1987,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 1904,
+              'end' => 1914,
             ),
             'kind' => 'Name',
             'value' => 'editColumn',
@@ -2515,16 +3075,16 @@
             array (
               'loc' => 
               array (
-                'start' => 1567,
-                'end' => 1582,
+                'start' => 1915,
+                'end' => 1930,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 1567,
-                  'end' => 1575,
+                  'start' => 1915,
+                  'end' => 1923,
                 ),
                 'kind' => 'Name',
                 'value' => 'columnID',
@@ -2533,32 +3093,32 @@
               array (
                 'loc' => 
                 array (
-                  'start' => 1577,
-                  'end' => 1582,
+                  'start' => 1925,
+                  'end' => 1930,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 1577,
-                    'end' => 1581,
+                    'start' => 1925,
+                    'end' => 1929,
                   ),
                   'kind' => 'ListType',
                   'type' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 1578,
-                      'end' => 1580,
+                      'start' => 1926,
+                      'end' => 1928,
                     ),
                     'kind' => 'NamedType',
                     'name' => 
                     array (
                       'loc' => 
                       array (
-                        'start' => 1578,
-                        'end' => 1580,
+                        'start' => 1926,
+                        'end' => 1928,
                       ),
                       'kind' => 'Name',
                       'value' => 'ID',
@@ -2574,16 +3134,16 @@
             array (
               'loc' => 
               array (
-                'start' => 1584,
-                'end' => 1606,
+                'start' => 1932,
+                'end' => 1954,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 1584,
-                  'end' => 1594,
+                  'start' => 1932,
+                  'end' => 1942,
                 ),
                 'kind' => 'Name',
                 'value' => 'columnName',
@@ -2592,40 +3152,40 @@
               array (
                 'loc' => 
                 array (
-                  'start' => 1596,
-                  'end' => 1606,
+                  'start' => 1944,
+                  'end' => 1954,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 1596,
-                    'end' => 1605,
+                    'start' => 1944,
+                    'end' => 1953,
                   ),
                   'kind' => 'ListType',
                   'type' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 1597,
-                      'end' => 1604,
+                      'start' => 1945,
+                      'end' => 1952,
                     ),
                     'kind' => 'NonNullType',
                     'type' => 
                     array (
                       'loc' => 
                       array (
-                        'start' => 1597,
-                        'end' => 1603,
+                        'start' => 1945,
+                        'end' => 1951,
                       ),
                       'kind' => 'NamedType',
                       'name' => 
                       array (
                         'loc' => 
                         array (
-                          'start' => 1597,
-                          'end' => 1603,
+                          'start' => 1945,
+                          'end' => 1951,
                         ),
                         'kind' => 'Name',
                         'value' => 'String',
@@ -2642,16 +3202,16 @@
             array (
               'loc' => 
               array (
-                'start' => 1607,
-                'end' => 1618,
+                'start' => 1955,
+                'end' => 1966,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 1607,
-                  'end' => 1614,
+                  'start' => 1955,
+                  'end' => 1962,
                 ),
                 'kind' => 'Name',
                 'value' => 'boardID',
@@ -2660,24 +3220,24 @@
               array (
                 'loc' => 
                 array (
-                  'start' => 1615,
-                  'end' => 1618,
+                  'start' => 1963,
+                  'end' => 1966,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 1615,
-                    'end' => 1617,
+                    'start' => 1963,
+                    'end' => 1965,
                   ),
                   'kind' => 'NamedType',
                   'name' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 1615,
-                      'end' => 1617,
+                      'start' => 1963,
+                      'end' => 1965,
                     ),
                     'kind' => 'Name',
                     'value' => 'ID',
@@ -2693,181 +3253,19 @@
           array (
             'loc' => 
             array (
-              'start' => 1621,
-              'end' => 1627,
+              'start' => 1969,
+              'end' => 1987,
             ),
             'kind' => 'NamedType',
             'name' => 
             array (
               'loc' => 
               array (
-                'start' => 1621,
-                'end' => 1627,
+                'start' => 1969,
+                'end' => 1987,
               ),
               'kind' => 'Name',
-              'value' => 'Column',
-            ),
-          ),
-          'directives' => 
-          array (
-          ),
-        ),
-        9 => 
-        array (
-          'loc' => 
-          array (
-            'start' => 1674,
-            'end' => 1727,
-          ),
-          'kind' => 'FieldDefinition',
-          'name' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1674,
-              'end' => 1683,
-            ),
-            'kind' => 'Name',
-            'value' => 'addColumn',
-          ),
-          'arguments' => 
-          array (
-            0 => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1684,
-                'end' => 1706,
-              ),
-              'kind' => 'InputValueDefinition',
-              'name' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1684,
-                  'end' => 1694,
-                ),
-                'kind' => 'Name',
-                'value' => 'columnName',
-              ),
-              'type' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1696,
-                  'end' => 1706,
-                ),
-                'kind' => 'NonNullType',
-                'type' => 
-                array (
-                  'loc' => 
-                  array (
-                    'start' => 1696,
-                    'end' => 1705,
-                  ),
-                  'kind' => 'ListType',
-                  'type' => 
-                  array (
-                    'loc' => 
-                    array (
-                      'start' => 1697,
-                      'end' => 1704,
-                    ),
-                    'kind' => 'NonNullType',
-                    'type' => 
-                    array (
-                      'loc' => 
-                      array (
-                        'start' => 1697,
-                        'end' => 1703,
-                      ),
-                      'kind' => 'NamedType',
-                      'name' => 
-                      array (
-                        'loc' => 
-                        array (
-                          'start' => 1697,
-                          'end' => 1703,
-                        ),
-                        'kind' => 'Name',
-                        'value' => 'String',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              'directives' => 
-              array (
-              ),
-            ),
-            1 => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1707,
-                'end' => 1718,
-              ),
-              'kind' => 'InputValueDefinition',
-              'name' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1707,
-                  'end' => 1714,
-                ),
-                'kind' => 'Name',
-                'value' => 'boardId',
-              ),
-              'type' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1715,
-                  'end' => 1718,
-                ),
-                'kind' => 'NonNullType',
-                'type' => 
-                array (
-                  'loc' => 
-                  array (
-                    'start' => 1715,
-                    'end' => 1717,
-                  ),
-                  'kind' => 'NamedType',
-                  'name' => 
-                  array (
-                    'loc' => 
-                    array (
-                      'start' => 1715,
-                      'end' => 1717,
-                    ),
-                    'kind' => 'Name',
-                    'value' => 'ID',
-                  ),
-                ),
-              ),
-              'directives' => 
-              array (
-              ),
-            ),
-          ),
-          'type' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1721,
-              'end' => 1727,
-            ),
-            'kind' => 'NamedType',
-            'name' => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1721,
-                'end' => 1727,
-              ),
-              'kind' => 'Name',
-              'value' => 'Column',
+              'value' => 'editColumnResponse',
             ),
           ),
           'directives' => 
@@ -2878,19 +3276,19 @@
         array (
           'loc' => 
           array (
-            'start' => 1754,
-            'end' => 1793,
+            'start' => 2034,
+            'end' => 2085,
           ),
           'kind' => 'FieldDefinition',
           'name' => 
           array (
             'loc' => 
             array (
-              'start' => 1754,
-              'end' => 1766,
+              'start' => 2034,
+              'end' => 2043,
             ),
             'kind' => 'Name',
-            'value' => 'deleteColumn',
+            'value' => 'addColumn',
           ),
           'arguments' => 
           array (
@@ -2898,407 +3296,7 @@
             array (
               'loc' => 
               array (
-                'start' => 1767,
-                'end' => 1783,
-              ),
-              'kind' => 'InputValueDefinition',
-              'name' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1767,
-                  'end' => 1775,
-                ),
-                'kind' => 'Name',
-                'value' => 'columnID',
-              ),
-              'type' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1777,
-                  'end' => 1783,
-                ),
-                'kind' => 'NonNullType',
-                'type' => 
-                array (
-                  'loc' => 
-                  array (
-                    'start' => 1777,
-                    'end' => 1782,
-                  ),
-                  'kind' => 'ListType',
-                  'type' => 
-                  array (
-                    'loc' => 
-                    array (
-                      'start' => 1778,
-                      'end' => 1781,
-                    ),
-                    'kind' => 'NonNullType',
-                    'type' => 
-                    array (
-                      'loc' => 
-                      array (
-                        'start' => 1778,
-                        'end' => 1780,
-                      ),
-                      'kind' => 'NamedType',
-                      'name' => 
-                      array (
-                        'loc' => 
-                        array (
-                          'start' => 1778,
-                          'end' => 1780,
-                        ),
-                        'kind' => 'Name',
-                        'value' => 'ID',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              'directives' => 
-              array (
-              ),
-            ),
-          ),
-          'type' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1786,
-              'end' => 1793,
-            ),
-            'kind' => 'NamedType',
-            'name' => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1786,
-                'end' => 1793,
-              ),
-              'kind' => 'Name',
-              'value' => 'Boolean',
-            ),
-          ),
-          'directives' => 
-          array (
-          ),
-        ),
-        11 => 
-        array (
-          'loc' => 
-          array (
-            'start' => 1856,
-            'end' => 1906,
-          ),
-          'kind' => 'FieldDefinition',
-          'name' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1856,
-              'end' => 1865,
-            ),
-            'kind' => 'Name',
-            'value' => 'editBoard',
-          ),
-          'arguments' => 
-          array (
-            0 => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1866,
-                'end' => 1878,
-              ),
-              'kind' => 'InputValueDefinition',
-              'name' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1866,
-                  'end' => 1873,
-                ),
-                'kind' => 'Name',
-                'value' => 'boardID',
-              ),
-              'type' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1875,
-                  'end' => 1878,
-                ),
-                'kind' => 'NonNullType',
-                'type' => 
-                array (
-                  'loc' => 
-                  array (
-                    'start' => 1875,
-                    'end' => 1877,
-                  ),
-                  'kind' => 'NamedType',
-                  'name' => 
-                  array (
-                    'loc' => 
-                    array (
-                      'start' => 1875,
-                      'end' => 1877,
-                    ),
-                    'kind' => 'Name',
-                    'value' => 'ID',
-                  ),
-                ),
-              ),
-              'directives' => 
-              array (
-              ),
-            ),
-            1 => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1880,
-                'end' => 1898,
-              ),
-              'kind' => 'InputValueDefinition',
-              'name' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1880,
-                  'end' => 1889,
-                ),
-                'kind' => 'Name',
-                'value' => 'boardName',
-              ),
-              'type' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1891,
-                  'end' => 1898,
-                ),
-                'kind' => 'NonNullType',
-                'type' => 
-                array (
-                  'loc' => 
-                  array (
-                    'start' => 1891,
-                    'end' => 1897,
-                  ),
-                  'kind' => 'NamedType',
-                  'name' => 
-                  array (
-                    'loc' => 
-                    array (
-                      'start' => 1891,
-                      'end' => 1897,
-                    ),
-                    'kind' => 'Name',
-                    'value' => 'String',
-                  ),
-                ),
-              ),
-              'directives' => 
-              array (
-              ),
-            ),
-          ),
-          'type' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1901,
-              'end' => 1906,
-            ),
-            'kind' => 'NamedType',
-            'name' => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1901,
-                'end' => 1906,
-              ),
-              'kind' => 'Name',
-              'value' => 'board',
-            ),
-          ),
-          'directives' => 
-          array (
-          ),
-        ),
-        12 => 
-        array (
-          'loc' => 
-          array (
-            'start' => 1932,
-            'end' => 1966,
-          ),
-          'kind' => 'FieldDefinition',
-          'name' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1932,
-              'end' => 1943,
-            ),
-            'kind' => 'Name',
-            'value' => 'deleteBoard',
-          ),
-          'arguments' => 
-          array (
-            0 => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1944,
-                'end' => 1956,
-              ),
-              'kind' => 'InputValueDefinition',
-              'name' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1944,
-                  'end' => 1951,
-                ),
-                'kind' => 'Name',
-                'value' => 'boardID',
-              ),
-              'type' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 1953,
-                  'end' => 1956,
-                ),
-                'kind' => 'NonNullType',
-                'type' => 
-                array (
-                  'loc' => 
-                  array (
-                    'start' => 1953,
-                    'end' => 1955,
-                  ),
-                  'kind' => 'NamedType',
-                  'name' => 
-                  array (
-                    'loc' => 
-                    array (
-                      'start' => 1953,
-                      'end' => 1955,
-                    ),
-                    'kind' => 'Name',
-                    'value' => 'ID',
-                  ),
-                ),
-              ),
-              'directives' => 
-              array (
-              ),
-            ),
-          ),
-          'type' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 1959,
-              'end' => 1966,
-            ),
-            'kind' => 'NamedType',
-            'name' => 
-            array (
-              'loc' => 
-              array (
-                'start' => 1959,
-                'end' => 1966,
-              ),
-              'kind' => 'Name',
-              'value' => 'Boolean',
-            ),
-          ),
-          'directives' => 
-          array (
-          ),
-        ),
-        13 => 
-        array (
-          'loc' => 
-          array (
-            'start' => 2011,
-            'end' => 2074,
-          ),
-          'kind' => 'FieldDefinition',
-          'name' => 
-          array (
-            'loc' => 
-            array (
-              'start' => 2011,
-              'end' => 2019,
-            ),
-            'kind' => 'Name',
-            'value' => 'addBoard',
-          ),
-          'arguments' => 
-          array (
-            0 => 
-            array (
-              'loc' => 
-              array (
-                'start' => 2020,
-                'end' => 2038,
-              ),
-              'kind' => 'InputValueDefinition',
-              'name' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 2020,
-                  'end' => 2029,
-                ),
-                'kind' => 'Name',
-                'value' => 'boardName',
-              ),
-              'type' => 
-              array (
-                'loc' => 
-                array (
-                  'start' => 2031,
-                  'end' => 2038,
-                ),
-                'kind' => 'NonNullType',
-                'type' => 
-                array (
-                  'loc' => 
-                  array (
-                    'start' => 2031,
-                    'end' => 2037,
-                  ),
-                  'kind' => 'NamedType',
-                  'name' => 
-                  array (
-                    'loc' => 
-                    array (
-                      'start' => 2031,
-                      'end' => 2037,
-                    ),
-                    'kind' => 'Name',
-                    'value' => 'String',
-                  ),
-                ),
-              ),
-              'directives' => 
-              array (
-              ),
-            ),
-            1 => 
-            array (
-              'loc' => 
-              array (
-                'start' => 2040,
+                'start' => 2044,
                 'end' => 2066,
               ),
               'kind' => 'InputValueDefinition',
@@ -3306,11 +3304,11 @@
               array (
                 'loc' => 
                 array (
-                  'start' => 2040,
+                  'start' => 2044,
                   'end' => 2054,
                 ),
                 'kind' => 'Name',
-                'value' => 'boardColumnsId',
+                'value' => 'columnName',
               ),
               'type' => 
               array (
@@ -3362,24 +3360,433 @@
               array (
               ),
             ),
+            1 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2067,
+                'end' => 2078,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2067,
+                  'end' => 2074,
+                ),
+                'kind' => 'Name',
+                'value' => 'boardId',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2075,
+                  'end' => 2078,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 2075,
+                    'end' => 2077,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 2075,
+                      'end' => 2077,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'ID',
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
           ),
           'type' => 
           array (
             'loc' => 
             array (
-              'start' => 2069,
-              'end' => 2074,
+              'start' => 2081,
+              'end' => 2085,
+            ),
+            'kind' => 'ListType',
+            'type' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2082,
+                'end' => 2084,
+              ),
+              'kind' => 'NamedType',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2082,
+                  'end' => 2084,
+                ),
+                'kind' => 'Name',
+                'value' => 'ID',
+              ),
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+        11 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 2112,
+            'end' => 2151,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 2112,
+              'end' => 2124,
+            ),
+            'kind' => 'Name',
+            'value' => 'deleteColumn',
+          ),
+          'arguments' => 
+          array (
+            0 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2125,
+                'end' => 2141,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2125,
+                  'end' => 2133,
+                ),
+                'kind' => 'Name',
+                'value' => 'columnID',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2135,
+                  'end' => 2141,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 2135,
+                    'end' => 2140,
+                  ),
+                  'kind' => 'ListType',
+                  'type' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 2136,
+                      'end' => 2139,
+                    ),
+                    'kind' => 'NonNullType',
+                    'type' => 
+                    array (
+                      'loc' => 
+                      array (
+                        'start' => 2136,
+                        'end' => 2138,
+                      ),
+                      'kind' => 'NamedType',
+                      'name' => 
+                      array (
+                        'loc' => 
+                        array (
+                          'start' => 2136,
+                          'end' => 2138,
+                        ),
+                        'kind' => 'Name',
+                        'value' => 'ID',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 2144,
+              'end' => 2151,
             ),
             'kind' => 'NamedType',
             'name' => 
             array (
               'loc' => 
               array (
-                'start' => 2069,
-                'end' => 2074,
+                'start' => 2144,
+                'end' => 2151,
+              ),
+              'kind' => 'Name',
+              'value' => 'Boolean',
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+        12 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 2214,
+            'end' => 2264,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 2214,
+              'end' => 2223,
+            ),
+            'kind' => 'Name',
+            'value' => 'editBoard',
+          ),
+          'arguments' => 
+          array (
+            0 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2224,
+                'end' => 2236,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2224,
+                  'end' => 2231,
+                ),
+                'kind' => 'Name',
+                'value' => 'boardID',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2233,
+                  'end' => 2236,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 2233,
+                    'end' => 2235,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 2233,
+                      'end' => 2235,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'ID',
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
+            1 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2238,
+                'end' => 2256,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2238,
+                  'end' => 2247,
+                ),
+                'kind' => 'Name',
+                'value' => 'boardName',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2249,
+                  'end' => 2256,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 2249,
+                    'end' => 2255,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 2249,
+                      'end' => 2255,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'String',
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 2259,
+              'end' => 2264,
+            ),
+            'kind' => 'NamedType',
+            'name' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2259,
+                'end' => 2264,
               ),
               'kind' => 'Name',
               'value' => 'board',
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+        13 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 2290,
+            'end' => 2324,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 2290,
+              'end' => 2301,
+            ),
+            'kind' => 'Name',
+            'value' => 'deleteBoard',
+          ),
+          'arguments' => 
+          array (
+            0 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2302,
+                'end' => 2314,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2302,
+                  'end' => 2309,
+                ),
+                'kind' => 'Name',
+                'value' => 'boardID',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2311,
+                  'end' => 2314,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 2311,
+                    'end' => 2313,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 2311,
+                      'end' => 2313,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'ID',
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 2317,
+              'end' => 2324,
+            ),
+            'kind' => 'NamedType',
+            'name' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2317,
+                'end' => 2324,
+              ),
+              'kind' => 'Name',
+              'value' => 'Boolean',
             ),
           ),
           'directives' => 
@@ -3390,19 +3797,19 @@
         array (
           'loc' => 
           array (
-            'start' => 2144,
-            'end' => 2195,
+            'start' => 2369,
+            'end' => 2442,
           ),
           'kind' => 'FieldDefinition',
           'name' => 
           array (
             'loc' => 
             array (
-              'start' => 2144,
-              'end' => 2159,
+              'start' => 2369,
+              'end' => 2377,
             ),
             'kind' => 'Name',
-            'value' => 'editColumnBoard',
+            'value' => 'addBoard',
           ),
           'arguments' => 
           array (
@@ -3410,45 +3817,45 @@
             array (
               'loc' => 
               array (
-                'start' => 2160,
-                'end' => 2172,
+                'start' => 2378,
+                'end' => 2396,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 2160,
-                  'end' => 2167,
+                  'start' => 2378,
+                  'end' => 2387,
                 ),
                 'kind' => 'Name',
-                'value' => 'boardID',
+                'value' => 'boardName',
               ),
               'type' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 2169,
-                  'end' => 2172,
+                  'start' => 2389,
+                  'end' => 2396,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 2169,
-                    'end' => 2171,
+                    'start' => 2389,
+                    'end' => 2395,
                   ),
                   'kind' => 'NamedType',
                   'name' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 2169,
-                      'end' => 2171,
+                      'start' => 2389,
+                      'end' => 2395,
                     ),
                     'kind' => 'Name',
-                    'value' => 'ID',
+                    'value' => 'String',
                   ),
                 ),
               ),
@@ -3460,45 +3867,63 @@
             array (
               'loc' => 
               array (
-                'start' => 2174,
-                'end' => 2187,
+                'start' => 2398,
+                'end' => 2424,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 2174,
-                  'end' => 2182,
+                  'start' => 2398,
+                  'end' => 2412,
                 ),
                 'kind' => 'Name',
-                'value' => 'columnID',
+                'value' => 'boardColumnsId',
               ),
               'type' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 2184,
-                  'end' => 2187,
+                  'start' => 2414,
+                  'end' => 2424,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 2184,
-                    'end' => 2186,
+                    'start' => 2414,
+                    'end' => 2423,
                   ),
-                  'kind' => 'NamedType',
-                  'name' => 
+                  'kind' => 'ListType',
+                  'type' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 2184,
-                      'end' => 2186,
+                      'start' => 2415,
+                      'end' => 2422,
                     ),
-                    'kind' => 'Name',
-                    'value' => 'ID',
+                    'kind' => 'NonNullType',
+                    'type' => 
+                    array (
+                      'loc' => 
+                      array (
+                        'start' => 2415,
+                        'end' => 2421,
+                      ),
+                      'kind' => 'NamedType',
+                      'name' => 
+                      array (
+                        'loc' => 
+                        array (
+                          'start' => 2415,
+                          'end' => 2421,
+                        ),
+                        'kind' => 'Name',
+                        'value' => 'String',
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -3511,19 +3936,19 @@
           array (
             'loc' => 
             array (
-              'start' => 2190,
-              'end' => 2195,
+              'start' => 2426,
+              'end' => 2442,
             ),
             'kind' => 'NamedType',
             'name' => 
             array (
               'loc' => 
               array (
-                'start' => 2190,
-                'end' => 2195,
+                'start' => 2426,
+                'end' => 2442,
               ),
               'kind' => 'Name',
-              'value' => 'board',
+              'value' => 'AddBoardResponse',
             ),
           ),
           'directives' => 
@@ -3534,19 +3959,19 @@
         array (
           'loc' => 
           array (
-            'start' => 2203,
-            'end' => 2253,
+            'start' => 2512,
+            'end' => 2563,
           ),
           'kind' => 'FieldDefinition',
           'name' => 
           array (
             'loc' => 
             array (
-              'start' => 2203,
-              'end' => 2217,
+              'start' => 2512,
+              'end' => 2527,
             ),
             'kind' => 'Name',
-            'value' => 'editColumnTask',
+            'value' => 'editColumnBoard',
           ),
           'arguments' => 
           array (
@@ -3554,42 +3979,42 @@
             array (
               'loc' => 
               array (
-                'start' => 2218,
-                'end' => 2231,
+                'start' => 2528,
+                'end' => 2540,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 2218,
-                  'end' => 2226,
+                  'start' => 2528,
+                  'end' => 2535,
                 ),
                 'kind' => 'Name',
-                'value' => 'columnID',
+                'value' => 'boardID',
               ),
               'type' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 2228,
-                  'end' => 2231,
+                  'start' => 2537,
+                  'end' => 2540,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 2228,
-                    'end' => 2230,
+                    'start' => 2537,
+                    'end' => 2539,
                   ),
                   'kind' => 'NamedType',
                   'name' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 2228,
-                      'end' => 2230,
+                      'start' => 2537,
+                      'end' => 2539,
                     ),
                     'kind' => 'Name',
                     'value' => 'ID',
@@ -3604,42 +4029,42 @@
             array (
               'loc' => 
               array (
-                'start' => 2233,
-                'end' => 2244,
+                'start' => 2542,
+                'end' => 2555,
               ),
               'kind' => 'InputValueDefinition',
               'name' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 2233,
-                  'end' => 2239,
+                  'start' => 2542,
+                  'end' => 2550,
                 ),
                 'kind' => 'Name',
-                'value' => 'taskID',
+                'value' => 'columnID',
               ),
               'type' => 
               array (
                 'loc' => 
                 array (
-                  'start' => 2241,
-                  'end' => 2244,
+                  'start' => 2552,
+                  'end' => 2555,
                 ),
                 'kind' => 'NonNullType',
                 'type' => 
                 array (
                   'loc' => 
                   array (
-                    'start' => 2241,
-                    'end' => 2243,
+                    'start' => 2552,
+                    'end' => 2554,
                   ),
                   'kind' => 'NamedType',
                   'name' => 
                   array (
                     'loc' => 
                     array (
-                      'start' => 2241,
-                      'end' => 2243,
+                      'start' => 2552,
+                      'end' => 2554,
                     ),
                     'kind' => 'Name',
                     'value' => 'ID',
@@ -3655,16 +4080,160 @@
           array (
             'loc' => 
             array (
-              'start' => 2247,
-              'end' => 2253,
+              'start' => 2558,
+              'end' => 2563,
             ),
             'kind' => 'NamedType',
             'name' => 
             array (
               'loc' => 
               array (
-                'start' => 2247,
-                'end' => 2253,
+                'start' => 2558,
+                'end' => 2563,
+              ),
+              'kind' => 'Name',
+              'value' => 'board',
+            ),
+          ),
+          'directives' => 
+          array (
+          ),
+        ),
+        16 => 
+        array (
+          'loc' => 
+          array (
+            'start' => 2571,
+            'end' => 2621,
+          ),
+          'kind' => 'FieldDefinition',
+          'name' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 2571,
+              'end' => 2585,
+            ),
+            'kind' => 'Name',
+            'value' => 'editColumnTask',
+          ),
+          'arguments' => 
+          array (
+            0 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2586,
+                'end' => 2599,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2586,
+                  'end' => 2594,
+                ),
+                'kind' => 'Name',
+                'value' => 'columnID',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2596,
+                  'end' => 2599,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 2596,
+                    'end' => 2598,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 2596,
+                      'end' => 2598,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'ID',
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
+            1 => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2601,
+                'end' => 2612,
+              ),
+              'kind' => 'InputValueDefinition',
+              'name' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2601,
+                  'end' => 2607,
+                ),
+                'kind' => 'Name',
+                'value' => 'taskID',
+              ),
+              'type' => 
+              array (
+                'loc' => 
+                array (
+                  'start' => 2609,
+                  'end' => 2612,
+                ),
+                'kind' => 'NonNullType',
+                'type' => 
+                array (
+                  'loc' => 
+                  array (
+                    'start' => 2609,
+                    'end' => 2611,
+                  ),
+                  'kind' => 'NamedType',
+                  'name' => 
+                  array (
+                    'loc' => 
+                    array (
+                      'start' => 2609,
+                      'end' => 2611,
+                    ),
+                    'kind' => 'Name',
+                    'value' => 'ID',
+                  ),
+                ),
+              ),
+              'directives' => 
+              array (
+              ),
+            ),
+          ),
+          'type' => 
+          array (
+            'loc' => 
+            array (
+              'start' => 2615,
+              'end' => 2621,
+            ),
+            'kind' => 'NamedType',
+            'name' => 
+            array (
+              'loc' => 
+              array (
+                'start' => 2615,
+                'end' => 2621,
               ),
               'kind' => 'Name',
               'value' => 'Column',

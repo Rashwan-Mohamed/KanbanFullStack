@@ -30,8 +30,13 @@
         {
             $columnsNamesArr = $this->args['boardColumnsId'];
             $boardId = $this->ds()->addBoard($this->args['boardName']);
+            $colIds = [];
             foreach ($columnsNamesArr as $columnsName) {
-                (new ColumnDataSource())->addColumn($columnsName, $boardId[0]['id']);
+                $colIds[] = (new ColumnDataSource())->addColumn($columnsName, $boardId[0]['id']);
             }
+            return [
+                'boardId' => $boardId[0]['id'],  // Returning the board ID
+                'columnIds' => $colIds          // Returning the column IDs as an array
+            ];
         }
     }

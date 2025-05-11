@@ -12,18 +12,23 @@
             return new SubTaskDataSource();
         }
 
-        public function editSubTask()
-        {
-            $this->ds()->editSubTask($this->args['id'], $this->args['name']);
-        }
+//        public function editSubTask()
+//        {
+//            $this->ds()->editSubTask($this->args['id'], $this->args['name']);
+//        }
 
-        public function deleteBoard()
+        public function changeSubTask()
         {
-            $this->ds()->deleteSubTask($this->args['id']);
+            $this->ds()->changeSubTask($this->args['SubTaskID']);
         }
-
-        public function addBoard()
-        {
-            $this->ds()->addSubTask($this->args['name'], $this->args['columns']);
-        }
+//
+//        public function deleteBoard()
+//        {
+//            $this->ds()->deleteSubTask($this->args['id']);
+//        }
+//
+//        public function addBoard()
+//        {
+//            $this->ds()->addSubTask($this->args['name'], $this->args['columns']);
+//        }
     }

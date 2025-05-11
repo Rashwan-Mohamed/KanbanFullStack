@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addTask } from '../boardSlice'
 import useCloseEscape from './useCloseEscape'
-
 import { UseAppContext } from '../../../context'
 import CustomDrop from './customDrop'
 import { ADD_TASK } from '../../../queries'
@@ -10,14 +9,8 @@ import { useMutation } from '@apollo/client'
 function NewTask({ setTaskShow }) {
   const { selected } = UseAppContext()
   const boards = useSelector((state) => state.boards)
-  let theOne
-  boards.forEach((item) => {
-    if (item.name === selected) {
-      theOne = { ...item }
-    }
-  })
+  let theOne = boards.find((item) => item.name === selected)
   const [addTF, { data, loading, error }] = useMutation(ADD_TASK)
-
   const form = useRef(null)
   const [tasks, setTasks] = useState([{ title: '', isCompleted: false }])
   const [entries, setEntries] = useState({ title: '', desc: '' })
@@ -41,7 +34,7 @@ function NewTask({ setTaskShow }) {
   }
   const dispatch = useDispatch()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     let proceed = true
     let repeatedBoard = false
@@ -63,6 +56,8 @@ function NewTask({ setTaskShow }) {
     if (entries.title && usedBoard !== 'trial' && !repeatedBoard) {
       setUsedBoard('trial')
     }
+    let tasksTitle = [];
+
     for (let i = 0; i < tasks.length; i++) {
       let required = false
       if (!tasks[i].title) {
@@ -75,6 +70,16 @@ function NewTask({ setTaskShow }) {
         })
       }
 
+      if (tasksTitle.includes(tasks[i].title)) {
+        proceed = false
+        required = true
+        setUsed((old) => {
+          let useds = [...old]
+          useds[i] = 'used'
+          return useds
+        })
+      }
+
       if (!required && used[i] !== 'trial') {
         setUsed((old) => {
           let useds = [...old]
@@ -82,21 +87,26 @@ function NewTask({ setTaskShow }) {
           return useds
         })
       }
+      tasksTitle.push(tasks[i].title)
+
     }
-    // proceed
-    /** $taskTitle: String!
-    $taskDesc: String!
-    $taskStatus: String!
-    $taskStatusId:ID!
-    $subTasks:[subtask!]! */
+
     if (proceed) {
       let quriedTask = { title: entries.title, description: entries.desc, status: status.status, statusId: status.statusId, subtasks: tasks }
-      console.log(quriedTask, 'her Im come to me');
-      addTF({ variables: { inputTask: quriedTask } })
-      dispatch(addTask({ selected, ...status, ...entries, tasks }))
-      setTasks([{ name: '' }])
-      setEntries({ title: '', desc: '' })
-      setTaskShow(false)
+      try {
+        const { data } = await addTF({ variables: { inputTask: quriedTask } })
+        const { subTasksIds, taskId } = data.addTask;
+        if (taskId) {
+          dispatch(addTask({ selected, ...status, title: entries.title, description: entries.desc, tasks, subTasksIds, taskId }))
+        }
+      } catch (error) {
+        console.log('failed to add task', error);
+      }
+      finally {
+        setTasks([{ name: '' }])
+        setEntries({ title: '', desc: '' })
+        setTaskShow(false)
+      }
     }
   }
   return (

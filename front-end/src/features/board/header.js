@@ -1,15 +1,15 @@
-import React, {useState, useEffect, useRef} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import React, { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import EditBoard from './editBoard'
 import NewTask from './components/newTask'
-import {deleteBoard} from './boardSlice'
-import {UseAppContext} from '../../context'
-import {useMutation} from '@apollo/client'
-import {DELETE_BOARD} from '../../queries'
+import { deleteBoard } from './boardSlice'
+import { UseAppContext } from '../../context'
+import { useMutation } from '@apollo/client'
+import { DELETE_BOARD } from '../../queries'
 
-const Header = ({selectBord, setSelectBord}) => {
-    const {selected, setSelected, dark, tab} = UseAppContext()
-    const [deleteBF, {data, loading, error}] = useMutation(DELETE_BOARD)
+const Header = ({ selectBord, setSelectBord }) => {
+    const { selected, setSelected, dark, tab } = UseAppContext()
+    const [deleteBF, { data, loading, error }] = useMutation(DELETE_BOARD)
 
     const [toggle, setToggle] = useState(false)
     const [boardShow, setBoardShow] = useState(false)
@@ -34,9 +34,9 @@ const Header = ({selectBord, setSelectBord}) => {
     const handleDelete = () => {
         let boardID = boards[indeed]['id']
         deleteBF({
-            variables: {boardID: boardID}
+            variables: { boardID: boardID }
         });
-        dispatch(deleteBoard({name: selected}))
+        dispatch(deleteBoard({ name: selected }))
         setToggle(false)
         if (len === 1) {
             setSelected('NO BOARD FOUND')
@@ -97,15 +97,15 @@ const Header = ({selectBord, setSelectBord}) => {
                     </div>
                 </article>
             </div>)}
-            {boardShow && <EditBoard setBoardShow={setBoardShow}/>}{' '}
-            {taskShow && <NewTask setTaskShow={setTaskShow}/>}{' '}
+            {boardShow && <EditBoard setBoardShow={setBoardShow} />}{' '}
+            {taskShow && <NewTask setTaskShow={setTaskShow} />}{' '}
             {!tab && (<picture
                 style={{
                     backgroundColor: !dark ? 'white' : '', borderRight: !dark ? '1px solid var(--second)' : '',
                 }}
                 className='logo-container'
             >
-                {dark ? (<img src='assets/logo-light.svg' alt=''/>) : (<img src='assets/logo-dark.svg' alt=''/>)}
+                {dark ? (<img src='assets/logo-light.svg' alt='' />) : (<img src='assets/logo-dark.svg' alt='' />)}
             </picture>)}
             <div className='header-body'>
                 <h1
@@ -116,18 +116,18 @@ const Header = ({selectBord, setSelectBord}) => {
                         setSelectBord(!selectBord)
                     }}
                 >
-                    {tab && <img src='assets/logo-mobile.svg' alt=''/>}{' '}
+                    {tab && <img src='assets/logo-mobile.svg' alt='' />}{' '}
                     {selected || 'no boards'}
                     {tab && (<span>
                         <svg
-                            style={{transform: selectBord ? 'rotate(180deg)' : ''}}
+                            style={{ transform: selectBord ? 'rotate(180deg)' : '' }}
                             width='10'
                             height='7'
                             xmlns='http://www.w3.org/2000/svg'
                         >
                             <path
                                 stroke='#635FC7'
-                                stroke-width='2'
+                                strokeWidth='2'
                                 fill='none'
                                 d='m1 1 4 4 4-4'
                             />
@@ -154,14 +154,14 @@ const Header = ({selectBord, setSelectBord}) => {
                     >
                         <svg width='5' height='20' xmlns='http://www.w3.org/2000/svg'>
                             <g fill='#828FA3' fillRule='evenodd'>
-                                <circle cx='2.308' cy='2.308' r='2.308'/>
-                                <circle cx='2.308' cy='10' r='2.308'/>
-                                <circle cx='2.308' cy='17.692' r='2.308'/>
+                                <circle cx='2.308' cy='2.308' r='2.308' />
+                                <circle cx='2.308' cy='10' r='2.308' />
+                                <circle cx='2.308' cy='17.692' r='2.308' />
                             </g>
                         </svg>
                     </button>
                     {toggle && (<span
-                        style={{backgroundColor: !dark ? 'white' : ''}}
+                        style={{ backgroundColor: !dark ? 'white' : '' }}
                         ref={drop}
                     >
                         <button

@@ -34,7 +34,7 @@ function NewColumn({ setColumn }) {
             setColumn(false)
         }
     }, [close])
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         let proceed = true
 
@@ -76,12 +76,20 @@ function NewColumn({ setColumn }) {
 
         if (proceed) {
             const colNames = columns.filter(item => !item.id).map(item => item.name);
-            addCF({ variables: { columnName: colNames, boardId: theOne.id } })
-            dispatch(editBoard({ id: theOne.id, name, columns }))
-            setCloumns([{ name: '' }])
-            setName('')
-            setColumn(false)
-            setSelected(name)
+            try {
+                const { data } = await addCF({ variables: { columnName: colNames, boardId: theOne.id } })
+                // console.log(data.addColumn);
+                let colIds = data.addColumn;
+                dispatch(editBoard({ id: theOne.id, name, columns, colIds }))
+            } catch (error) {
+                console.error("Error adding columns:", error);
+            }
+            finally {
+                setCloumns([{ name: '' }])
+                setName('')
+                setColumn(false)
+                setSelected(name)
+            }
         }
     }
 

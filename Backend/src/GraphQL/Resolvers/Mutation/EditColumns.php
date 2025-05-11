@@ -18,7 +18,7 @@
             $colNames = $this->args['columnName'];
             $colIds = $this->args['columnID'];
             $boardId = $this->args['boardID'];
-            $this->ds()->editColumn($colIds,  $colNames,$boardId);
+            return ['colIds' => $this->ds()->editColumn($colIds, $colNames, $boardId)];
         }
 
         public function deleteColumn()
@@ -31,10 +31,11 @@
 
         public function addColumn()
         {
+            $colIds = [];
             $arrColumns = $this->args['columnName'];
             foreach ($arrColumns as $columnName) {
-                $this->ds()->addColumn($columnName, $this->args['boardId']);
-
+                $colIds[$columnName] = $this->ds()->addColumn($columnName, $this->args['boardId']);
             }
+            return $colIds;
         }
     }

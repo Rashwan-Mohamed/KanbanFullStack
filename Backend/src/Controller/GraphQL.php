@@ -49,6 +49,7 @@
                     'editTaskStatus' => fn($rootValue, $args) => (new EditTask($args))->editTaskStatus(),
                     'deleteTask' => fn($rootValue, $args) => (new EditTask($args))->deleteTask(),
                     'addTask' => fn($rootValue, $args) => (new EditTask($args))->addTask(),
+                    'changeSubTask' => fn($rootValue, $args) => (new EditSubTask($args))->changeSubTask()
                 ];
 
 
@@ -62,7 +63,6 @@
                 $variableValues = $input['variables'] ?? null;
                 $result = GraphQLBase::executeQuery($schema, $query, $rootResolver, null, $variableValues);
                 $output = $result->toArray();
-
             } catch (Throwable $e) {
                 error_log($e->getMessage());
                 echo json_encode([

@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import NewBoard from './newBoard'
 import NewColumn from './components/newColumn'
 import { UseAppContext } from '../../context'
 import EditTask from './components/editTask'
 import Task from './components/task'
+import NoBoardFound from './components/NoBoardFound'
+
 const Board = () => {
   const { selected, dark, hideSide, setHideSide } = UseAppContext()
   const [column, setColumn] = useState(false) // to display new column creation
@@ -21,18 +22,7 @@ const Board = () => {
   if (board === 'noBoard' || board === undefined) {
     return (
       <>
-        {boardShow && <NewBoard setBoardShow={setBoardShow} />}
-        <section className='board-container emptyBoards'>
-          <p>there is no boards, click below to create one</p>
-          <button
-            onClick={() => {
-              setBoardShow(true)
-            }}
-            className='addNewTask'
-          >
-            + create new board
-          </button>
-        </section>
+        <NoBoardFound setBoardShow={setBoardShow} boardShow={boardShow} ></NoBoardFound>
       </>
     )
   }
@@ -83,7 +73,6 @@ const Board = () => {
                 {tasks.map((task) => {
                   const { id, title, subtasks } = task
                   let len = subtasks.length
-
                   let com = 0
                   subtasks.forEach((sub) => {
                     const { isCompleted } = sub
@@ -112,7 +101,6 @@ const Board = () => {
           )
         })}
         <article className='boardColumn' key={id}>
-          <span></span>
           <ul onClick={() => setColumn(true)} className='addNewColumn'>
             + New Column
           </ul>

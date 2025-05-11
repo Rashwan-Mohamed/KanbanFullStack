@@ -21,7 +21,7 @@ function NewBoard({ setBoardShow }) {
       setBoardShow(false)
     }
   }, [close])
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     let proceed = true
     let repeatedBoard = false
@@ -78,16 +78,26 @@ function NewBoard({ setBoardShow }) {
     }
 
     if (proceed) {
-      addNB({
-        variables: {
-          boardName: name, boardColumnsId: columns.map((item) => item.name)
+      try {
+        const { data } = await addNB({
+          variables: {
+            boardName: name, boardColumnsId: columns.map((item) => item.name)
+          }
+        });
+
+        const { boardId, columnIds } = data.addBoard;
+        if (boardId) {
+          dispatch(addNewBoard({ name, columns, boardId, columnIds }))
         }
-      });
-      dispatch(addNewBoard({ name, columns }))
-      setCloumns([{ name: '' }])
-      setName('')
-      setBoardShow(false)
-      setSelected(name)
+      } catch (error) {
+        console.error("Failed to add board", error);
+      }
+      finally {
+        setCloumns([{ name: '' }])
+        setName('')
+        setBoardShow(false)
+        setSelected(name)
+      }
     }
   }
   const dispatch = useDispatch()

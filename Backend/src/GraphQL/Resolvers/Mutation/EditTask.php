@@ -15,7 +15,13 @@
 
         public function editTask()
         {
-            $this->ds()->editTask($this->args['id'], $this->args['name']);
+            $inputTask = $this->args['inputTask'];
+            $subTasks = $inputTask['subtasks'];
+            // first change the task name desc and status along with statusId
+            $this->ds()->editTask($inputTask['taskId'], $inputTask['title'], $inputTask['statusId'], $inputTask['status'], $inputTask['description']);
+            // second, iterate through the provided array of subtasks and change them one by one then validate if they are a part of our subtasks.
+            $newSubIds = (new SubTaskDataSource)->editSubTask($subTasks, $inputTask['taskId']);
+            return ['newSubIds' => $newSubIds];
         }
 
         public function editTaskStatus()
@@ -25,6 +31,7 @@
 
         public function deleteTask()
         {
+            (new SubTaskDataSource)->taskSubs($this->args['taskID']);
             $this->ds()->deleteTask($this->args['taskID']);
         }
 
@@ -34,11 +41,11 @@
             $task = $this->args['inputTask'];
             $taskId = $this->ds()->addTask($task['title'], $task['description'], $task['status'], $task['statusId']);
             $suBTC = new SubTaskDataSource();
+            $subTaskId = [];
             foreach ($task['subtasks'] as $subTask) {
-                $suBTC->addSubTask($subTask['title'], $subTask['isCompleted'], $taskId);
+                $subTaskId[] = $suBTC->addSubTask($subTask['title'], $subTask['isCompleted'], $taskId);
             }
-            // this gets a single Task and adds it to the DB and relate it to the specified column, then adds its
-            // subtasks also to the DB then relate each one of them to that task ID which his fetched after pushing it to the DB
+            return ['taskId' => $taskId, 'subTasksIds' => $subTaskId];
         }
     }
 
