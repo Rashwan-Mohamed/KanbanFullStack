@@ -1,10 +1,15 @@
 import React from 'react'
 import NewBoard from '../newBoard'
 
-export default function NoBoardFound({ boardShow, setBoardShow }) {
+interface propTypes {
+    boardShow: boolean
+    setBoardShow: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function NoBoardFound({boardShow, setBoardShow}: propTypes) {
     return (
         <>
-            {boardShow && <NewBoard setBoardShow={setBoardShow} />}
+            {boardShow && <NewBoard setBoardShow={setBoardShow}/>}
             <section className='board-container emptyBoards'>
                 <p>there is no boards, click below to create one</p>
                 <button

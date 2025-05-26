@@ -1,22 +1,29 @@
-import React, { useRef } from 'react'
+import React, {useRef} from 'react'
 
-export default function Assure({ ref, title, setSure, handleSure }) {
-    const ddelete = useRef(null)
+interface propTypes {
+    title: string
+    setSure: React.Dispatch<React.SetStateAction<boolean>>
+    handleSure: () => void
+}
+
+export default function Assure({title, setSure, handleSure}: propTypes) {
+    const deleteRef = useRef<HTMLDivElement>(null)
 
     return (
         <>
             <div
+                ref={deleteRef}
                 onClick={(e) => {
-                    if (!ddelete.current.contains(e.target)) {
+                    if (deleteRef.current && !deleteRef.current.contains(e.target as Node)) {
                         setSure(false)
                     }
                 }}
                 className='confirmDelete'
             >
-                <article ref={ref}>
+                <article>
                     <h3>Delete this task?</h3>
                     <p>
-                        Are you sure you want to delete the '{`${title}`}' task? This
+                        Are you sure you want to delete the `${title}` task? This
                         action will remove all columns and tasks and cannot be reversed.
                     </p>
                     <div>
