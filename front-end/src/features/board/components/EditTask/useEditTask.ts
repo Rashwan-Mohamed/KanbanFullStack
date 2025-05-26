@@ -4,9 +4,10 @@ import {UseAppContext} from '@/context'
 import {useEffect} from 'react'
 import {ADD_TASK, EDIT_TASK} from '@/queries'
 import {useMutation} from '@apollo/client'
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
+import {useAppDispatch} from "@/app/hooks";
 
 import type {task, board} from "../../boardSlice";
+import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 
 export enum ValidationState {
     Valid = "trial",
@@ -41,9 +42,9 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
     const [editTaskFunc] = useMutation(EDIT_TASK)
     const [addTF] = useMutation(ADD_TASK)
 
-    const boards = useAppSelector((state) => state.boards)
-    let theOne = boards.find(item => item.name === selected);
-    const initialTask = theOne?.columns.flatMap(c => c.tasks).find(t => t.id === selectedTask?.id);
+    let theOne = useGetBoard()
+
+    const initialTask = theOne?.columns.flatMap(c => c.tasks).find(t => t?.id === selectedTask?.id);
     const [current, setCurrent] = useState(() => initialTask);
     if (!current || !theOne) return null;
     const {id} = current
@@ -64,7 +65,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
 
 
     useEffect(() => {
-        const task = theOne?.columns.flatMap(column => column.tasks).find(task => task.id === id);
+        const task = theOne?.columns.flatMap(column => column.tasks).find(task => task?.id === id);
         if (task) setCurrent(task);
     }, [theOne, id]);
 
@@ -79,7 +80,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
 
         // Title validation
         const currentCol = theOne?.columns.find(col => col.name === status.status);
-        const duplicate = currentCol?.tasks.some(t => t.title === entries.title && t.id !== selectedTask?.id);
+        const duplicate = currentCol?.tasks?.some(t => t.title === entries.title && t.id !== selectedTask?.id);
 
         if (!entries.title) {
             setUsedBoard(ValidationState.Required);

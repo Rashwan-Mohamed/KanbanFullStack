@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client'
 import { setBoards } from './features/board/boardSlice'
 import Board from './features/board/board'
 import Header from './features/board/header'
-import Aside from './features/board/aside'
+import Aside from './features/board/components/Aside/aside'
 import useCloseEscape from './features/board/components/useCloseEscape'
 
 function Home() {
@@ -41,7 +41,7 @@ function Home() {
             {!tab && <Aside />}
             {tab && selectBord ? (
                 <div onClick={(e) => unShow(e)} className='modalOverlay'>
-                    {<Aside setSelectBord={setSelectBord} erre={form} />}
+                    {<Aside setSelectBord={setSelectBord} asideRef={form} />}
                 </div>
             ) : (
                 ''

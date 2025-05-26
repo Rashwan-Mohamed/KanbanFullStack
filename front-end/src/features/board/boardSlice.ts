@@ -11,9 +11,9 @@ export interface board {
 }
 
 export interface column {
-    id: number;
+    id?: number;
     name: string;
-    tasks: task[];
+    tasks?: task[];
 }
 
 export interface task {
@@ -85,7 +85,7 @@ interface editTaskPrams {
     title: string;
     description: string;
     tasks: subtask[];
-    newSubIds: number[];
+    newSubIds?: number[];
 }
 
 type deleteBoardInterface = { name: string };
@@ -177,7 +177,7 @@ export const boardSlice = createSlice({
                 let one = state.find((item) => item.name === selected);
                 one?.columns.forEach((item) => {
                     if (item.name === status) {
-                        item.tasks.push(task);
+                        item.tasks?.push(task);
                     }
                 });
                 return state;
@@ -225,19 +225,19 @@ export const boardSlice = createSlice({
                 if (!column) return state; // Guard clause if column not found
 
                 // Get the index of the task
-                const taskIndex = column.tasks.findIndex((item) => item.id === id);
-                if (taskIndex === -1) return state; // Guard clause if task not found
+                const taskIndex = column.tasks?.findIndex((item) => item.id === id);
+                if (taskIndex === -1 || !taskIndex) return state; // Guard clause if task not found
 
                 if (prevStatus === status) {
                     // Update task within the same column
-                    column.tasks.splice(taskIndex, 1, task);
+                    column.tasks?.splice(taskIndex, 1, task);
                 } else {
                     // Move task to a new column
                     const newColumn = board.columns.find((item) => item.name === status);
                     if (!newColumn) return state; // Guard clause if new column not found
 
-                    column.tasks.splice(taskIndex, 1); // Remove task from previous column
-                    newColumn.tasks.push(task); // Add task to new column
+                    column.tasks?.splice(taskIndex, 1); // Remove task from previous column
+                    newColumn.tasks?.push(task); // Add task to new column
                 }
 
                 return state;
@@ -254,7 +254,7 @@ export const boardSlice = createSlice({
                           newSubIds,
                       }: editTaskPrams): EditTaskPayload => {
                 const ntasks = tasks.map((sub) =>
-                    sub.id ? sub : {...sub, id: newSubIds.shift() ?? 0}
+                    sub.id ? sub : {...sub, id: newSubIds?.shift() ?? 0}
                 );
                 return {
                     payload: {
@@ -284,7 +284,7 @@ export const boardSlice = createSlice({
             if (!column) return state;
 
             // Remove task using .filter(), ensuring immutability
-            column.tasks = column.tasks.filter((task) => task.id !== id);
+            column.tasks = column.tasks?.filter((task) => task.id !== id);
 
             return state;
         },

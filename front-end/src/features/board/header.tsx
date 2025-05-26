@@ -1,5 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
-import EditBoard from './editBoard'
+import React, {useState, useRef} from 'react'
 import {deleteBoard} from './boardSlice'
 import {useMutation} from '@apollo/client'
 import {DELETE_BOARD} from '@/queries'
@@ -7,6 +6,8 @@ import {useAppDispatch, useAppSelector} from '@/app/hooks'
 import {UseAppContext} from '@/context'
 import AssureDelete from "@/features/board/components/AssureDelete";
 import MangeTask from "@/features/board/components/EditTask/MangeTask";
+import useClickOutside from "@/features/board/components/hooks/useClickOutside";
+import MangeBoard from "@/features/board/MangeBoard";
 
 interface propTypes {
     selectBord: boolean
@@ -15,7 +16,7 @@ interface propTypes {
 
 const Header = ({selectBord, setSelectBord}: propTypes) => {
     const {selected, setSelected, dark, tab} = UseAppContext()
-    const [deleteBF, {data, loading, error}] = useMutation(DELETE_BOARD)
+    const [deleteBF] = useMutation(DELETE_BOARD)
     const [toggle, setToggle] = useState(false)
     const [boardShow, setBoardShow] = useState(false)
     const [taskShow, setTaskShow] = useState(false)
@@ -53,21 +54,10 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
             setSure(false);
         }
     };
-    const checkIt = (e: MouseEvent) => {
-        if (toggle) {
-            if (
-                drop.current && doper.current &&
-                !drop.current.contains(e.target as Node) &&
-                !doper.current.contains(e.target as Node)
-            ) {
-                setToggle(false);
-            }
-        }
-    };
-    useEffect(() => {
-        window.addEventListener('click', checkIt)
-        return () => window.removeEventListener('click', checkIt)
-    }, [toggle])
+
+    useClickOutside([drop, doper], () => setToggle(false), toggle);
+
+
     return (<>
         <header
             style={{
@@ -77,7 +67,7 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
         >
             {sure && (<AssureDelete deleteRef={deleteRef} selected={selected} setSure={setSure}
                                     handleDelete={handleDelete} unShow={unShow}/>)}
-            {boardShow && <EditBoard setBoardShow={setBoardShow}/>}{' '}
+            {boardShow && <MangeBoard setBoardShow={setBoardShow} operation={'edit'}/>}{' '}
             {taskShow && <MangeTask setEditTask={setTaskShow} selectedTask={null}/>}{' '}
             {!tab && (<picture
                 style={{

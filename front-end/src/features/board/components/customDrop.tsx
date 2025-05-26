@@ -68,7 +68,7 @@ function CustomDrop
                             return (
                                 <div
                                     onClick={() => {
-                                        setVaria({status: name, statusId: id})
+                                        setVaria({status: name, statusId: id??0})
                                         setShow(false)
                                     }}
                                     key={index}
