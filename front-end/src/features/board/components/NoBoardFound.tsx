@@ -1,5 +1,5 @@
 import React from 'react'
-import NewBoard from '../newBoard'
+import MangeBoard from '../MangeBoard'
 
 interface propTypes {
     boardShow: boolean
@@ -9,7 +9,7 @@ interface propTypes {
 export default function NoBoardFound({boardShow, setBoardShow}: propTypes) {
     return (
         <>
-            {boardShow && <NewBoard setBoardShow={setBoardShow}/>}
+            {boardShow && <MangeBoard setBoardShow={setBoardShow} operation={'add'}/>}
             <section className='board-container emptyBoards'>
                 <p>there is no boards, click below to create one</p>
                 <button
