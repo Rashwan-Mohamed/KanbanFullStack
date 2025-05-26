@@ -1,0 +1,126 @@
+import React, {useRef, useState, useEffect, useMemo} from 'react'
+import {editTask, deleteTask} from '../../boardSlice'
+import {UseAppContext} from '@/context'
+import useCloseEscape from '../useCloseEscape'
+import CustomDrop from '../customDrop'
+import {useMutation} from '@apollo/client'
+import {DELETE_TASK} from '@/queries'
+import Assure from '../Assure'
+import type {task} from "../../boardSlice";
+import {useAppDispatch} from "@/app/hooks";
+import ControlButtons from "@/features/board/components/Task/ControlButtons";
+import useClickOutside from "@/features/board/components/hooks/useClickOutside";
+import ViewSubTasks from "@/features/board/components/Task/ViewSubTasks";
+import useTaskStatusUpdater from "@/features/board/components/Task/useTaskStatusUpdater";
+import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
+
+
+interface propTypes {
+    selectedTask: task
+    setTaskShow: React.Dispatch<React.SetStateAction<boolean>>
+    setEditTask: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
+    const [deleteTF] = useMutation(DELETE_TASK)
+    const {selected, dark} = UseAppContext()
+    const theOne = useGetBoard()
+    const formRef = useRef<HTMLFormElement>(null)
+    const doper = useRef<HTMLButtonElement>(null)
+    const drop = useRef<HTMLButtonElement>(null)
+    const [toggle, setToggle] = useState(false)
+    const [status, setStatus] = useState({
+        status: selectedTask.status,
+        statusId: selectedTask.statusId,
+    })
+    const [prevStatus, setPrevStatus] = useState(selectedTask.status)
+    const [subtasks, setSubTasks] = useState(selectedTask.subtasks)
+    const [sure, setSure] = useState(false)
+    const {id, title, description} = selectedTask
+    const dispatch = useAppDispatch()
+
+    let close = useCloseEscape()
+
+    useEffect(() => {
+        if (close) {
+            setTaskShow(false)
+        }
+    }, [close])
+
+    const handleDelete = async () => {
+        // to delete a task, we need {selected, status, id}
+        await deleteTF({variables: {taskID: id}})
+        dispatch(deleteTask({selected, status: status.status.toString(), id}))
+        setTaskShow(false)
+    }
+    const unShow = (e: React.MouseEvent) => {
+        if (formRef.current && !formRef.current.contains(e.target as Node)) {
+            setTaskShow(false)
+        }
+    }
+    useClickOutside([drop, doper], () => setToggle(false), toggle);
+
+    useEffect(() => {
+        callDispatch()
+        setPrevStatus(status.status)
+    }, [subtasks, status])
+
+
+    // this sends graphQL query to change taskStatus only when it changes
+    useTaskStatusUpdater({
+        status: status.status.toString(),
+        prevStatus: prevStatus.toString(),
+        id,
+        statusId: status.statusId
+    });
+
+    //      to dispatch and action, edit task and delete task
+    //      edit board, when edit board is initiated, give it the specific board to edit, then give it an order to appear, then disappear
+    //      thus edit board should be in board, yes
+    //      prevStatus
+
+    const callDispatch = () => {
+        dispatch(
+            editTask({
+                prevStatus: prevStatus.toString(),
+                id,
+                selected,
+                status: status.status.toString(),
+                statusId: status.statusId,
+                title: title.toString(),
+                description: description.toString(),
+                tasks: subtasks,
+            })
+        )
+    }
+
+    return (
+        <>
+            {sure && (
+                <Assure setSure={setSure} handleSure={handleDelete} title={title.toString()}></Assure>
+            )}
+            <div
+                style={{display: sure ? 'none' : ''}}
+                onClick={unShow}
+                className='modalOverlay'
+            >
+                <section ref={formRef} className='selectedTask'>
+                    <ControlButtons setEditTask={setEditTask} setTaskShow={setTaskShow} setSure={setSure}
+                                    toggle={toggle} setToggle={setToggle} title={title.toString()} dark={dark}
+                                    doper={doper}
+                                    drop={drop}/>
+                    <p> {description ?? 'No description'}</p>
+                    <ViewSubTasks subtasks={subtasks} setSubTasks={setSubTasks}/>
+                    <CustomDrop
+                        arrcat={theOne.columns}
+                        varia={status}
+                        setVaria={setStatus}
+                        label={'Current Status'}
+                    />
+                </section>
+            </div>
+        </>
+    )
+}
+
+export default Task
