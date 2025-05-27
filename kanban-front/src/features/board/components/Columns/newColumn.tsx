@@ -10,6 +10,7 @@ import NewItemInput from "@/features/board/components/Columns/NewItemInput.tsx";
 import useCheckColumns from '../hooks/useCheckColumns'
 import AddNewColumn from "@/features/board/components/Columns/AddNewColumn";
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
+import {ModalFormWrapper} from "@/features/board/ModalFormComponent.tsx";
 
 function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction<boolean>> }) {
     const {setSelected} = UseAppContext()
@@ -54,10 +55,11 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
 
 
     useClickOutside({elements: [formRef], handler: () => setColumn(false), active: Boolean(name)});
+
     return (
-        <div className='modalOverlay'>
-            <form onSubmit={handleSubmit} ref={formRef} className='newBoard'>
-                <h3>Add New Column</h3>
+        <>
+            <ModalFormWrapper formRef={formRef} submitLabel={'save changes'} onSubmit={handleSubmit}
+                              title={'Add New Column'}>
                 <div>
                     <label htmlFor='nameeee'>name</label>
                     <input readOnly value={name} type='text' id='nameeee'/>
@@ -66,9 +68,8 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
                 {columns.length < 6 &&
                     <AddNewColumn onAddNewItem={() => setColumns((old) => [...old, {name: ''}])} setUsed={setUsed}
                                   type={'column'}/>}
-                <button type='submit'>save changes</button>
-            </form>
-        </div>
+            </ModalFormWrapper>
+        </>
     )
 }
 
