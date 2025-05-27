@@ -8,8 +8,8 @@ import {useAppDispatch} from "@/app/hooks";
 
 import type {task, board} from "../../boardSlice";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
+import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
 
-export type states = 'used' | 'valid' | 'required';
 
 type UseEditTaskReturn = {
     formRef: React.RefObject<HTMLFormElement | null>
@@ -20,16 +20,15 @@ type UseEditTaskReturn = {
     }>>;
     subTasks: subtask[];
     setSubTasks: React.Dispatch<React.SetStateAction<subtask[]>>;
-    used: states[];
-    setUsed: React.Dispatch<React.SetStateAction<states[]>>;
+    used: string[];
+    setUsed: React.Dispatch<React.SetStateAction<string[]>>;
     status: { status: string; statusId: number };
     setStatus: React.Dispatch<React.SetStateAction<{
         status: string
         statusId: number
     }>>;
     usedBoard: string;
-    handleOutsideClick: (e: MouseEvent | React.MouseEvent) => void;
-    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+    handleSubmit: (e: React.FormEvent) => Promise<void>;
     theOne: board;
 };
 
@@ -56,8 +55,8 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         title: current.title ?? '',
         desc: current.description ?? '',
     })
-    const [usedBoard, setUsedBoard] = useState<states>('valid')
-    const [used, setUsed] = useState<states[]>(() => subTasks.map(() => 'valid'));
+    const [usedBoard, setUsedBoard] = useState<string>('valid')
+    const [used, setUsed] = useState<string[]>(() => subTasks.map(() => 'valid'));
     const [status, setStatus] = useState({
         status: current.status,
         statusId: current.statusId,
@@ -70,11 +69,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         if (task) setCurrent(task);
     }, [theOne, id]);
 
-    const handleOutsideClick = (e: MouseEvent | React.MouseEvent) => {
-        if (formRef.current && !formRef.current.contains(e.target as Node)) {
-            setEditTask(false)
-        }
-    }
+
 
     const validate = (): boolean => {
         let isValid = true;
@@ -132,7 +127,13 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         }
     }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    useClickOutside({
+        elements: [formRef],
+        handler: () => setEditTask(false),
+        active: true
+    })
+    ;
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         //newSubIds
@@ -185,7 +186,6 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         status,
         setStatus,
         usedBoard,
-        handleOutsideClick,
         handleSubmit,
         theOne
     };

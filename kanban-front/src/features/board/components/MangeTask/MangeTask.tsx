@@ -1,9 +1,11 @@
 import React from 'react'
 import CustomDrop from '../customDrop'
 import ChangeTitle from "@/features/board/components/MangeTask/ChangeTitle";
-import SubTaskContainer from "@/features/board/components/MangeTask/SubTaskContainer";
 import type {task} from "../../boardSlice";
 import {useEditTask} from "@/features/board/components/MangeTask/useEditTask";
+import NewItemInput from "@/features/board/components/Columns/NewItemInput.tsx";
+import AddNewColumn from "@/features/board/components/Columns/AddNewColumn.tsx";
+import {ModalFormWrapper} from "@/features/board/ModalFormComponent.tsx";
 
 interface propTypes {
     selectedTask: task | null,
@@ -25,16 +27,21 @@ function MangeTask({setEditTask, selectedTask}: propTypes) {
         status,
         setStatus,
         usedBoard,
-        handleOutsideClick,
         handleSubmit, theOne
     } = editTaskState;
 
-
+    const title = `${selectedTask ? 'Edit' : 'add new'} Task`
+    const submitLabel = `${selectedTask ? 'edit' : 'add'} task`
     return (
-        <div onClick={handleOutsideClick} className='modalOverlay'>
-            <form onSubmit={handleSubmit} ref={formRef} className='newBoard'>
-                <h3>{selectedTask ? 'Edit' : 'add new'} Task</h3>
-                <ChangeTitle value={entries.title.toString()} usedBoard={usedBoard} setEntries={setEntries}/>
+        <>
+            <ModalFormWrapper formRef={formRef}
+                              title={title}
+                              onSubmit={handleSubmit}
+                              submitLabel={submitLabel}
+            >
+                <ChangeTitle value={entries.title.toString()} usedBoard={usedBoard}
+                             onChange={(val) => setEntries((old) => ({...old, title: val}))}
+                />
                 <div>
                     <label htmlFor='Description'>Description</label>
                     <textarea
@@ -47,32 +54,25 @@ function MangeTask({setEditTask, selectedTask}: propTypes) {
                         id='Description'
                     />
                 </div>
-                <SubTaskContainer setSubTasks={setSubTasks} subTasks={subTasks} used={used} setUsed={setUsed}/>
-                {subTasks.length < 6 && (
-                    <button
-                        onClick={(e) => {
-                            e.preventDefault()
-                            setSubTasks((prevTasks) => [...prevTasks, {title: '', isCompleted: false}]);
-                            setUsed((old) => {
-                                return [...old, 'valid']
-                            })
-                        }}
-                    >
-                        +add new Subtask
-                    </button>
-                )}
+                <NewItemInput items={subTasks} setItems={setSubTasks} used={used} setUsed={setUsed}/>
+                {subTasks.length < 6 &&
+                    <AddNewColumn
+                        onAddNewItem={() => setSubTasks((prevTasks) => [...prevTasks, {
+                            title: '',
+                            isCompleted: false
+                        }])
+                        } setUsed={setUsed} type={'subtask'}/>}
                 <CustomDrop
                     varia={status}
                     setVaria={setStatus}
                     arrcat={theOne.columns}
                     label={'status'}
                 />
-                <button className='submitTask' type='submit'>
-                    {selectedTask ? 'edit' : 'add'} task
-                </button>
-            </form>
-        </div>
+            </ModalFormWrapper>
+        </>
+
     )
 }
+
 
 export default MangeTask

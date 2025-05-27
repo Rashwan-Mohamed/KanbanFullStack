@@ -5,11 +5,14 @@ import useCloseEscape from './components/hooks/useCloseEscape.tsx'
 import {useMutation} from '@apollo/client'
 import {ADD_BOARD, EDIT_BOARD, EDIT_COLUMN} from '@/queries'
 import {useAppDispatch, useAppSelector} from '@/app/hooks'
-import NewColumnInput from './components/Columns/NewColumnInput'
+import NewItemInput from './components/Columns/NewItemInput.tsx'
 import AddNewColumn from "@/features/board/components/Columns/AddNewColumn";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 import type {column} from "./boardSlice";
 import useCheckColumns from "@/features/board/components/hooks/useCheckColumns.ts";
+import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
+import ChangeTitle from "@/features/board/components/MangeTask/ChangeTitle.tsx";
+import {ModalFormWrapper} from "@/features/board/ModalFormComponent.tsx";
 
 function MangeBoard({setBoardShow, operation}: {
     setBoardShow: React.Dispatch<React.SetStateAction<boolean>>,
@@ -23,8 +26,8 @@ function MangeBoard({setBoardShow, operation}: {
         ''
     )
     const [columns, setColumns] = useState<column[]>(() => operation === 'edit' ? theOne.columns : [{name: ''}])
-    const [used, setUsed] = useState(columns.map(() => "trial"))
-    const [usedBoard, setUsedBoard] = useState('trial')
+    const [used, setUsed] = useState(columns.map(() => "valid"))
+    const [usedBoard, setUsedBoard] = useState('valid')
     const [addNB] = useMutation(ADD_BOARD)
     const [editDF] = useMutation(EDIT_BOARD)
     const [editCF] = useMutation(EDIT_COLUMN)
@@ -53,15 +56,13 @@ function MangeBoard({setBoardShow, operation}: {
         setBoardShow(false)
         setSelected(name)
     }
-
     const [columnOkay, usedState] = useCheckColumns(columns)
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setUsed(() => usedState)
         const boardOkay = checkBoard()
-        if (boardOkay && usedBoard !== 'trial') {
-            setUsedBoard('trial')
+        if (boardOkay && usedBoard !== 'valid') {
+            setUsedBoard('valid')
         }
         // check columns
         if (columnOkay && boardOkay) {
@@ -102,44 +103,39 @@ function MangeBoard({setBoardShow, operation}: {
             resetForm()
         }
     }
-    const unShow = (e: React.MouseEvent) => {
-        if (formRef.current && !formRef.current.contains(e.target as Node)) {
-            setBoardShow(false)
-        }
-    }
+
     useEffect(() => {
         if (close) {
             setBoardShow(false)
         }
     }, [close])
 
+    useClickOutside({
+        elements: [formRef],
+        handler: () => setBoardShow(false),
+        active: true
+    })
+    ;
+
     return (
-        <div onClick={unShow} className='modalOverlay'>
-            <form onSubmit={handleSubmit} ref={formRef} className='newBoard'>
-                <h3>{operation === 'edit' ? operation : `${operation} new`} Board</h3>
-                <div>
-                    <label htmlFor='name'>name</label>
-                    <input
-                        style={{
-                            border: usedBoard !== 'trial' ? '2px solid #EA5555' : '',
-                        }}
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
-                        type='text'
-                        id='name'
-                    />
-                    {usedBoard !== 'trial' && (
-                        <span className='dangerSpan'>{usedBoard}</span>
-                    )}
-                </div>
-                <NewColumnInput columns={columns} setColumns={setColumns} used={used} setUsed={setUsed}
-                                fromBoard={true}/>
+        <>
+            <ModalFormWrapper formRef={formRef}
+                              title={`${operation === 'edit' ? operation : `${operation} new`} Board`}
+                              onSubmit={handleSubmit}
+                              submitLabel={`${operation === 'edit' ? 'save changes' : `create new`} Board`}
+            >
+                <ChangeTitle value={name} usedBoard={usedBoard}
+                             onChange={(val) => setName(val)}
+                />
+                <NewItemInput items={columns} setItems={setColumns} used={used} setUsed={setUsed}
+                              fromBoard={true}/>
                 {columns.length < 6 &&
-                    <AddNewColumn setColumns={setColumns} setUsed={setUsed}/>
+                    <AddNewColumn onAddNewItem={() => setColumns((old) => [...old, {name: ''}])} setUsed={setUsed}
+                                  type={'column'}/>
                 }
-                <button type='submit'>{operation === 'edit' ? 'save changes' : `create new`} board</button>
-            </form>
-        </div>
+            </ModalFormWrapper>
+
+        </>
     )
 }
 

@@ -5,7 +5,7 @@ import { GET_BOARDS } from './queries'
 import { useQuery } from '@apollo/client'
 import { setBoards } from './features/board/boardSlice'
 import Board from './features/board/board'
-import Header from './features/board/header'
+import Header from './features/board/components/header.tsx'
 import Aside from './features/board/components/Aside/aside'
 import useCloseEscape from './features/board/components/hooks/useCloseEscape.tsx'
 
