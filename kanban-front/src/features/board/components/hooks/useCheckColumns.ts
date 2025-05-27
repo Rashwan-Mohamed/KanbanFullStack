@@ -1,7 +1,7 @@
 import type {column} from "../../boardSlice";
 
 const useCheckColumns = (columns: column[]): [boolean, string[]] => {
-    let usedStates = columns.map(() => "trial")
+    let usedStates = columns.map(() => "valid")
     const checkColumns = (): boolean => {
         let proceed = true;
         usedStates = columns.map((column, index) => {
@@ -20,7 +20,7 @@ const useCheckColumns = (columns: column[]): [boolean, string[]] => {
                 return "used";
             }
 
-            return "trial";
+            return "valid";
         })
         return proceed;
     };

@@ -1,20 +1,21 @@
-import {  useState } from 'react'
-import { UseAppContext } from '@/context'
+import {useState} from 'react'
+import {UseAppContext} from '@/context'
 import NewColumn from './components/Columns/newColumn'
 import MangeTask from '@/features/board/components/MangeTask/MangeTask'
 import Task from './components/Task/task'
 import NoBoardFound from './components/NoBoardFound'
-import type { task } from './boardSlice'
+import type {task} from './boardSlice'
 import DisplayColumns from "@/features/board/components/Columns/DisplayColumns";
+import {useGetBoard} from "@/features/board/components/hooks/useGetBoard.ts";
 
 const Board = () => {
-    const { dark, hideSide, setHideSide,board } = UseAppContext()
+    const {dark, hideSide, setHideSide} = UseAppContext()
     const [column, setColumn] = useState(false) // to display new column creation
     const [boardShow, setBoardShow] = useState(false) // to display a new board creation when there are no boards
     const [taskShow, setTaskShow] = useState(false) // to display task
     const [editTask, setEditTask] = useState(false) // to display task editing
     const [selectedTask, setSelectedTask] = useState<task | null>(null);
-
+    const board = useGetBoard()
     if (!board) {
         return (
             <>
@@ -22,7 +23,7 @@ const Board = () => {
             </>
         )
     }
-    const { columns, id } = board
+    const {columns, id} = board
     return (
         <>
             <section
@@ -32,7 +33,7 @@ const Board = () => {
                 }}
                 className='board-container'
             >
-                {column && <NewColumn setColumn={setColumn} />}
+                {column && <NewColumn setColumn={setColumn}/>}
                 {taskShow && selectedTask && (
                     <Task
                         selectedTask={selectedTask}
@@ -41,7 +42,7 @@ const Board = () => {
                     />
                 )}
                 {editTask && (
-                    <MangeTask setEditTask={setEditTask} selectedTask={selectedTask} />
+                    <MangeTask setEditTask={setEditTask} selectedTask={selectedTask}/>
                 )}
                 {hideSide && (
                     <div className='reverseHide' onClick={() => setHideSide(false)}>
@@ -49,7 +50,7 @@ const Board = () => {
                     </div>
                 )}
                 <DisplayColumns columns={columns} dark={dark} setTaskShow={setTaskShow}
-                    setSelectedTask={setSelectedTask} />
+                                setSelectedTask={setSelectedTask}/>
                 <article className='boardColumn' key={id}>
                     <ul onClick={() => setColumn(true)} className='addNewColumn'>
                         + New Column

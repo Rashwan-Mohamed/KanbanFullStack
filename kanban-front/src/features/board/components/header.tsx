@@ -1,13 +1,13 @@
 import React, {useState, useRef} from 'react'
-import {deleteBoard} from './boardSlice'
+import {deleteBoard} from '../boardSlice.ts'
 import {useMutation} from '@apollo/client'
-import {DELETE_BOARD} from '@/queries'
-import {useAppDispatch, useAppSelector} from '@/app/hooks'
-import {UseAppContext} from '@/context'
-import AssureDelete from "@/features/board/components/AssureDelete";
-import MangeTask from "@/features/board/components/MangeTask/MangeTask";
-import useClickOutside from "@/features/board/components/hooks/useClickOutside";
-import MangeBoard from "@/features/board/MangeBoard";
+import {DELETE_BOARD} from '@/queries.ts'
+import {useAppDispatch, useAppSelector} from '@/app/hooks.ts'
+import {UseAppContext} from '@/context.tsx'
+import AssureDelete from "@/features/board/components/AssureDelete.tsx";
+import MangeTask from "@/features/board/components/MangeTask/MangeTask.tsx";
+import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
+import MangeBoard from "@/features/board/MangeBoard.tsx";
 
 interface propTypes {
     selectBord: boolean
@@ -23,7 +23,6 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
     const [sure, setSure] = useState(false)
     const drop = useRef<HTMLElement>(null)
     const doper = useRef<HTMLButtonElement>(null)
-
     const dispatch = useAppDispatch()
     const boards = useAppSelector((state) => {
         return state.boards

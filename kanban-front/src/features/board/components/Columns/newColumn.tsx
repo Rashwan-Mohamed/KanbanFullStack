@@ -6,7 +6,7 @@ import {ADD_COLUMN} from '@/queries'
 import {useMutation} from '@apollo/client'
 import {useAppDispatch} from "@/app/hooks";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
-import NewColumnInput from "@/features/board/components/Columns/NewColumnInput";
+import NewItemInput from "@/features/board/components/Columns/NewItemInput.tsx";
 import useCheckColumns from '../hooks/useCheckColumns'
 import AddNewColumn from "@/features/board/components/Columns/AddNewColumn";
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
@@ -17,7 +17,7 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
     const theOne = useGetBoard()
     const [name, setName] = useState(theOne.name)
     const [columns, setColumns] = useState(theOne.columns)
-    const [used, setUsed] = useState<string[]>(() => theOne.columns.map(() => "trial"));
+    const [used, setUsed] = useState<string[]>(() => theOne.columns.map(() => "valid"));
     const dispatch = useAppDispatch()
     const close = useCloseEscape()
     const formRef = useRef<HTMLFormElement>(null)
@@ -62,8 +62,10 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
                     <label htmlFor='nameeee'>name</label>
                     <input readOnly value={name} type='text' id='nameeee'/>
                 </div>
-                <NewColumnInput columns={columns} setColumns={setColumns} used={used} setUsed={setUsed}/>
-                {columns.length < 6 && <AddNewColumn setColumns={setColumns} setUsed={setUsed}/>}
+                <NewItemInput items={columns} setItems={setColumns} used={used} setUsed={setUsed}/>
+                {columns.length < 6 &&
+                    <AddNewColumn onAddNewItem={() => setColumns((old) => [...old, {name: ''}])} setUsed={setUsed}
+                                  type={'column'}/>}
                 <button type='submit'>save changes</button>
             </form>
         </div>
