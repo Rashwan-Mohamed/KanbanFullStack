@@ -172,7 +172,7 @@ export const boardSlice = createSlice({
         addTask: {
             reducer: (state, action: PayloadAction<addTaskInterface>) => {
                 const {selected, status, task} = action.payload;
-                let one = state.find((item) => item.name === selected);
+                const one = state.find((item) => item.name === selected);
                 one?.columns.forEach((item) => {
                     if (item.name === status) {
                         item.tasks?.push(task);
@@ -224,20 +224,18 @@ export const boardSlice = createSlice({
 
                 // Get the index of the task
                 const taskIndex = column.tasks?.findIndex((item) => item.id === id);
-                if (taskIndex === -1 || !taskIndex) return state; // Guard clause if task not found
+                if (taskIndex === -1 || taskIndex == null) return state; // Guard clause if task not found
 
                 if (prevStatus === status) {
-                    // Update task within the same column
+                    // Update a task within the same column
                     column.tasks?.splice(taskIndex, 1, task);
                 } else {
-                    // Move task to a new column
+                    // Move a task to a new column
                     const newColumn = board.columns.find((item) => item.name === status);
                     if (!newColumn) return state; // Guard clause if new column not found
-
-                    column.tasks?.splice(taskIndex, 1); // Remove task from previous column
-                    newColumn.tasks?.push(task); // Add task to new column
+                    column.tasks?.splice(taskIndex, 1); // Remove a task from previous column
+                    newColumn.tasks?.push(task); // Add a task to new column
                 }
-
                 return state;
             },
             prepare: ({
@@ -251,7 +249,7 @@ export const boardSlice = createSlice({
                           tasks,
                           newSubIds,
                       }: editTaskPrams): EditTaskPayload => {
-                const ntasks = tasks.map((sub) =>
+                const newTasks = tasks.map((sub) =>
                     sub.id ? sub : {...sub, id: newSubIds?.shift() ?? 0}
                 );
                 return {
@@ -266,7 +264,7 @@ export const boardSlice = createSlice({
                             description,
                             status,
                             statusId,
-                            subtasks: ntasks,
+                            subtasks: newTasks,
                         },
                     },
                 };

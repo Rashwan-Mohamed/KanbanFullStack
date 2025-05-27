@@ -1,15 +1,15 @@
 import React, {useState, useRef, useEffect} from 'react'
 import {addNewBoard, editBoard} from './boardSlice'
 import {UseAppContext} from '@/context'
-import useCloseEscape from './components/useCloseEscape'
+import useCloseEscape from './components/hooks/useCloseEscape.tsx'
 import {useMutation} from '@apollo/client'
 import {ADD_BOARD, EDIT_BOARD, EDIT_COLUMN} from '@/queries'
 import {useAppDispatch, useAppSelector} from '@/app/hooks'
 import NewColumnInput from './components/Columns/NewColumnInput'
-import useCheckColumns from './components/hooks/useCheckColumns'
 import AddNewColumn from "@/features/board/components/Columns/AddNewColumn";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 import type {column} from "./boardSlice";
+import useCheckColumns from "@/features/board/components/hooks/useCheckColumns.ts";
 
 function MangeBoard({setBoardShow, operation}: {
     setBoardShow: React.Dispatch<React.SetStateAction<boolean>>,
@@ -17,9 +17,13 @@ function MangeBoard({setBoardShow, operation}: {
 }) {
     const {setSelected} = UseAppContext()
     const theOne = useGetBoard()
-    const [name, setName] = useState('')
-    const [columns, setColumns] = useState<column[]>([{name: ''}])
-    const [used, setUsed] = useState(['trial'])
+    const [name, setName] = useState(() => operation === 'edit' ?
+        theOne.name
+        :
+        ''
+    )
+    const [columns, setColumns] = useState<column[]>(() => operation === 'edit' ? theOne.columns : [{name: ''}])
+    const [used, setUsed] = useState(columns.map(() => "trial"))
     const [usedBoard, setUsedBoard] = useState('trial')
     const [addNB] = useMutation(ADD_BOARD)
     const [editDF] = useMutation(EDIT_BOARD)
@@ -28,14 +32,16 @@ function MangeBoard({setBoardShow, operation}: {
     const close = useCloseEscape()
     const dispatch = useAppDispatch()
     const formRef = useRef<HTMLFormElement>(null)
-
     const checkBoard = () => {
         let proceed = true
         if (!name) {
             proceed = false
             setUsedBoard('required')
         }
-        const repeatedBoard = boards.some((board) => board.name === name)
+        let boardIndex = boards.findIndex(board => board.name === theOne.name) ?? -1
+        if (operation !== 'edit')
+            boardIndex = -1
+        const repeatedBoard = boards.some((board, index) => board.name === name && index !== boardIndex)
         if (repeatedBoard) {
             setUsedBoard('used')
         }
@@ -48,18 +54,17 @@ function MangeBoard({setBoardShow, operation}: {
         setSelected(name)
     }
 
+    const [columnOkay, usedState] = useCheckColumns(columns)
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-
+        setUsed(() => usedState)
         const boardOkay = checkBoard()
         if (boardOkay && usedBoard !== 'trial') {
             setUsedBoard('trial')
         }
         // check columns
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [columnsOk, usedState] = useCheckColumns(columns)
-        setUsed(usedState);
-        if (columnsOk && boardOkay) {
+        if (columnOkay && boardOkay) {
             const mutateFunction = operation === 'edit' ? handleEditBoard : handleAddNewBoard;
             await mutateFunction();
         }
@@ -127,9 +132,10 @@ function MangeBoard({setBoardShow, operation}: {
                         <span className='dangerSpan'>{usedBoard}</span>
                     )}
                 </div>
-                <NewColumnInput columns={columns} setColumns={setColumns} used={used} setUsed={setUsed}/>
+                <NewColumnInput columns={columns} setColumns={setColumns} used={used} setUsed={setUsed}
+                                fromBoard={true}/>
                 {columns.length < 6 &&
-                    <AddNewColumn columns={columns} setColumns={setColumns} setUsed={setUsed}/>
+                    <AddNewColumn setColumns={setColumns} setUsed={setUsed}/>
                 }
                 <button type='submit'>{operation === 'edit' ? 'save changes' : `create new`} board</button>
             </form>

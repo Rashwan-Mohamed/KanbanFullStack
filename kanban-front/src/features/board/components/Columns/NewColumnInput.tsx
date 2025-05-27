@@ -3,12 +3,13 @@ import type {column} from "@/features/board/boardSlice";
 
 interface propTypes {
     columns: column[],
-    setColumns: React.Dispatch<React.SetStateAction<any[]>>,
+    setColumns: React.Dispatch<React.SetStateAction<column[]>>,
     used: string[],
     setUsed: React.Dispatch<React.SetStateAction<string[]>>
+    fromBoard?: boolean
 }
 
-const NewColumnInput: React.FC<propTypes> = ({columns, setColumns, used, setUsed}) => {
+const NewColumnInput: React.FC<propTypes> = ({columns, setColumns, used, setUsed, fromBoard}) => {
     return (
         <div>
             <label htmlFor='Columns'>Columns</label>
@@ -32,7 +33,7 @@ const NewColumnInput: React.FC<propTypes> = ({columns, setColumns, used, setUsed
                                 type='text'
                                 id='Columns'
                             />
-                            {item.id && (
+                            {item.id && !fromBoard && (
                                 <div className='overlies'>
                                     <input type='text' value={item.name} readOnly/>
                                 </div>

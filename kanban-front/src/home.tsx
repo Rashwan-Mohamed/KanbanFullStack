@@ -7,7 +7,7 @@ import { setBoards } from './features/board/boardSlice'
 import Board from './features/board/board'
 import Header from './features/board/header'
 import Aside from './features/board/components/Aside/aside'
-import useCloseEscape from './features/board/components/useCloseEscape'
+import useCloseEscape from './features/board/components/hooks/useCloseEscape.tsx'
 
 function Home() {
     const { dark, tab, setSelected } = UseAppContext()

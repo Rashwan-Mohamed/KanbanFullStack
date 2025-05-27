@@ -2,12 +2,11 @@ import React from 'react';
 import type {column} from "../../boardSlice";
 
 interface propTypes {
-    columns: column[]
     setColumns: React.Dispatch<React.SetStateAction<column[]>>
     setUsed: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const AddNewColumn: React.FC<propTypes> = ({columns, setColumns, setUsed}) => {
+const AddNewColumn: React.FC<propTypes> = ({ setColumns, setUsed}) => {
     return (
         <button
             onClick={(e) => {

@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react'
 function useCloseEscape() {
     const [close, setClose] = useState(false)
     const checkEscape = (event: KeyboardEvent) => {
-        let code = event.key
+        const code = event.key
         if (code === 'Escape') {
             setClose(true)
         } else {

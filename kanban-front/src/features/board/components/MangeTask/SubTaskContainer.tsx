@@ -1,13 +1,12 @@
 import React from 'react';
 import type {subtask} from "@/features/board/boardSlice";
-import PropTypes from "prop-types";
-import {ValidationState} from "@/features/board/components/EditTask/useEditTask";
+import type {states} from "@/features/board/components/MangeTask/useEditTask";
 
 interface propTypes {
     subTasks: subtask[],
     setSubTasks: React.Dispatch<React.SetStateAction<subtask[]>>,
-    used: ValidationState[],
-    setUsed: React.Dispatch<React.SetStateAction<ValidationState[]>>
+    used: states[],
+    setUsed: React.Dispatch<React.SetStateAction<states[]>>
 }
 
 const SubTaskContainer: React.FC<propTypes> = ({subTasks, setSubTasks, used, setUsed}) => {
@@ -21,7 +20,7 @@ const SubTaskContainer: React.FC<propTypes> = ({subTasks, setSubTasks, used, set
                             {' '}
                             <input
                                 style={{
-                                    border: used[term] !== 'trial' ? '2px solid #EA5555' : '',
+                                    border: used[term] !== 'valid' ? '2px solid #EA5555' : '',
                                 }}
                                 onChange={(e) => {
                                     setSubTasks((old) =>
@@ -34,7 +33,7 @@ const SubTaskContainer: React.FC<propTypes> = ({subTasks, setSubTasks, used, set
                                 type='text'
                                 id='Columns'
                             />
-                            {used[term] !== 'trial' && (
+                            {used[term] !== 'valid' && (
                                 <span className='dangerSpan'>{used[term]}</span>
                             )}
                         </label>
@@ -43,10 +42,10 @@ const SubTaskContainer: React.FC<propTypes> = ({subTasks, setSubTasks, used, set
                             <span
                                 onClick={() => {
                                     setSubTasks(() => {
-                                        return subTasks.filter((cul, ind) => ind !== term)
+                                        return subTasks.filter((_cul, ind) => ind !== term)
                                     })
-                                    setUsed((sero) => {
-                                        return used.filter((cul, ind) => ind !== term)
+                                    setUsed(() => {
+                                        return used.filter((_cul, ind) => ind !== term)
                                     })
                                 }}
                                 className='deleteColIn'

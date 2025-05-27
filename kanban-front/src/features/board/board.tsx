@@ -1,22 +1,20 @@
 import {  useState } from 'react'
 import { UseAppContext } from '@/context'
 import NewColumn from './components/Columns/newColumn'
-import MangeTask from './components/EditTask/MangeTask'
+import MangeTask from '@/features/board/components/MangeTask/MangeTask'
 import Task from './components/Task/task'
 import NoBoardFound from './components/NoBoardFound'
 import type { task } from './boardSlice'
 import DisplayColumns from "@/features/board/components/Columns/DisplayColumns";
-import { useGetBoard } from "@/features/board/components/hooks/useGetBoard";
 
 const Board = () => {
-    const { dark, hideSide, setHideSide } = UseAppContext()
+    const { dark, hideSide, setHideSide,board } = UseAppContext()
     const [column, setColumn] = useState(false) // to display new column creation
     const [boardShow, setBoardShow] = useState(false) // to display a new board creation when there are no boards
     const [taskShow, setTaskShow] = useState(false) // to display task
     const [editTask, setEditTask] = useState(false) // to display task editing
     const [selectedTask, setSelectedTask] = useState<task | null>(null);
 
-    const board = useGetBoard()
     if (!board) {
         return (
             <>

@@ -1,9 +1,8 @@
-import React, {createContext, useContext, useState, useEffect} from "react";
-import {useSelector} from "react-redux";
+import React, {createContext, useContext, useState, useEffect, useMemo} from "react";
 import type {RootState} from "@/app/store"; // Adjust the path if needed
 // to Adjust the path if needed
 import type {board} from "./features/board/boardSlice";
-import {useGetBoard} from "@/features/board/components/hooks/useGetBoard.ts";
+import {useAppSelector} from "@/app/hooks.ts";
 
 // Define the AppContext Type
 interface AppContextType {
@@ -29,7 +28,7 @@ interface AppContextProviderProps {
 function AppContextProvider({children}: AppContextProviderProps): React.JSX.Element {
     const [dark, setDark] = useState<boolean>(true);
     const [tab, setTab] = useState<boolean>(false);
-    const boards = useSelector((state: RootState) => state.boards);
+    const boards = useAppSelector((state: RootState) => state.boards);
 
     const [selected, setSelected] = useState<string>(() => {
         return boards.length > 0 && boards[0].name ? boards[0].name : "noBoard";
@@ -46,8 +45,7 @@ function AppContextProvider({children}: AppContextProviderProps): React.JSX.Elem
     }, []);
 
     const [hideSide, setHideSide] = useState<boolean>(false);
-    const board = useGetBoard()// Prevents undefined issues
-
+    const board = useMemo(() => boards.find((item) => item.name === selected), [boards, selected]) ?? boards[0]
     return (
         <AppContext.Provider
             value={{
@@ -68,6 +66,7 @@ function AppContextProvider({children}: AppContextProviderProps): React.JSX.Elem
 
 export const UseAppContext = (): AppContextType => {
     const context = useContext(AppContext);
+
     if (!context) {
         throw new Error("UseAppContext must be used within an AppContextProvider");
     }

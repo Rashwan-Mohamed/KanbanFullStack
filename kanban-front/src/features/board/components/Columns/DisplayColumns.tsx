@@ -23,11 +23,11 @@ const DisplayColumns: React.FC<propTypes> = ({columns, dark, setTaskShow, setSel
               </span>
 
                         <ul
-                            className={`${tasks?.length ? 'emptyColumn' : 'undefined'}`}
+                            className={`${!tasks?.length ? 'emptyColumn' : 'undefined'}`}
                         >
                             {tasks?.map((task) => {
                                 const {id, title, subtasks} = task
-                                let len = subtasks.length
+                                const len = subtasks.length
                                 const com = subtasks.filter(sub => sub.isCompleted).length;
                                 return (
                                     <li

@@ -1,9 +1,9 @@
 import React from 'react'
 import CustomDrop from '../customDrop'
-import ChangeTitle from "@/features/board/components/EditTask/ChangeTitle";
-import SubTaskContainer from "@/features/board/components/EditTask/SubTaskContainer";
+import ChangeTitle from "@/features/board/components/MangeTask/ChangeTitle";
+import SubTaskContainer from "@/features/board/components/MangeTask/SubTaskContainer";
 import type {task} from "../../boardSlice";
-import {useEditTask, ValidationState} from "@/features/board/components/EditTask/useEditTask";
+import {useEditTask} from "@/features/board/components/MangeTask/useEditTask";
 
 interface propTypes {
     selectedTask: task | null,
@@ -33,7 +33,7 @@ function MangeTask({setEditTask, selectedTask}: propTypes) {
     return (
         <div onClick={handleOutsideClick} className='modalOverlay'>
             <form onSubmit={handleSubmit} ref={formRef} className='newBoard'>
-                <h3>Edit Task</h3>
+                <h3>{selectedTask ? 'Edit' : 'add new'} Task</h3>
                 <ChangeTitle value={entries.title.toString()} usedBoard={usedBoard} setEntries={setEntries}/>
                 <div>
                     <label htmlFor='Description'>Description</label>
@@ -54,7 +54,7 @@ function MangeTask({setEditTask, selectedTask}: propTypes) {
                             e.preventDefault()
                             setSubTasks((prevTasks) => [...prevTasks, {title: '', isCompleted: false}]);
                             setUsed((old) => {
-                                return [...old, ValidationState.Valid]
+                                return [...old, 'valid']
                             })
                         }}
                     >
@@ -68,7 +68,7 @@ function MangeTask({setEditTask, selectedTask}: propTypes) {
                     label={'status'}
                 />
                 <button className='submitTask' type='submit'>
-                    edit task
+                    {selectedTask ? 'edit' : 'add'} task
                 </button>
             </form>
         </div>

@@ -9,7 +9,7 @@ interface propTypes {
 }
 
 const ViewSubTasks = ({subtasks, setSubTasks}: propTypes) => {
-    let len = subtasks.length
+    const len = subtasks.length
     const com = subtasks.filter(item => item.isCompleted).length;
     const [changeSTF] = useMutation(CHANGE_SUBTASK)
 
@@ -19,12 +19,12 @@ const ViewSubTasks = ({subtasks, setSubTasks}: propTypes) => {
                 Subtasks ({com || 0} of {len})
             </h5>
             {subtasks.map((sub, index) => {
-                let {title, isCompleted, id} = sub
+                const {title, isCompleted, id} = sub
                 return (
                     <li
                         onClick={() => {
                             setSubTasks((old) => {
-                                let newRr = old.map((item) => {
+                                const newRr = old.map((item) => {
                                     return {...item}
                                 })
                                 newRr[index].isCompleted = !newRr[index].isCompleted

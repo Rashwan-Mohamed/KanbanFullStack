@@ -5,7 +5,7 @@ import {DELETE_BOARD} from '@/queries'
 import {useAppDispatch, useAppSelector} from '@/app/hooks'
 import {UseAppContext} from '@/context'
 import AssureDelete from "@/features/board/components/AssureDelete";
-import MangeTask from "@/features/board/components/EditTask/MangeTask";
+import MangeTask from "@/features/board/components/MangeTask/MangeTask";
 import useClickOutside from "@/features/board/components/hooks/useClickOutside";
 import MangeBoard from "@/features/board/MangeBoard";
 
@@ -23,7 +23,6 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
     const [sure, setSure] = useState(false)
     const drop = useRef<HTMLElement>(null)
     const doper = useRef<HTMLButtonElement>(null)
-    const deleteRef = useRef<HTMLElement>(null)
 
     const dispatch = useAppDispatch()
     const boards = useAppSelector((state) => {
@@ -47,15 +46,13 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
         }
     }
 
-    const unShow = (e: MouseEvent | React.MouseEvent) => {
-        if (!e.target) return; // Exit early if null
 
-        if (deleteRef.current && e.target instanceof Node && !deleteRef.current.contains(e.target)) {
-            setSure(false);
-        }
-    };
-
-    useClickOutside([drop, doper], () => setToggle(false), toggle);
+    useClickOutside({
+        elements: [drop, doper],
+        handler: () => setToggle(false),
+        active: toggle
+    })
+    ;
 
 
     return (<>
@@ -65,8 +62,8 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
             }}
             className='header'
         >
-            {sure && (<AssureDelete deleteRef={deleteRef} selected={selected} setSure={setSure}
-                                    handleDelete={handleDelete} unShow={unShow}/>)}
+            {sure && (<AssureDelete selected={selected} setSure={setSure}
+                                    handleDelete={handleDelete} type={'board'}/>)}
             {boardShow && <MangeBoard setBoardShow={setBoardShow} operation={'edit'}/>}{' '}
             {taskShow && <MangeTask setEditTask={setTaskShow} selectedTask={null}/>}{' '}
             {!tab && (<picture

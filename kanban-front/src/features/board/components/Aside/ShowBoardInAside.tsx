@@ -13,7 +13,7 @@ const ShowBoardInAside: React.FC<propTypes> = ({setBoardShow, setSelectBord}) =>
     const boards = useAppSelector((state) => {
         return state.boards
     })
-    let len = boards.length
+    const len = boards.length
 
     return (
         <article className='boards-header'>

@@ -1,8 +1,8 @@
 interface propTypes {
     value: string
     setEntries: (value: React.SetStateAction<{
-        title: String
-        desc: String
+        title: string
+        desc: string
     }>) => void
     usedBoard: string
 
@@ -14,7 +14,7 @@ function ChangeTitle({usedBoard, setEntries, value}: propTypes) {
             <label htmlFor='title'>title</label>
             <input
                 style={{
-                    border: usedBoard !== 'trial' ? '2px solid #EA5555' : '',
+                    border: usedBoard !== 'valid' ? '2px solid #EA5555' : '',
                 }}
                 onChange={(e) =>
                     setEntries((old) => {
@@ -25,7 +25,7 @@ function ChangeTitle({usedBoard, setEntries, value}: propTypes) {
                 type='text'
                 id='title'
             />
-            {usedBoard !== 'trial' && (
+            {usedBoard !== 'valid' && (
                 <span className='dangerSpan'>{usedBoard}</span>
             )}
         </div>
