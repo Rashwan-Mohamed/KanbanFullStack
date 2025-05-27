@@ -1,11 +1,10 @@
-import React, {useRef, useState, useEffect, useMemo} from 'react'
+import React, {useRef, useState, useEffect} from 'react'
 import {editTask, deleteTask} from '../../boardSlice'
 import {UseAppContext} from '@/context'
-import useCloseEscape from '../useCloseEscape'
+import useCloseEscape from '../hooks/useCloseEscape.tsx'
 import CustomDrop from '../customDrop'
 import {useMutation} from '@apollo/client'
 import {DELETE_TASK} from '@/queries'
-import Assure from '../Assure'
 import type {task} from "../../boardSlice";
 import {useAppDispatch} from "@/app/hooks";
 import ControlButtons from "@/features/board/components/Task/ControlButtons";
@@ -13,6 +12,7 @@ import useClickOutside from "@/features/board/components/hooks/useClickOutside";
 import ViewSubTasks from "@/features/board/components/Task/ViewSubTasks";
 import useTaskStatusUpdater from "@/features/board/components/Task/useTaskStatusUpdater";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
+import AssureDelete from "@/features/board/components/AssureDelete.tsx";
 
 
 interface propTypes {
@@ -28,6 +28,7 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
     const formRef = useRef<HTMLFormElement>(null)
     const doper = useRef<HTMLButtonElement>(null)
     const drop = useRef<HTMLButtonElement>(null)
+
     const [toggle, setToggle] = useState(false)
     const [status, setStatus] = useState({
         status: selectedTask.status,
@@ -39,7 +40,7 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
     const {id, title, description} = selectedTask
     const dispatch = useAppDispatch()
 
-    let close = useCloseEscape()
+    const close = useCloseEscape()
 
     useEffect(() => {
         if (close) {
@@ -58,8 +59,11 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
             setTaskShow(false)
         }
     }
-    useClickOutside([drop, doper], () => setToggle(false), toggle);
-
+    useClickOutside({
+        elements: [drop, doper], handler: () => setToggle(false)
+        ,
+        active: toggle
+    })
     useEffect(() => {
         callDispatch()
         setPrevStatus(status.status)
@@ -96,9 +100,9 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
 
     return (
         <>
-            {sure && (
-                <Assure setSure={setSure} handleSure={handleDelete} title={title.toString()}></Assure>
-            )}
+
+            {sure && <AssureDelete selected={title.toString()} setSure={setSure}
+                                   handleDelete={handleDelete} type={'task'}/>}
             <div
                 style={{display: sure ? 'none' : ''}}
                 onClick={unShow}

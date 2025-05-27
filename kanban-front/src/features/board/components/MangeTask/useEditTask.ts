@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react'
-import {editTask, type subtask} from '../../boardSlice'
+import {addTask, editTask, type subtask} from '../../boardSlice'
 import {UseAppContext} from '@/context'
 import {useEffect} from 'react'
 import {ADD_TASK, EDIT_TASK} from '@/queries'
@@ -9,27 +9,22 @@ import {useAppDispatch} from "@/app/hooks";
 import type {task, board} from "../../boardSlice";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 
-// @ts-ignore
-export enum ValidationState {
-    Valid = "trial",
-    Required = "required",
-    Duplicate = "used",
-}
+export type states = 'used' | 'valid' | 'required';
 
 type UseEditTaskReturn = {
     formRef: React.RefObject<HTMLFormElement | null>
-    entries: { title: String, desc: String };
+    entries: { title: string, desc: string };
     setEntries: React.Dispatch<React.SetStateAction<{
-        title: String
-        desc: String
+        title: string
+        desc: string
     }>>;
     subTasks: subtask[];
     setSubTasks: React.Dispatch<React.SetStateAction<subtask[]>>;
-    used: ValidationState[];
-    setUsed: React.Dispatch<React.SetStateAction<ValidationState[]>>;
-    status: { status: String; statusId: number };
+    used: states[];
+    setUsed: React.Dispatch<React.SetStateAction<states[]>>;
+    status: { status: string; statusId: number };
     setStatus: React.Dispatch<React.SetStateAction<{
-        status: String
+        status: string
         statusId: number
     }>>;
     usedBoard: string;
@@ -44,14 +39,14 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
     const [addTF] = useMutation(ADD_TASK)
 
     const theOne = useGetBoard()
-
+    const initialStatus = theOne.columns[0]
     const initialTask = theOne?.columns.flatMap(c => c.tasks).find(t => t?.id === selectedTask?.id) ?? {
         id: 0,
         title: '',
         description: ''
         , subtasks: [],
-        status: '',
-        statusId: 0
+        status: initialStatus.name,
+        statusId: initialStatus.id ?? 0
     };
     const [current, setCurrent] = useState(() => initialTask);
     const {id} = current
@@ -61,13 +56,12 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         title: current.title ?? '',
         desc: current.description ?? '',
     })
-    const [usedBoard, setUsedBoard] = useState('trial')
-    const [used, setUsed] = useState<ValidationState[]>(() => subTasks.map(() => ValidationState.Valid));
+    const [usedBoard, setUsedBoard] = useState<states>('valid')
+    const [used, setUsed] = useState<states[]>(() => subTasks.map(() => 'valid'));
     const [status, setStatus] = useState({
-        status: current?.status,
-        statusId: current?.statusId,
+        status: current.status,
+        statusId: current.statusId,
     })
-
     const dispatch = useAppDispatch()
 
 
@@ -90,13 +84,13 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         const duplicate = currentCol?.tasks?.some(t => t.title === entries.title && t.id !== selectedTask?.id);
 
         if (!entries.title) {
-            setUsedBoard(ValidationState.Required);
+            setUsedBoard('required');
             isValid = false;
         } else if (duplicate) {
-            setUsedBoard(ValidationState.Duplicate);
+            setUsedBoard('used');
             isValid = false;
         } else {
-            setUsedBoard(ValidationState.Valid);
+            setUsedBoard('valid');
         }
 
         // Subtask validation
@@ -104,19 +98,40 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         const updatedUsed = subTasks.map(sub => {
             if (!sub.title) {
                 isValid = false;
-                return ValidationState.Required;
+                return 'required';
             }
             if (titles.includes(sub.title)) {
                 isValid = false;
-                return ValidationState.Duplicate;
+                return 'used';
             }
             titles.push(sub.title);
-            return ValidationState.Valid;
+            return 'valid';
         });
         setUsed(updatedUsed);
 
         return isValid;
     };
+    const handleAddNewTask = async (baseTask: {
+        title: string
+        description: string
+        status: string
+        statusId: number
+        subtasks: subtask[]
+    }) => {
+        const {data} = await addTF({variables: {inputTask: baseTask}})
+        const {subTasksIds, taskId} = data.addTask;
+        if (taskId) {
+            dispatch(addTask({
+                selected, ...status,
+                title: entries.title,
+                description: entries.desc,
+                tasks: subTasks,
+                subTasksIds,
+                taskId
+            }))
+        }
+    }
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -130,28 +145,29 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
                 statusId: status.statusId,
                 subtasks: subTasks,
             };
-
-            try {
-                const taskPayload = selectedTask ? {...baseTask, taskId: id} : baseTask;
-                const mutationFunc = selectedTask ? editTaskFunc : addTF;
-                const {data} = await mutationFunc({variables: {inputTask: taskPayload}});
-                const newSubIds = data.editTask.newSubIds
-                dispatch(
-                    editTask({
-                        prevStatus: current.status.toString(),
-                        id,
-                        selected,
-                        status: status.status.toString(),
-                        statusId: status.statusId,
-                        title: entries.title.toString(),
-                        description: (entries.desc).toString() ?? ''
-                        , tasks: subTasks, newSubIds
-                    })
-                )
-            } catch (error) {
-                console.log(error);
+            const taskPayload = selectedTask ? {...baseTask, taskId: id} : baseTask;
+            if (selectedTask) {
+                try {
+                    const {data} = await editTaskFunc({variables: {inputTask: taskPayload}});
+                    const newSubIds = data.editTask.newSubIds
+                    dispatch(
+                        editTask({
+                            prevStatus: current.status.toString(),
+                            id,
+                            selected,
+                            status: status.status.toString(),
+                            statusId: status.statusId,
+                            title: entries.title.toString(),
+                            description: (entries.desc).toString() ?? ''
+                            , tasks: subTasks, newSubIds
+                        })
+                    )
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                await handleAddNewTask(baseTask)
             }
-
             setSubTasks([])
             setEntries({title: '', desc: ''})
             setEditTask(false)

@@ -5,11 +5,11 @@ interface propTypes {
     label: string
     arrcat: column[]
     setVaria: React.Dispatch<React.SetStateAction<{
-        status: String
+        status: string
         statusId: number
     }>>
     varia: {
-        status: String
+        status: string
         statusId: number
     }
 }
@@ -36,7 +36,7 @@ function CustomDrop
             <h5>{label}</h5>
             <section
                 ref={select}
-                onClick={(e) => {
+                onClick={() => {
                     setShow(!show)
                 }}
                 className='select-option'

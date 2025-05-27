@@ -8,7 +8,6 @@ interface AsideProps {
     asideRef?: React.RefObject<HTMLFormElement | null>; // Ensure proper typing for `form`
 }
 
-
 const Aside: React.FC<AsideProps> = ({asideRef, setSelectBord}) => {
     const {setDark, dark, hideSide, setHideSide, tab} =
         UseAppContext()

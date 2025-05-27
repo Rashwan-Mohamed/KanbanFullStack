@@ -1,5 +1,4 @@
 import type {RootState} from "@/app/store";
-import {AppContextProvider} from "./context";
 import Home from "./home";
 
 import {
@@ -17,20 +16,20 @@ function App(): React.JSX.Element {
     const user = useAppSelector((state: RootState) => state.auth.user);
 
     return (
-        <AppContextProvider>
-            {<Router>
-                <Routes>
-                    <Route path="/" element={<LoginPage/>}/>
-                    <Route path="/register" element={<RegisterPage/>}/>
-                    <Route
-                        path="/kanban"
-                        element={user ? <Home/> : <Navigate to="/" replace/>}
-                    />
-                    <Route path="*" element={<h1>404 Not Found</h1>}/>
-                </Routes>
-            </Router>}
-        </AppContextProvider>
-    );
-};
+        <>   <Router>
+            <Routes>
+                {/*<Route path="/" element={<LoginPage/>}/>*/}
+                <Route path="/" element={<Home/>}/>
+                {/*<Route path="/register" element={<RegisterPage/>}/>*/}
+                {/*<Route*/}
+                {/*    path="/kanban"*/}
+                {/*    element={user ? <Home/> : <Navigate to="/" replace/>}*/}
+                {/*/>*/}
+                <Route path="*" element={<h1>404 Not Found</h1>}/>
+            </Routes>
+        </Router></>
+    )
+}
+
 
 export default App;

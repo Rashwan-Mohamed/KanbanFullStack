@@ -1,22 +1,34 @@
 import React, {useEffect} from "react";
 
-const useClickOutside = (
-    elements: React.RefObject<HTMLElement | null>[],
-    handler: () => void,
-    active: boolean
-) => {
-    useEffect(() => {
-        if (!active) return; // Only activate when needed
+type ElementsType = React.RefObject<HTMLElement | HTMLFormElement | null>[];
 
-        const checkIt = (e: MouseEvent) => {
-            if (elements.every(ref => ref.current && !ref.current.contains(e.target as Node))) {
-                handler();
-            }
-        };
-
-        window.addEventListener("click", checkIt);
-        return () => window.removeEventListener("click", checkIt);
-    }, [active, elements, handler]);
+type PropTypes = {
+    elements: ElementsType
+    handler: () => void;
+    active: boolean;
 };
+
+
+const useClickOutside = ({elements, handler, active}: PropTypes) => {
+        useEffect(() => {
+            if (!active) return;
+
+            const checkIt = (e: MouseEvent) => {
+                if (
+                    elements.every(
+                        (ref) => ref.current && !ref.current.contains(e.target as Node)
+                    )
+                ) {
+
+                    handler();
+                }
+            };
+
+            // Listen to mousedown instead of click for better UX (fires earlier)
+            document.addEventListener("mousedown", checkIt);
+            return () => document.removeEventListener("mousedown", checkIt);
+        }, [active, elements, handler]);
+    }
+;
 
 export default useClickOutside;
