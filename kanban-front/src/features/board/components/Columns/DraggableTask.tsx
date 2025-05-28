@@ -17,9 +17,6 @@ const DraggableTask = ({id, dark, setTaskShow, setSelectedTask, task, children}:
         id,
         data: {
             task
-        }, attributes: {
-            role: 'activationConstraint',
-            roleDescription: 's'
         }
     });
 
@@ -29,6 +26,11 @@ const DraggableTask = ({id, dark, setTaskShow, setSelectedTask, task, children}:
         color: !dark ? 'black' : '',
         border: !dark ? '1px solid var(--second)' : '',
     }
+    /*transform ? {
+    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+  } : undefined;*/
+
+    /*CSS.Translate.toString(transform)*/
     return (
         <li ref={setNodeRef} style={style} {...listeners} {...attributes}
             onClick={() => {
