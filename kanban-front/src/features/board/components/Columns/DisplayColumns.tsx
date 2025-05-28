@@ -1,5 +1,10 @@
 import React from 'react';
 import type {column, task} from "@/features/board/boardSlice";
+import DndMainContext from "@/features/board/components/Columns/DnDContext.tsx";
+import SortableColumnContext from "@/features/board/components/Columns/SortableColumnContext.tsx";
+import SortableTask from "@/features/board/components/Columns/SortableTask.tsx";
+import DroppableColumn from "@/features/board/components/Columns/DroppableColumn.tsx";
+
 
 interface propTypes {
     columns: column[]
@@ -9,51 +14,47 @@ interface propTypes {
 }
 
 const DisplayColumns: React.FC<propTypes> = ({columns, dark, setTaskShow, setSelectedTask}) => {
-    return (
-        <>
-            {columns.map((item, index) => {
-                const {id, name, tasks} = item
-                return (
-                    <article className='boardColumn' key={id}>
-              <span>
+        return (
+            <>
+                <DndMainContext>
+                    {columns.map((item, index) => {
+                        const {id, name, tasks} = item
+                        return (
+
+                                <SortableColumnContext key={id ?? index} tasks={tasks?.map((task) => task.id) ?? [0]}
+                                                       id={id ?? index}>
+                            <DroppableColumn id={id ?? index}>
+                                            <span>
                 <div style={{backgroundColor: `var(--circle${index})`}}></div>
                 <p>
                   {name} ({tasks?.length})
                 </p>
               </span>
-
-                        <ul
-                            className={`${!tasks?.length ? 'emptyColumn' : 'undefined'}`}
-                        >
-                            {tasks?.map((task) => {
-                                const {id, title, subtasks} = task
-                                const len = subtasks.length
-                                const com = subtasks.filter(sub => sub.isCompleted).length;
-                                return (
-                                    <li
-                                        style={{
-                                            backgroundColor: !dark ? 'white' : '',
-                                            color: !dark ? 'black' : '',
-                                            border: !dark ? '1px solid var(--second)' : '',
-                                        }}
-                                        onClick={() => {
-                                            setTaskShow(true)
-                                            setSelectedTask(task)
-                                        }}
-                                        key={id}
+                                    <ul
+                                        className={`${!tasks?.length ? 'emptyColumn' : 'undefined'}`}
                                     >
-                                        {title}
-                                        <p>{`${com} of ${len} subtasks`}</p>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </article>
-                )
-            })}
+                                        {tasks?.map((task) => {
+                                            return (
+                                                <SortableTask key={task.id ?? index} dark={dark}
+                                                              setTaskShow={setTaskShow}
+                                                              setSelectedTask={setSelectedTask} task={task}>
+                                                </SortableTask>
+                                            )
+                                        })}
+                                    </ul>
 
-        </>
-    );
-};
+
+                            </DroppableColumn>
+                                </SortableColumnContext>
+
+
+                        )
+                    })}
+                </DndMainContext>
+            </>
+        )
+            ;
+    }
+;
 
 export default DisplayColumns;
