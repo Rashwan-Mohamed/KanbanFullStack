@@ -16,6 +16,8 @@ const Board = () => {
     const [editTask, setEditTask] = useState(false) // to display task editing
     const [selectedTask, setSelectedTask] = useState<task | null>(null);
     const board = useGetBoard()
+
+
     if (!board) {
         return (
             <>
