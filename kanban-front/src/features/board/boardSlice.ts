@@ -86,6 +86,8 @@ interface editTaskPrams {
     newSubIds?: number[];
 }
 
+
+
 type deleteBoardInterface = { name: string };
 type AddTaskPayload = {
     payload: addTaskInterface;
@@ -284,6 +286,7 @@ export const boardSlice = createSlice({
 
             return state;
         },
+
     },
 });
 
