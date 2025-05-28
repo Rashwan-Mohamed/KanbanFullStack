@@ -18,7 +18,7 @@
             $inputTask = $this->args['inputTask'];
             $subTasks = $inputTask['subtasks'];
             // first change the task name desc and status along with statusId
-            $this->ds()->editTask($inputTask['taskId'], $inputTask['title'], $inputTask['statusId'], $inputTask['status'], $inputTask['description']);
+            $this->ds()->editTask($inputTask['taskId'], $inputTask['title'], $inputTask['statusId'], $inputTask['status'], $inputTask['description'], $inputTask['order']);
             // second, iterate through the provided array of subtasks and change them one by one then validate if they are a part of our subtasks.
             $newSubIds = (new SubTaskDataSource)->editSubTask($subTasks, $inputTask['taskId']);
             return ['newSubIds' => $newSubIds];
@@ -26,7 +26,7 @@
 
         public function editTaskStatus()
         {
-            $this->ds()->editTaskStatus($this->args['taskId'], $this->args['statusID']);
+            $this->ds()->editTaskStatus($this->args['taskId'], $this->args['statusID'], $this->args['order']);
         }
 
         public function deleteTask()
@@ -39,7 +39,7 @@
         {
             //a$tasksTitle, $taskDesc, $taskStatus, $statusId0
             $task = $this->args['inputTask'];
-            $taskId = $this->ds()->addTask($task['title'], $task['description'], $task['status'], $task['statusId']);
+            $taskId = $this->ds()->addTask($task['title'], $task['description'], $task['status'], $task['statusId'], $task['order']);
             $suBTC = new SubTaskDataSource();
             $subTaskId = [];
             foreach ($task['subtasks'] as $subTask) {

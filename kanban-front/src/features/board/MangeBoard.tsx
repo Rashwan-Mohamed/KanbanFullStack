@@ -13,6 +13,12 @@ import useCheckColumns from "@/features/board/components/hooks/useCheckColumns.t
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
 import ChangeTitle from "@/features/board/components/MangeTask/ChangeTitle.tsx";
 import {ModalFormWrapper} from "@/features/board/ModalFormComponent.tsx";
+import type {
+    AddBoardMutation,
+    AddBoardMutationVariables,
+    EditBoardMutation,
+    EditBoardMutationVariables, EditColumnMutation, EditColumnMutationVariables
+} from "@/__generated__/types.ts";
 
 function MangeBoard({setBoardShow, operation}: {
     setBoardShow: React.Dispatch<React.SetStateAction<boolean>>,
@@ -25,12 +31,12 @@ function MangeBoard({setBoardShow, operation}: {
         :
         ''
     )
-    const [columns, setColumns] = useState<column[]>(() => operation === 'edit' ? theOne.columns : [{name: ''}])
+    const [columns, setColumns] = useState<column[]>(() => operation === 'edit' ? theOne.columns : [{name: '', id: -1}])
     const [used, setUsed] = useState(columns.map(() => "valid"))
     const [usedBoard, setUsedBoard] = useState('valid')
-    const [addNB] = useMutation(ADD_BOARD)
-    const [editDF] = useMutation(EDIT_BOARD)
-    const [editCF] = useMutation(EDIT_COLUMN)
+    const [addNB] = useMutation<AddBoardMutation, AddBoardMutationVariables>(ADD_BOARD)
+    const [editDF] = useMutation<EditBoardMutation, EditBoardMutationVariables>(EDIT_BOARD)
+    const [editCF] = useMutation<EditColumnMutation, EditColumnMutationVariables>(EDIT_COLUMN)
     const boards = useAppSelector((state) => state.boards)
     const close = useCloseEscape()
     const dispatch = useAppDispatch()
@@ -51,7 +57,7 @@ function MangeBoard({setBoardShow, operation}: {
         return !repeatedBoard ? proceed : false
     }
     const resetForm = () => {
-        setColumns([{name: ''}])
+        setColumns([{name: '', id: -1}])
         setName('')
         setBoardShow(false)
         setSelected(name)
@@ -72,17 +78,22 @@ function MangeBoard({setBoardShow, operation}: {
     }
     const handleEditBoard = async () => {
         setSelected(name)
-        editDF({variables: {boardID: theOne.id, boardName: name}})
+        await editDF({variables: {boardID: (theOne.id), boardName: name}})
         const colName = columns.map((col) => col.name)
         const colId = columns.map((col) => col.id)
         try {
-            const {data} = await editCF({variables: {columnID: colId, columnName: colName, boardID: theOne.id}})
-            const colIds = data.editColumn.colIds
-            dispatch(editBoard({id: theOne.id, name, columns, colIds}))
+            const {data} = await editCF({variables: {columnID: colId, columnName: colName, boardID: theOne.id}});
+            if (!data || !data.editColumn) {
+                console.error("Error: Mutation returned undefined data.");
+                return;
+            }
+            const colIds = data.editColumn.colIds ?? []; // Ensures it's always an array
+            dispatch(editBoard({id: theOne.id, name, columns, colIds}));
+
         } catch (error) {
-            console.log(error);
+            console.error("Failed to edit column:", error);
         } finally {
-            resetForm()
+            resetForm();
         }
     }
     const handleAddNewBoard = async () => {
@@ -92,7 +103,10 @@ function MangeBoard({setBoardShow, operation}: {
                     boardName: name, boardColumnsId: columns.map((item) => item.name)
                 }
             });
-
+            if (!data || !data.addBoard) {
+                console.error("Error: Mutation returned undefined data.");
+                return;
+            }
             const {boardId, columnIds} = data.addBoard;
             if (boardId) {
                 dispatch(addNewBoard({name, columns, boardId, columnIds}))
@@ -130,7 +144,8 @@ function MangeBoard({setBoardShow, operation}: {
                 <NewItemInput items={columns} setItems={setColumns} used={used} setUsed={setUsed}
                               fromBoard={true}/>
                 {columns.length < 6 &&
-                    <AddNewColumn onAddNewItem={() => setColumns((old) => [...old, {name: ''}])} setUsed={setUsed}
+                    <AddNewColumn onAddNewItem={() => setColumns((old) => [...old, {name: '', id: -1}])}
+                                  setUsed={setUsed}
                                   type={'column'}/>
                 }
             </ModalFormWrapper>

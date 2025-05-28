@@ -59,7 +59,7 @@ function MangeTask({setEditTask, selectedTask}: propTypes) {
                     <AddNewColumn
                         onAddNewItem={() => setSubTasks((prevTasks) => [...prevTasks, {
                             title: '',
-                            isCompleted: false
+                            isCompleted: false, id: -1
                         }])
                         } setUsed={setUsed} type={'subtask'}/>}
                 <CustomDrop

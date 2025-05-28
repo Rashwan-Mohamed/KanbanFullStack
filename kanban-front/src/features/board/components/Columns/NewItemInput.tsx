@@ -2,7 +2,6 @@ import React from 'react';
 import type {column, subtask} from "@/features/board/boardSlice";
 
 
-
 interface PropTypes<T> {
     items: T[];
     setItems: React.Dispatch<React.SetStateAction<T[]>>;
@@ -34,9 +33,10 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
     }
 
     return (
-        <div  className='subtasksContainer'>
+        <div className='subtasksContainer'>
             <label htmlFor='Columns'>Columns</label>
             {items.map((item, term) => {
+                const oldItem = item.id !== -1
                 return (
                     <div key={term}>
                         <label className='spanerContainer'>
@@ -57,7 +57,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                                 type='text'
                                 id='Columns'
                             />
-                            {hasColumn(item) && item.id && !fromBoard && (
+                            {hasColumn(item) && oldItem && !fromBoard && (
                                 <div className='overlies'>
                                     <input type='text' value={item.name} readOnly/>
                                 </div>
@@ -67,7 +67,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                             )}
                         </label>
 
-                        {term !== 0 && !item.id && (
+                        {term !== 0 && !oldItem && (
                             <span
                                 onClick={() => {
                                     setItems((old) => old.filter((_, ind) => ind !== term))

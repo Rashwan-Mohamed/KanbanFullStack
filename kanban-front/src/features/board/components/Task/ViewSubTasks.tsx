@@ -2,6 +2,7 @@ import React from 'react';
 import type {subtask} from "@/features/board/boardSlice";
 import {useMutation} from "@apollo/client";
 import {CHANGE_SUBTASK} from "@/queries";
+import type {ChangeSubTaskMutation, ChangeSubTaskMutationVariables} from "@/__generated__/types.ts";
 
 interface propTypes {
     subtasks: subtask[]
@@ -11,7 +12,7 @@ interface propTypes {
 const ViewSubTasks = ({subtasks, setSubTasks}: propTypes) => {
     const len = subtasks.length
     const com = subtasks.filter(item => item.isCompleted).length;
-    const [changeSTF] = useMutation(CHANGE_SUBTASK)
+    const [changeSTF] = useMutation<ChangeSubTaskMutation, ChangeSubTaskMutationVariables>(CHANGE_SUBTASK)
 
     return (
         <ul>
@@ -40,7 +41,7 @@ const ViewSubTasks = ({subtasks, setSubTasks}: propTypes) => {
                                 });
 
                         }}
-                        key={id ?? index}
+                        key={id}
                     >
                         <label htmlFor='checkTask'>
                             <input

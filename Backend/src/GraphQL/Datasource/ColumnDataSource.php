@@ -20,7 +20,7 @@
             // then get columns ids associated with that boardId, if a column Id doesn't exist in that list it means it has been dropped! then drop it
             $newColumnsIds = [];
             foreach ($columnIds as $index => $columnId) {
-                if (isset($columnId)) {
+                if ($columnId !== -1) {
                     $this->db->query($this->EDIT_COLUMN_STATEMENT, ['name' => $columnNames[$index], 'id' => $columnId]);
                 } else {
                     $newColumnsIds[] = $this->addColumn($columnNames[$index], $boardId);

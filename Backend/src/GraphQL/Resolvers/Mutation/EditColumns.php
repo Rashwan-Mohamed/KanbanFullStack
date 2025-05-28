@@ -14,7 +14,6 @@
 
         public function editColumn()
         {
-
             $colNames = $this->args['columnName'];
             $colIds = $this->args['columnID'];
             $boardId = $this->args['boardID'];

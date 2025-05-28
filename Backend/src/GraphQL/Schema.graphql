@@ -7,25 +7,26 @@ type Query {
 }
 
 type board {
-    id: ID!
+    id: Int!
     name: String!
     columns: [Column!]!
 }
 type Column {
-    id: ID!
-    name: String
+    id: Int!
+    name: String!
     tasks: [task!]!
 }
 type task {
-    id: ID!
+    id: Int!
     title: String!
     description: String!
     status: String!
-    statusId: ID!
+    statusId: Int!
     subtasks: [SubTask!]!
+    order:Int!
 }
 type SubTask {
-    id: ID!
+    id: Int!
     title: String!
     isCompleted: Boolean!
 }
@@ -34,97 +35,98 @@ type SubTask {
 input subtask{
     title: String!
     isCompleted: Boolean!
-    id:ID
+    id:Int
 }
 input inputTask{
     title: String!
     description: String!
     status: String!
-    statusId: ID!
+    statusId: Int!
     subtasks: [subtask!]!
-    taskId:ID
+    taskId:Int
+    order:Int!
 }
 
 type AddBoardResponse {
-    boardId: ID!
-    columnIds: [ID!]!
+    boardId: Int!
+    columnIds: [Int!]!
 }
 type addTaskResponse{
-    taskId:ID!
-    subTasksIds:[ID!]!
+    taskId:Int!
+    subTasksIds:[Int!]!
 }
 type editColumnResponse{
-    colIds:[ID]
+    colIds:[Int!]!
 }
 type editTaskResponse{
-    newSubIds:[ID]
+    newSubIds:[Int!]!
 }
 type User {
-    id: ID!
+    id: Int!
     username: String!
     email: String!
 }
 type Mutation {
 
-    register(username: String!, email: String!, password: String!): String
-    login(email: String!, password: String!): User
-    logout: String
+    register(username: String!, email: String!, password: String!): String!
+    login(email: String!, password: String!): User!
+    logout: String!
 
     # Update a subtask (returns full updated SubTask)
     editSubTask(
         subtask:subtask
-    ): SubTask
+    ): SubTask!
 
     # Add a new subtask (returns created subTask)
-    addSubTask(subtask:subtask): SubTask
+    addSubTask(subtask:subtask): SubTask!
 
     #   DELETE SUBTASK
-    deleteSubTask(SubTaskID: ID!): Boolean
+    deleteSubTask(SubTaskID: Int!): Boolean!
 
     # change subtask to completed or not
-    changeSubTask(SubTaskID: ID!):Boolean
+    changeSubTask(SubTaskID: Int!):Boolean!
 
 
 
     # Update a task (returns full updated Task) newSubIds
-    editTask(inputTask:inputTask!): editTaskResponse
+    editTask(inputTask:inputTask!): editTaskResponse!
     # Update a task status
-    editTaskStatus(taskId:ID!,statusID:ID!): ID
+    editTaskStatus(taskId:Int!,statusID:Int!,order:Int!): Int!
     # Add a new task (returns created Task)
-    addTask(inputTask:inputTask!): addTaskResponse
+    addTask(inputTask:inputTask!): addTaskResponse!
 
     # Add a new task (returns created Task)
-    deleteTask(taskID: ID!): Boolean
+    deleteTask(taskID: Int!): Boolean!
 
 
 
     # Assign a subtask to a task (returns updated Task or SubTask or TaskWithSubtasks)
-    editTask_Sub(taskID: ID!, subTaskID: ID!): task
+    editTask_Sub(taskID: Int!, subTaskID: Int!): task!
 
 
 
 
     # Update a column (returns full updated Column)
-    editColumn(columnID: [ID]!, columnName: [String!]!,boardID:ID!): editColumnResponse
+    editColumn(columnID: [Int!]!, columnName: [String!]!,boardID:Int!): editColumnResponse!
     # Add a column (returns new Column)
-    addColumn(columnName: [String!]!,boardId:ID!): [ID]
+    addColumn(columnName: [String!]!,boardId:Int!): [Int]!
     # delete column
-    deleteColumn(columnID: [ID!]!): Boolean
+    deleteColumn(columnID: [Int!]!): Boolean!
 
 
 
 
     # Update board name (returns updated Board)
-    editBoard(boardID: ID!, boardName: String!): board
+    editBoard(boardID: Int!, boardName: String!): board!
     # delete board
-    deleteBoard(boardID: ID!): Boolean
+    deleteBoard(boardID: Int!): Boolean!
     # Add a board (returns new Board)
-    addBoard(boardName: String!, boardColumnsId: [String!]!):AddBoardResponse
+    addBoard(boardName: String!, boardColumnsId: [String!]!):AddBoardResponse!
 
 
 
     # Assign a column to a board (returns updated Board)
-    editColumnBoard(boardID: ID!, columnID: ID!): board
+    editColumnBoard(boardID: Int!, columnID: Int!): board!
 
-    editColumnTask(columnID: ID!, taskID: ID!): Column
+    editColumnTask(columnID: Int!, taskID: Int!): Column!
 }

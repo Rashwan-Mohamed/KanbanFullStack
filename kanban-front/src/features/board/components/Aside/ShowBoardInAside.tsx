@@ -19,11 +19,11 @@ const ShowBoardInAside: React.FC<propTypes> = ({setBoardShow, setSelectBord}) =>
         <article className='boards-header'>
             <p>ALL BOARDS ({len})</p>
             <ul>
-                {boards.map((item, index) => {
+                {boards.map((item) => {
                     const {name, id} = item
                     return (
                         <li
-                            key={id ?? index}
+                            key={id}
                             onClick={() => {
                                 setSelected(name)
                                 if (tab && setSelectBord) {

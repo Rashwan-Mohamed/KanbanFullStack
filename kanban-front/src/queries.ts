@@ -2,28 +2,29 @@ import { gql } from "@apollo/client";
 
 
 export const GET_BOARDS = gql`
-  query getBoards {
-    getBoards {
-        id
-        name
-      columns {
+    query getBoards {
+        getBoards {
             id
             name
-        tasks {
+            columns {
                 id
-                title
-                description
-                status
-                statusId
-          subtasks {
+                name
+                tasks {
                     id
                     title
-                    isCompleted
+                    description
+                    status
+                    statusId
+                    order
+                    subtasks {
+                        id
+                        title
+                        isCompleted
+                    }
                 }
             }
         }
     }
-}
 `;
 
 export const ADD_BOARD = gql`
@@ -34,7 +35,7 @@ export const ADD_BOARD = gql`
   }
 `;
 export const EDIT_BOARD = gql`
-  mutation EditBoard($boardID: ID!, $boardName: String!) {
+  mutation EditBoard($boardID: Int!, $boardName: String!) {
     editBoard(boardID: $boardID, boardName: $boardName) {
       id
       name
@@ -42,7 +43,7 @@ export const EDIT_BOARD = gql`
   }
 `;
 export const DELETE_BOARD = gql`
-  mutation DeleteBoard($boardID: ID!) {
+  mutation DeleteBoard($boardID: Int!) {
     deleteBoard(boardID: $boardID)
   }
 `;
@@ -51,19 +52,19 @@ export const DELETE_BOARD = gql`
 
 
 export const ADD_COLUMN = gql`
-  mutation AddColumn($columnName: [String!]!,$boardId:ID!) {
+  mutation AddColumn($columnName: [String!]!,$boardId:Int!) {
     addColumn(columnName:$columnName,boardId:$boardId)
   }
 `;
 export const EDIT_COLUMN = gql`
-  mutation EditColumn($columnID: [ID]!, $columnName: [String!]!,$boardID:ID!) {
+  mutation EditColumn($columnID: [Int!]!, $columnName: [String!]!,$boardID:Int!) {
     editColumn(columnID: $columnID, columnName: $columnName,boardID:$boardID) {
      colIds
     }
   }
 `;
 export const DELETE_COLUMN = gql`
-  mutation DeleteColumn($columnID: [ID!]!) {
+  mutation DeleteColumn($columnID: [Int!]!) {
     deleteColumn(columnID: $columnID) 
   }
 `;
@@ -89,12 +90,12 @@ export const EDIT_TASK = gql`
   }
 `;
 export const EDIT_TASK_STATUS = gql`
-  mutation EditTaskStatus($taskId: ID!, $statusID: ID!) {
-    editTaskStatus(taskId: $taskId, statusID: $statusID)
+  mutation EditTaskStatus($taskId: Int!, $statusID: Int!,$order:Int!) {
+    editTaskStatus(taskId: $taskId, statusID: $statusID,order:$order)
   }
 `;
 export const DELETE_TASK = gql`
-  mutation DeleteTask($taskID: ID!) {
+  mutation DeleteTask($taskID: Int!) {
     deleteTask(taskID: $taskID)
   }
 `;
@@ -103,31 +104,17 @@ export const DELETE_TASK = gql`
 
 
 export const ADD_SUBTASK = gql`
-  mutation AddSubTask(
-    $subTaskTitle: String!
-    $isCompleted:Boolean
-  ) {
-    addSubTask(
-      subTaskTitle:$subTaskTitle
-      isCompleted:$isCompleted)
-       {
-        id
-       title
-       isCompleted
+  mutation AddSubTask($subtask: subtask!) {
+    addSubTask(subtask: $subtask) {
+      id
+      title
+      isCompleted
     }
   }
 `;
 export const EDIT_SUBTASK = gql`
-  mutation EditSubTask(
-    $SubTaskID: ID!
-    $subTaskTitle: String!
-    $isCompleted: Boolean!
-  ) {
-    editSubTask(
-      SubTaskID: $SubTaskID
-      subTaskTitle: $subTaskTitle
-      isCompleted: $isCompleted
-    ) {
+  mutation EditSubTask($subtask:subtask) {
+    editSubTask(subtask:$subtask) {
       id
       title
       isCompleted
@@ -135,11 +122,11 @@ export const EDIT_SUBTASK = gql`
   }
 `;
 export const DELETE_SUBTASK = gql`
-  mutation DeleteSubTask($SubTaskID: ID!) {
+  mutation DeleteSubTask($SubTaskID: Int!) {
     deleteSubTask(SubTaskID: $SubTaskID) 
   }`;
 export const CHANGE_SUBTASK = gql`
-mutation ChangeSubTask($SubTaskID: ID!){
+mutation ChangeSubTask($SubTaskID: Int!){
 changeSubTask(SubTaskID:$SubTaskID)
 }
 `
@@ -148,7 +135,7 @@ changeSubTask(SubTaskID:$SubTaskID)
 
 
 export const EDIT_TASK_SUB = gql`
-  mutation EditTaskSub($taskID: ID!, $subTaskID: ID!) {
+  mutation EditTaskSub($taskID: Int!, $subTaskID: Int!) {
     editTask_Sub(taskID: $taskID, subTaskID: $subTaskID) {
       id
       title
@@ -161,7 +148,7 @@ export const EDIT_TASK_SUB = gql`
   }
 `;
 export const EDIT_COLUMN_BOARD = gql`
-  mutation EditColumnBoard($boardID: ID!, $columnID: ID!) {
+  mutation EditColumnBoard($boardID: Int!, $columnID: Int!) {
     editColumnBoard(boardID: $boardID, columnID: $columnID) {
       id
       name
@@ -173,7 +160,7 @@ export const EDIT_COLUMN_BOARD = gql`
   }
 `;
 export const EDIT_COLUMN_TASK = gql`
-  mutation EditColumnTask(  $columnID: ID!, $taskID: ID!) {
+  mutation EditColumnTask(  $columnID: Int!, $taskID: Int!) {
     editColumnTask(columnID: $columnID, taskID: $taskID) {
       id
       name
