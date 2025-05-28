@@ -21,6 +21,7 @@ interface propTypes {
     setEditTask: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+
 function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
     const [deleteTF] = useMutation(DELETE_TASK)
     const {selected, dark} = UseAppContext()
