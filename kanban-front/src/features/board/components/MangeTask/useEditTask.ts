@@ -9,6 +9,12 @@ import {useAppDispatch} from "@/app/hooks";
 import type {task, board} from "../../boardSlice";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
+import type {
+    EditTaskMutation,
+    EditTaskMutationVariables,
+    AddTaskMutation,
+    AddTaskMutationVariables
+} from "@/__generated__/types.ts";
 
 
 type UseEditTaskReturn = {
@@ -34,18 +40,19 @@ type UseEditTaskReturn = {
 
 export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boolean>>, selectedTask: task | null): UseEditTaskReturn | null {
     const {selected} = UseAppContext()
-    const [editTaskFunc] = useMutation(EDIT_TASK)
-    const [addTF] = useMutation(ADD_TASK)
+    const [editTaskFunc] = useMutation<EditTaskMutation, EditTaskMutationVariables>(EDIT_TASK)
+    const [addTF] = useMutation<AddTaskMutation, AddTaskMutationVariables>(ADD_TASK)
 
     const theOne = useGetBoard()
     const initialStatus = theOne.columns[0]
-    const initialTask = theOne?.columns.flatMap(c => c.tasks).find(t => t?.id === selectedTask?.id) ?? {
-        id: 0,
+    const initialTask = theOne.columns.flatMap(c => c.tasks).find(t => t?.id === selectedTask?.id) ?? {
+        id: -1,
         title: '',
         description: ''
         , subtasks: [],
         status: initialStatus.name,
-        statusId: initialStatus.id ?? 0
+        statusId: initialStatus.id,
+        order: initialStatus.tasks?.length ? initialStatus.tasks?.length + 1 : 0,
     };
     const [current, setCurrent] = useState(() => initialTask);
     const {id} = current
@@ -62,13 +69,14 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         statusId: current.statusId,
     })
     const dispatch = useAppDispatch()
-
+    const getOrderForNewTask = (): number => {
+        return theOne.columns.find((col) => col.id === status.statusId)?.tasks?.length ?? 1;
+    }
 
     useEffect(() => {
         const task = theOne?.columns.flatMap(column => column.tasks).find(task => task?.id === id);
         if (task) setCurrent(task);
     }, [theOne, id]);
-
 
 
     const validate = (): boolean => {
@@ -112,8 +120,10 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         status: string
         statusId: number
         subtasks: subtask[]
+        order: number
     }) => {
         const {data} = await addTF({variables: {inputTask: baseTask}})
+        if (!data || data.addTask) throw new Error('Mutation did not returned data')
         const {subTasksIds, taskId} = data.addTask;
         if (taskId) {
             dispatch(addTask({
@@ -138,18 +148,22 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
 
         //newSubIds
         if (validate()) {
-
             const baseTask = {
                 title: entries.title,
                 description: entries.desc ?? '',
                 status: status.status,
                 statusId: status.statusId,
                 subtasks: subTasks,
+                order: getOrderForNewTask(),
             };
-            const taskPayload = selectedTask ? {...baseTask, taskId: id} : baseTask;
+            const taskPayload = selectedTask ? {...baseTask, taskId: id, order: selectedTask.order} : baseTask;
             if (selectedTask) {
                 try {
                     const {data} = await editTaskFunc({variables: {inputTask: taskPayload}});
+                    if (!data || !data.editTask) {
+                        console.error("Error: Mutation returned undefined data.");
+                        return;
+                    }
                     const newSubIds = data.editTask.newSubIds
                     dispatch(
                         editTask({
@@ -160,7 +174,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
                             statusId: status.statusId,
                             title: entries.title.toString(),
                             description: (entries.desc).toString() ?? ''
-                            , tasks: subTasks, newSubIds
+                            , tasks: subTasks, newSubIds, order: selectedTask.order
                         })
                     )
                 } catch (error) {

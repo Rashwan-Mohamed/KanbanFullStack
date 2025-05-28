@@ -21,9 +21,9 @@ const DisplayColumns: React.FC<propTypes> = ({columns, dark, setTaskShow, setSel
                         const {id, name, tasks} = item
                         return (
 
-                                <SortableColumnContext key={id ?? index} tasks={tasks?.map((task) => task.id) ?? [0]}
-                                                       id={id ?? index}>
-                            <DroppableColumn id={id ?? index}>
+                            <SortableColumnContext key={id ?? index} tasks={tasks?.map((task) => task.id) ?? [0]}
+                                                   id={id ?? index}>
+                                <DroppableColumn id={id ?? index}>
                                             <span>
                 <div style={{backgroundColor: `var(--circle${index})`}}></div>
                 <p>
@@ -43,9 +43,8 @@ const DisplayColumns: React.FC<propTypes> = ({columns, dark, setTaskShow, setSel
                                         })}
                                     </ul>
 
-
-                            </DroppableColumn>
-                                </SortableColumnContext>
+                                </DroppableColumn>
+                            </SortableColumnContext>
 
 
                         )

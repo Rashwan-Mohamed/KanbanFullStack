@@ -9,7 +9,7 @@ export interface board {
 }
 
 export interface column {
-    id?: number;
+    id: number;
     name: string;
     tasks?: task[];
 }
@@ -21,10 +21,11 @@ export interface task {
     status: string;
     statusId: number;
     subtasks: subtask[];
+    order: number;
 }
 
 export interface subtask {
-    id?: number;
+    id: number;
     title: string;
     isCompleted: boolean;
 }
@@ -83,7 +84,8 @@ interface editTaskPrams {
     title: string;
     description: string;
     tasks: subtask[];
-    newSubIds?: number[];
+    newSubIds: number[];
+    order: number;
 }
 
 type deleteBoardInterface = { name: string };
@@ -167,7 +169,7 @@ export const boardSlice = createSlice({
         deleteBoard: (state, action: PayloadAction<deleteBoardInterface>) => {
             const {name} = action.payload;
 
-            return (state = state.filter((item) => item.name !== name));
+            return (state.filter((item) => item.name !== name));
         },
         addTask: {
             reducer: (state, action: PayloadAction<addTaskInterface>) => {
@@ -175,7 +177,7 @@ export const boardSlice = createSlice({
                 const one = state.find((item) => item.name === selected);
                 one?.columns.forEach((item) => {
                     if (item.name === status) {
-                        item.tasks?.push(task);
+                        item.tasks?.push({...task, order: item.tasks.length + 1});
                     }
                 });
                 return state;
@@ -194,6 +196,7 @@ export const boardSlice = createSlice({
                     ...sub,
                     id: subTasksIds[index],
                 }));
+
                 return {
                     payload: {
                         selected,
@@ -205,6 +208,7 @@ export const boardSlice = createSlice({
                             status,
                             statusId,
                             subtasks: tasksa,
+                            order: 0
                         },
                     },
                 };
@@ -247,10 +251,10 @@ export const boardSlice = createSlice({
                           title,
                           description,
                           tasks,
-                          newSubIds,
+                          newSubIds, order
                       }: editTaskPrams): EditTaskPayload => {
                 const newTasks = tasks.map((sub) =>
-                    sub.id ? sub : {...sub, id: newSubIds?.shift() ?? 0}
+                    sub.id !== -1 ? sub : {...sub, id: newSubIds?.shift() ?? 0}
                 );
                 return {
                     payload: {
@@ -265,6 +269,7 @@ export const boardSlice = createSlice({
                             status,
                             statusId,
                             subtasks: newTasks,
+                            order
                         },
                     },
                 };
@@ -284,6 +289,11 @@ export const boardSlice = createSlice({
 
             return state;
         },
+        // changeTaskIndex: (_, {payload: {columnId, taskId, newIndex}}: {
+        //     payload: { columnId: number, taskId: number, newIndex: number }
+        // }) => {
+        //
+        // }
     },
 });
 

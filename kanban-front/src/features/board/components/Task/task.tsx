@@ -13,6 +13,7 @@ import ViewSubTasks from "@/features/board/components/Task/ViewSubTasks";
 import useTaskStatusUpdater from "@/features/board/components/Task/useTaskStatusUpdater";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 import AssureDelete from "@/features/board/components/AssureDelete.tsx";
+import type {DeleteTaskMutation, DeleteTaskMutationVariables} from "@/__generated__/types.ts";
 
 
 interface propTypes {
@@ -22,13 +23,12 @@ interface propTypes {
 }
 
 function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
-    const [deleteTF] = useMutation(DELETE_TASK)
+    const [deleteTF] = useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DELETE_TASK)
     const {selected, dark} = UseAppContext()
     const theOne = useGetBoard()
     const formRef = useRef<HTMLFormElement>(null)
     const doper = useRef<HTMLButtonElement>(null)
     const drop = useRef<HTMLButtonElement>(null)
-
     const [toggle, setToggle] = useState(false)
     const [status, setStatus] = useState({
         status: selectedTask.status,
@@ -39,7 +39,7 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
     const [sure, setSure] = useState(false)
     const {id, title, description} = selectedTask
     const dispatch = useAppDispatch()
-
+    const taskIndex = theOne.columns?.find((col) => col.id === status.statusId)?.tasks?.findIndex((task) => task.id === id) ?? 1;
     const close = useCloseEscape()
 
     useEffect(() => {
@@ -50,15 +50,11 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
 
     const handleDelete = async () => {
         // to delete a task, we need {selected, status, id}
-        await deleteTF({variables: {taskID: id}})
+        await deleteTF({variables: {taskID: (id)}})
         dispatch(deleteTask({selected, status: status.status.toString(), id}))
         setTaskShow(false)
     }
-    const unShow = (e: React.MouseEvent) => {
-        if (formRef.current && !formRef.current.contains(e.target as Node)) {
-            setTaskShow(false)
-        }
-    }
+
     useClickOutside({
         elements: [drop, doper], handler: () => setToggle(false)
         ,
@@ -75,7 +71,8 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
         status: status.status.toString(),
         prevStatus: prevStatus.toString(),
         id,
-        statusId: status.statusId
+        statusId: status.statusId,
+        order: taskIndex
     });
 
     //      to dispatch and action, edit task and delete task
@@ -93,11 +90,14 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
                 statusId: status.statusId,
                 title: title.toString(),
                 description: description.toString(),
-                tasks: subtasks,
+                tasks: subtasks, newSubIds: subtasks.map(t => t.id), order: selectedTask.order
             })
         )
     }
-
+    useClickOutside({
+        active: true, handler: () => setTaskShow(false), elements:
+            [formRef]
+    })
     return (
         <>
 
@@ -105,7 +105,6 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
                                    handleDelete={handleDelete} type={'task'}/>}
             <div
                 style={{display: sure ? 'none' : ''}}
-                onClick={unShow}
                 className='modalOverlay'
             >
                 <section ref={formRef} className='selectedTask'>

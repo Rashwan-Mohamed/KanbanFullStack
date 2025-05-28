@@ -11,10 +11,11 @@ import useCheckColumns from '../hooks/useCheckColumns'
 import AddNewColumn from "@/features/board/components/Columns/AddNewColumn";
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
 import {ModalFormWrapper} from "@/features/board/ModalFormComponent.tsx";
+import type {AddColumnMutation, AddColumnMutationVariables} from "@/__generated__/types.ts";
 
 function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction<boolean>> }) {
     const {setSelected} = UseAppContext()
-    const [addCF] = useMutation(ADD_COLUMN)
+    const [addCF] = useMutation<AddColumnMutation, AddColumnMutationVariables>(ADD_COLUMN)
     const theOne = useGetBoard()
     const [name, setName] = useState(theOne.name)
     const [columns, setColumns] = useState(theOne.columns)
@@ -30,7 +31,7 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
     }, [close])
 
     const resetForm = () => {
-        setColumns([{name: ''}])
+        setColumns([{name: '',id:-1}])
         setName('')
         setColumn(false)
         setSelected(name)
@@ -42,9 +43,11 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
         if (columnOkay) {
             const colNames = columns.filter(item => !item.id).map(item => item.name);
             try {
-                const {data} = await addCF({variables: {columnName: colNames, boardId: theOne.id}})
-                const colIds = data.addColumn;
-                dispatch(editBoard({id: theOne.id, name, columns, colIds}))
+                const {data} = await addCF({variables: {columnName: colNames, boardId: (theOne.id)}})
+                const colIds = data?.addColumn?.map(col => Number(col));
+                dispatch(editBoard({
+                    id: theOne.id, name, columns, colIds: colIds ?? [0]
+                }))
             } catch (error) {
                 console.error("Error adding columns:", error);
             } finally {
@@ -66,7 +69,7 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
                 </div>
                 <NewItemInput items={columns} setItems={setColumns} used={used} setUsed={setUsed}/>
                 {columns.length < 6 &&
-                    <AddNewColumn onAddNewItem={() => setColumns((old) => [...old, {name: ''}])} setUsed={setUsed}
+                    <AddNewColumn onAddNewItem={() => setColumns((old) => [...old, {name: '',id:-1}])} setUsed={setUsed}
                                   type={'column'}/>}
             </ModalFormWrapper>
         </>
