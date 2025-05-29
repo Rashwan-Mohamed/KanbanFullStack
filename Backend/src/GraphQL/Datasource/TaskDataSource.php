@@ -39,8 +39,10 @@
         {
             try {
                 $this->db->query($this->DELETE_FROM_TASKS_STATEMENT, ['id' => $taskId]);
+                return true;
             } catch (Exception $e) {
-                echo "Error deleting task: " . $e->getMessage();
+//                echo "Error deleting task: " . $e->getMessage();
+                return false;
             }
         }
 

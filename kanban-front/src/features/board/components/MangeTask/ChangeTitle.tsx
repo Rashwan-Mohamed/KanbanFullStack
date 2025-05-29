@@ -12,6 +12,7 @@ function ChangeTitle({usedBoard, value, onChange}: propTypes) {
         <div>
             <label htmlFor='title'>title</label>
             <input
+                autoComplete='off'
                 style={{
                     border: usedBoard !== 'valid' ? '2px solid #EA5555' : '',
                 }}

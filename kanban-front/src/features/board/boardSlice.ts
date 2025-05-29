@@ -158,7 +158,7 @@ export const boardSlice = createSlice({
                           }: editBoardInterface): BoardPayload => {
                     let nci = 0;
                     const newColumns = columns.map((col) => {
-                        const id = col.id ?? colIds[nci++];
+                        const id = col.id === -1 ? colIds[nci++] : col.id;
                         const tasks =
                             col.tasks?.map((cert) => ({...cert, status: col.name})) ?? [];
                         return {id, name: col.name, tasks};
