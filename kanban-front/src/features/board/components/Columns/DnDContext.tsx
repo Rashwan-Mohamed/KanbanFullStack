@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-    closestCenter,
     KeyboardSensor,
     type DragEndEvent, DndContext,
     MouseSensor,

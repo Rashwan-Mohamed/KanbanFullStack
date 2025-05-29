@@ -15,45 +15,43 @@ interface propTypes {
 
 const DisplayColumns: React.FC<propTypes> = ({columns, dark, setTaskShow, setSelectedTask}) => {
         return (
-            <>
-                <DndMainContext>
-                    {columns.map((item, index) => {
-                        const {id, name, tasks} = item
-                        if (!tasks) return null
-                        const sortedTasks = [...tasks]
-                        sortedTasks.sort((a, b) => a.order - b.order)
-                        return (
 
-                            <SortableColumnContext key={id ?? index} tasks={tasks?.map((task) => task.id) ?? [0]}
-                                                   id={id ?? index}>
-                                <DroppableColumn id={id ?? index}>
+            <DndMainContext>
+                {columns.map((item, index) => {
+                    const {id, name, tasks} = item
+                    if (!tasks) return null
+                    return (
+
+                        <SortableColumnContext key={id ?? index} tasks={tasks?.map((task) => task.id) ?? [0]}
+                                               id={id ?? index}>
+                            <DroppableColumn id={id ?? index}>
                                             <span>
                 <div style={{backgroundColor: `var(--circle${index})`}}></div>
                 <p>
                   {name} ({tasks?.length})
                 </p>
               </span>
-                                    <ul
-                                        className={`${!tasks?.length ? 'emptyColumn' : 'undefined'}`}
-                                    >
-                                        {sortedTasks.map((task) => {
-                                            return (
-                                                <SortableTask key={task.id ?? index} dark={dark}
-                                                              setTaskShow={setTaskShow}
-                                                              setSelectedTask={setSelectedTask} task={task}>
-                                                </SortableTask>
-                                            )
-                                        })}
-                                    </ul>
+                                <ul
+                                    className={`${!tasks?.length ? 'emptyColumn' : 'undefined'}`}
+                                >
+                                    {tasks.map((task, taskIndex) => {
+                                        return (
+                                            <SortableTask key={task.id ?? taskIndex} dark={dark}
+                                                          setTaskShow={setTaskShow}
+                                                          setSelectedTask={setSelectedTask} task={task}>
+                                            </SortableTask>
+                                        )
+                                    })}
+                                </ul>
 
-                                </DroppableColumn>
-                            </SortableColumnContext>
+                            </DroppableColumn>
+                        </SortableColumnContext>
 
 
-                        )
-                    })}
-                </DndMainContext>
-            </>
+                    )
+                })}
+            </DndMainContext>
+
         )
             ;
     }

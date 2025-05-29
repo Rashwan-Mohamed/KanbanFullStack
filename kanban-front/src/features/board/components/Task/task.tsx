@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect, useMemo} from 'react'
-import {editTask, deleteTask} from '../../boardSlice'
+import { deleteTask} from '../../boardSlice'
 import {UseAppContext} from '@/context'
 import useCloseEscape from '../hooks/useCloseEscape.tsx'
 import CustomDrop from '../customDrop'
