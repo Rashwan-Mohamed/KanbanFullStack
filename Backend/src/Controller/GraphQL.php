@@ -7,6 +7,7 @@
     use App\GraphQL\Resolvers\Mutation\EditColumns;
     use App\GraphQL\Resolvers\Mutation\EditSubTask;
     use App\GraphQL\Resolvers\Mutation\EditTask;
+    use App\GraphQL\Resolvers\Queries\Auth;
     use App\GraphQL\Resolvers\Queries\GetBoards;
     use GraphQL\GraphQL as GraphQLBase;
     use GraphQL\Language\Parser;
@@ -51,7 +52,10 @@
                     'deleteTask' => fn($rootValue, $args) => (new EditTask($args))->deleteTask(),
                     'addTask' => fn($rootValue, $args) => (new EditTask($args))->addTask(),
                     'changeOrder' => fn($rootValue, $args) => (new EditTask($args))->changeOrder(),
-                    'changeSubTask' => fn($rootValue, $args) => (new EditSubTask($args))->changeSubTask()
+                    'changeSubTask' => fn($rootValue, $args) => (new EditSubTask($args))->changeSubTask(),
+                    'login' => fn($rootValue, $args) => (new Auth($args))->login(),
+                    'logout' => fn($rootValue, $args) => (new Auth($args))->logout(),
+                    'register' => fn($rootValue, $args) => (new Auth($args))->register(),
                 ];
 
 
@@ -81,3 +85,4 @@
     }
 
     GraphQL::handle();
+

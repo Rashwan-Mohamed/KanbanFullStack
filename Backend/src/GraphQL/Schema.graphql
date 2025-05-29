@@ -66,11 +66,20 @@ type User {
     username: String!
     email: String!
 }
+
+input userCredentials{
+    username:String!
+    password:String!
+}
+type loginResponse {
+    message:String!
+    user:User
+}
 type Mutation {
 
-    register(username: String!, email: String!, password: String!): String!
-    login(email: String!, password: String!): User!
-    logout: String!
+    register(username: String!, email: String!, password: String!): Boolean!
+    login(userCredentials:userCredentials!): loginResponse!
+    logout: Boolean!
 
     # Update a subtask (returns full updated SubTask)
     editSubTask(
