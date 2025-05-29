@@ -15,7 +15,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
     const hasColumn = (item: column | subtask): item is column => {
         return "name" in item; // Assuming 'column' has a 'name' property
     };
-
+    const isColumn = fromBoard || (items.length && hasColumn(items[0]))
     const handleChangeColumnName = (name: string, term: number) => {
         setItems((prevColumns) =>
             prevColumns.map((column, index) =>
@@ -34,7 +34,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
 
     return (
         <div className='subtasksContainer'>
-            <label htmlFor='Columns'>{hasColumn(items[0]) ? 'Columns' : 'Subtasks'}</label>
+            <label htmlFor='Columns'>{isColumn ? 'Columns' : 'Subtasks'}</label>
             {items.map((item, term) => {
                 const oldItem = item.id !== -1
                 return (
@@ -68,16 +68,16 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                             )}
                         </label>
 
-                        {((term !== 0 && fromBoard) || !hasColumn(item)) && (
+                        {!(isColumn && (term === 0 || oldItem)) && (
                             <span
                                 onClick={() => {
-                                    setItems((old) => old.filter((_, ind) => ind !== term))
+                                    setItems((old) => old.filter((_, ind) => ind !== term));
                                     setUsed((prevUsed) => prevUsed.filter((_, ind) => ind !== term));
                                 }}
                                 className='deleteColIn'
                             >
-{svg1}
-                                    </span>
+        {svg1}
+    </span>
                         )}
                     </div>
                 )
@@ -85,7 +85,8 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
         </div>
     );
 };
-// display it unless its a column and its from board and its not the first element in case its column
+// display it unless it's a column and its from board, and it's not the first element in case its column
+// term===0 && isColumn && oldItem
 export default NewItemInput;
 
 const svg1 = <svg

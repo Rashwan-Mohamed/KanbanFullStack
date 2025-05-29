@@ -26,7 +26,7 @@
 
         public function editTaskStatus()
         {
-            $this->ds()->editTaskStatus($this->args['taskId'], $this->args['statusID'], $this->args['order']);
+          return  $this->ds()->editTaskStatus($this->args['taskId'], $this->args['statusID'], $this->args['order']);
         }
 
         public function deleteTask()

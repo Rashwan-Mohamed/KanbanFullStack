@@ -295,12 +295,12 @@ export const boardSlice = createSlice({
                     };
                 },
             },
-
-            // changeTaskIndex: (_, {payload: {columnId, taskId, newIndex}}: {
-            //     payload: { columnId: number, taskId: number, newIndex: number }
-            // }) => {
-            //
-            // }
+            // taskId, prevStatusId, statusId
+//             changeTaskStaus: (state, {payload: {prevStatusId, taskId, statusId, selected}}: {
+//                 payload: { prevStatusId: number, taskId: number, statusId: number, selected: string }
+//             }) => {
+// // get the column
+//             }
         },
     })
 ;

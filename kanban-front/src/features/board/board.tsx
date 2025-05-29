@@ -7,6 +7,7 @@ import NoBoardFound from './components/NoBoardFound'
 import type {task} from './boardSlice'
 import DisplayColumns from "@/features/board/components/Columns/DisplayColumns";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard.ts";
+import {useDroppable} from "@dnd-kit/core";
 
 const Board = () => {
     const {dark, hideSide, setHideSide} = UseAppContext()
@@ -16,6 +17,9 @@ const Board = () => {
     const [editTask, setEditTask] = useState(false) // to display task editing
     const [selectedTask, setSelectedTask] = useState<task | null>(null);
     const board = useGetBoard()
+    const {setNodeRef} = useDroppable({
+        id: 'unique-id',
+    });
     if (!board) {
         return (
             <>
@@ -27,6 +31,7 @@ const Board = () => {
     return (
         <>
             <section
+                ref={setNodeRef}
                 style={{
                     backgroundColor: !dark ? 'var(--whiteFirst)' : '',
                     left: hideSide ? '-300px' : '0',

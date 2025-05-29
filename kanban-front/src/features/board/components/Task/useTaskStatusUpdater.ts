@@ -14,9 +14,8 @@ interface Props {
 
 const useTaskStatusUpdater = ({status, prevStatus, id, statusId, order}: Props) => {
     const [editTSF] = useMutation<EditTaskStatusMutation, EditTaskStatusMutationVariables>(EDIT_TASK_STATUS);
-
     useEffect(() => {
-        if (prevStatus !== status) {
+        if (prevStatus !== status && order !== -1) {
             editTSF({variables: {taskId: (id), statusID: (statusId), order}})
                 .then((res) => {
                     console.log("Task status updated:", res);

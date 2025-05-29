@@ -33,6 +33,7 @@
             $statusName = $statusName[0]['name'];
             $this->db->query($this->EDIT_TASK_STATUS, ['statusId' => $statusId, 'taskId' => $taskId, 'status' => $statusName]);
             $this->db->query($this->EDIT_COLUMN_TASK, ['columnId' => $statusId, 'taskId' => $taskId]);
+            return true;
         }
 
         public function deleteTask($taskId)
