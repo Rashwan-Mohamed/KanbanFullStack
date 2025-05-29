@@ -49,7 +49,8 @@
                         'description' => $row['task_description'],
                         'status' => $row['task_status'],
                         'statusId' => $row['statusId'],
-                        'subtasks' => []
+                        'subtasks' => [],
+                        'order' => $row['task_order']
                     ];
                 }
 
@@ -71,7 +72,6 @@
                     $column['tasks'] = array_values($column['tasks']);
                 }
             }
-
             return array_values($boards);
         }
     }

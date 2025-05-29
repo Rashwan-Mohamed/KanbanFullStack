@@ -2,23 +2,22 @@ import React, {useRef} from 'react';
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
 
 interface propTypes {
-
     selected: string;
     setSure: React.Dispatch<React.SetStateAction<boolean>>;
     handleDelete: () => void;
     type: string
+    setTaskShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AssureDelete: React.FC<propTypes> = ({
-                                               selected, setSure, handleDelete, type
+                                               selected, setSure, handleDelete, type, setTaskShow
                                            }) => {
-        const deleteRef = useRef<HTMLDivElement>(null);
+        const deleteRef = useRef<HTMLElement>(null);
         useClickOutside({
             elements: [deleteRef], handler: () => setSure(false)
             ,
             active: true
         })
-        // onClick={(e) => unShow(e)}
         return (
             <div className='confirmDelete'>
                 <article ref={deleteRef}>
@@ -31,8 +30,10 @@ const AssureDelete: React.FC<propTypes> = ({
                     <div>
                         <button
                             onClick={() => {
-                                setSure(false)
                                 handleDelete()
+                                setSure(false)
+                                if (setTaskShow)
+                                    setTaskShow(false)
                             }}
                         >
                             delete

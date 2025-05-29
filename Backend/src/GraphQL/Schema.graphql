@@ -117,7 +117,7 @@ type Mutation {
 
 
     # Update board name (returns updated Board)
-    editBoard(boardID: Int!, boardName: String!): board!
+    editBoard(boardID: Int!, boardName: String!): Boolean
     # delete board
     deleteBoard(boardID: Int!): Boolean!
     # Add a board (returns new Board)

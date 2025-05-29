@@ -49,6 +49,7 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
     }, [close])
 
     const handleDelete = async () => {
+        console.log('called')
         // to delete a task, we need {selected, status, id}
         await deleteTF({variables: {taskID: (id)}})
         dispatch(deleteTask({selected, status: status.status.toString(), id}))
@@ -95,14 +96,14 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
         )
     }
     useClickOutside({
-        active: true, handler: () => setTaskShow(false), elements:
+        active: !sure, handler: () => setTaskShow(false), elements:
             [formRef]
     })
     return (
         <>
 
             {sure && <AssureDelete selected={title.toString()} setSure={setSure}
-                                   handleDelete={handleDelete} type={'task'}/>}
+                                   handleDelete={handleDelete} type={'task'} setTaskShow={setTaskShow}/>}
             <div
                 style={{display: sure ? 'none' : ''}}
                 className='modalOverlay'

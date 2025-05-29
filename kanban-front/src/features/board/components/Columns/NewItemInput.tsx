@@ -67,7 +67,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                             )}
                         </label>
 
-                        {term !== 0 && !oldItem && (
+                        {((term !== 0 && fromBoard) || !hasColumn(item)) && (
                             <span
                                 onClick={() => {
                                     setItems((old) => old.filter((_, ind) => ind !== term))
@@ -84,7 +84,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
         </div>
     );
 };
-
+// display it unless its a column and its from board and its not the first element in case its column
 export default NewItemInput;
 
 const svg1 = <svg

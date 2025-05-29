@@ -22,9 +22,8 @@
             foreach ($subTasks as $subTask) {
                 $subId = $subTask['id'] ?? null;
                 $subTaskName = $subTask['title'];
-                if (isset($subId)) {
+                if (($subId) !== -1) {
                     $this->db->query($this->EDIT_SUBTASK_STATEMENT, ['title' => $subTaskName, 'id' => $subId]);
-
                 } else {
                     $newSubIds[] = $this->addSubTask($subTaskName, 0, $taskId);
                 }
@@ -52,6 +51,7 @@
             }
             $this->db->query($this->CHANGE_SUBTASK_STATE, ["id" => $subTaskId, "com" => $newState]);
             // get isCompleted first then change it.
+            return true;
         }
 
         public function deleteSubTask($taskId)

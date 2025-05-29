@@ -17,7 +17,7 @@ const useTaskStatusUpdater = ({status, prevStatus, id, statusId, order}: Props) 
 
     useEffect(() => {
         if (prevStatus !== status) {
-            editTSF({variables: {taskId: String(id), statusID: String(statusId), order}})
+            editTSF({variables: {taskId: (id), statusID: (statusId), order}})
                 .then((res) => {
                     console.log("Task status updated:", res);
                 })

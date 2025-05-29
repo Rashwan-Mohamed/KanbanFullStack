@@ -38,7 +38,7 @@ export type Mutation = {
   deleteColumn: Scalars['Boolean']['output'];
   deleteSubTask: Scalars['Boolean']['output'];
   deleteTask: Scalars['Boolean']['output'];
-  editBoard: Board;
+  editBoard?: Maybe<Scalars['Boolean']['output']>;
   editColumn: EditColumnResponse;
   editColumnBoard: Board;
   editColumnTask: Column;
@@ -247,7 +247,7 @@ export type EditBoardMutationVariables = Exact<{
 }>;
 
 
-export type EditBoardMutation = { __typename?: 'Mutation', editBoard: { __typename?: 'board', id: number, name: string } };
+export type EditBoardMutation = { __typename?: 'Mutation', editBoard?: boolean | null };
 
 export type DeleteBoardMutationVariables = Exact<{
   boardID: Scalars['Int']['input'];

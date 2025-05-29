@@ -10,27 +10,25 @@ import Aside from './features/board/components/Aside/aside'
 import useCloseEscape from './features/board/components/hooks/useCloseEscape.tsx'
 import type {GetBoardsQuery, GetBoardsQueryVariables} from "@/__generated__/types.ts";
 
-/*const { loading, error, data } = useQuery<GetBoardsQuery, GetBoardsQueryVariables>(GET_BOARDS, {
-    fetchPolicy: "cache-and-network",
-    context: { addTypename: false },
-});*/
+
 function Home() {
-    const {dark, tab, setSelected} = UseAppContext()
+    const {dark, tab, setSelected,board} = UseAppContext()
     const [selectBord, setSelectBord] = useState(false)
     const form = useRef<HTMLFormElement>(null);
     const close = useCloseEscape()
     const dispatch = useDispatch();
-    const {loading, error, data} = useQuery<GetBoardsQuery, GetBoardsQueryVariables>(GET_BOARDS, {
-        fetchPolicy: "cache-and-network",
-        context: {addTypename: false},
+
+    const { loading, error, data } = useQuery<GetBoardsQuery, GetBoardsQueryVariables>(GET_BOARDS, {
+        skip: Boolean(board) // Skip query if data already exists in Redux
     });
+
     useEffect(() => {
         if (!loading && !error && data?.getBoards) {
-
             dispatch(setBoards(data.getBoards));
-            setSelected(data.getBoards[0].name)
+            setSelected(data.getBoards[0].name);
         }
-    }, [loading, data, dispatch]);
+    }, [data]); // Only runs when `data` changes
+
 
     useEffect(() => {
         if (close) {
