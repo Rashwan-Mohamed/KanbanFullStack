@@ -91,7 +91,7 @@ type Mutation {
     # Update a task (returns full updated Task) newSubIds
     editTask(inputTask:inputTask!): editTaskResponse!
     # Update a task status
-    editTaskStatus(taskId:Int!,statusID:Int!,order:Int!): Int!
+    editTaskStatus(taskId:Int!,statusID:Int!,order:Int!): Boolean!
     # Add a new task (returns created Task)
     addTask(inputTask:inputTask!): addTaskResponse!
 

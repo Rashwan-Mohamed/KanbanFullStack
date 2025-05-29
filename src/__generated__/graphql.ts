@@ -46,7 +46,7 @@ export type Mutation = {
   editColumnTask: Column;
   editSubTask: SubTask;
   editTask: EditTaskResponse;
-  editTaskStatus: Scalars['Int']['output'];
+  editTaskStatus: Scalars['Boolean']['output'];
   editTask_Sub: Task;
   login: User;
   logout: Scalars['String']['output'];
@@ -303,7 +303,7 @@ export type EditTaskStatusMutationVariables = Exact<{
 }>;
 
 
-export type EditTaskStatusMutation = { __typename?: 'Mutation', editTaskStatus: number };
+export type EditTaskStatusMutation = { __typename?: 'Mutation', editTaskStatus: boolean };
 
 export type DeleteTaskMutationVariables = Exact<{
   taskID: Scalars['Int']['input'];

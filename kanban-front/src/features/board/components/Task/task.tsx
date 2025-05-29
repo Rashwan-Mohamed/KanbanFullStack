@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react'
+import React, {useRef, useState, useEffect, useMemo} from 'react'
 import {editTask, deleteTask} from '../../boardSlice'
 import {UseAppContext} from '@/context'
 import useCloseEscape from '../hooks/useCloseEscape.tsx'
@@ -14,6 +14,7 @@ import useTaskStatusUpdater from "@/features/board/components/Task/useTaskStatus
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 import AssureDelete from "@/features/board/components/AssureDelete.tsx";
 import type {DeleteTaskMutation, DeleteTaskMutationVariables} from "@/__generated__/types.ts";
+import {useCallDispatchTask} from "@/features/board/components/Task/useCallDispatchTask.ts";
 
 
 interface propTypes {
@@ -39,9 +40,9 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
     const [sure, setSure] = useState(false)
     const {id, title, description} = selectedTask
     const dispatch = useAppDispatch()
-    const taskIndex = theOne.columns?.find((col) => col.id === status.statusId)?.tasks?.findIndex((task) => task.id === id) ?? 1;
+    const statusTasksLength = theOne.columns?.find((col) => col.id === status.statusId)?.tasks?.length ?? 0
+    const taskIndex = theOne.columns?.find((col) => col.id === status.statusId)?.tasks?.findIndex((task) => task.id === id) ?? 0;
     const close = useCloseEscape()
-
     useEffect(() => {
         if (close) {
             setTaskShow(false)
@@ -49,12 +50,31 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
     }, [close])
 
     const handleDelete = async () => {
-        console.log('called')
         // to delete a task, we need {selected, status, id}
         await deleteTF({variables: {taskID: (id)}})
         dispatch(deleteTask({selected, status: status.status.toString(), id}))
         setTaskShow(false)
     }
+    // this sends graphQL query to change taskStatus only when it changes
+    useTaskStatusUpdater({
+        status: status.status.toString(),
+        prevStatus: prevStatus.toString(),
+        id,
+        statusId: status.statusId,
+        order: taskIndex === -1 ? statusTasksLength + 1 : taskIndex
+    });
+    const object = {
+        prevStatus: prevStatus.toString(),
+        id,
+        selected,
+        status: status.status.toString(),
+        statusId: status.statusId,
+        title: title.toString(),
+        description: description.toString(),
+        tasks: subtasks, newSubIds: subtasks.map(t => t.id), order: selectedTask.order
+    }
+    const memoizedObject = useMemo(() => object, [object.tasks, object.status]);
+    useCallDispatchTask({object: memoizedObject});
 
     useClickOutside({
         elements: [drop, doper], handler: () => setToggle(false)
@@ -62,39 +82,29 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
         active: toggle
     })
     useEffect(() => {
-        callDispatch()
         setPrevStatus(status.status)
     }, [subtasks, status])
 
-
-    // this sends graphQL query to change taskStatus only when it changes
-    useTaskStatusUpdater({
-        status: status.status.toString(),
-        prevStatus: prevStatus.toString(),
-        id,
-        statusId: status.statusId,
-        order: taskIndex
-    });
 
     //      to dispatch and action, edit task and delete task
     //      edit board, when edit board is initiated, give it the specific board to edit, then give it an order to appear, then disappear
     //      thus edit board should be in board, yes
     //      prevStatus
 
-    const callDispatch = () => {
-        dispatch(
-            editTask({
-                prevStatus: prevStatus.toString(),
-                id,
-                selected,
-                status: status.status.toString(),
-                statusId: status.statusId,
-                title: title.toString(),
-                description: description.toString(),
-                tasks: subtasks, newSubIds: subtasks.map(t => t.id), order: selectedTask.order
-            })
-        )
-    }
+    // const callDispatch = () => {
+    //     dispatch(
+    //         editTask({
+    //             prevStatus: prevStatus.toString(),
+    //             id,
+    //             selected,
+    //             status: status.status.toString(),
+    //             statusId: status.statusId,
+    //             title: title.toString(),
+    //             description: description.toString(),
+    //             tasks: subtasks, newSubIds: subtasks.map(t => t.id), order: selectedTask.order
+    //         })
+    //     )
+    // }
     useClickOutside({
         active: !sure, handler: () => setTaskShow(false), elements:
             [formRef]
