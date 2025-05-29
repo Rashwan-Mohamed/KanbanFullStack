@@ -475,7 +475,7 @@ aside footer {
     font-weight: 700;
 }
 
-.newBoard input,
+.inputFormMain,
 .select-option input {
     border-radius: 3px;
     background-color: var(--secondary);
@@ -483,11 +483,11 @@ aside footer {
     color: #fff;
     border: 2px solid rgba(130, 143, 163, 0.4);
     outline: none;
-    font-family: var(--plus);
+    font-family: var(--plus), serif;
     transition: all 150ms ease-in-out;
 }
 
-.newBoard input:focus,
+.inputFormMain:focus,
 .select-option input:focus {
     border: 2px solid var(--whitesh);
 }
@@ -496,7 +496,7 @@ aside footer {
     width: 100%;
     border-radius: 17px;
     padding: 10px 4px;
-    font-family: var(--plus);
+    font-family: var(--plus), cursive;
     font-weight: 700;
     text-transform: capitalize;
     transition: background 200ms ease-in-out;
@@ -521,19 +521,19 @@ aside footer {
     background-color: #9989f1;
 }
 
-.newBoard > div {
+.inputWrapper {
     display: flex;
     flex-direction: column;
     gap: 5px 0;
     position: relative;
 }
 
-.newBoard > div:nth-child(3) input,
+.inputWrapper:nth-child(3) input,
 .subtasksContainer input {
     width: 385px;
 }
 
-.newBoard > div:nth-child(3) > div,
+.inputWrapper:nth-child(3) > div,
 .subtasksContainer div {
     display: grid;
     justify-content: space-between;
@@ -551,11 +551,11 @@ aside footer {
     border: 2px solid #ea5555;
 }
 
-.newBoard input {
+.inputFormMain {
     position: relative;
 }
 
-.newBoard > div:nth-of-type(1) input:after {
+.inputWrapper:nth-of-type(1) input:after {
     content: "reduired";
     position: absolute;
     right: 0;
@@ -1068,6 +1068,10 @@ aside footer {
     text-align: center;
 }
 
+.loginFormInput {
+    width: 100% !important;
+}
+
 @media screen and (max-width: 480px) {
     .header-body > h1:nth-child(1) {
         font-size: 17px;
@@ -1089,7 +1093,7 @@ aside footer {
         max-width: 90%;
     }
 
-    .newBoard > div:nth-child(3) input,
+    .inputWrapper:nth-child(3) input,
     .subtasksContainer input {
         width: 100%;
     }
