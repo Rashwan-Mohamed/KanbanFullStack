@@ -19,7 +19,7 @@
 
         public function changeSubTask()
         {
-            $this->ds()->changeSubTask($this->args['SubTaskID']);
+            return $this->ds()->changeSubTask($this->args['SubTaskID']);
         }
 //
 //        public function deleteBoard()

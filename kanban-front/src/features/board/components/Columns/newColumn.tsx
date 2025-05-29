@@ -31,7 +31,7 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
     }, [close])
 
     const resetForm = () => {
-        setColumns([{name: '',id:-1}])
+        setColumns([{name: '', id: -1}])
         setName('')
         setColumn(false)
         setSelected(name)
@@ -41,12 +41,16 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
         setUsed(() => usedState)
         e.preventDefault()
         if (columnOkay) {
-            const colNames = columns.filter(item => !item.id).map(item => item.name);
+            const colNames = columns.filter(item => item.id === -1).map(item => item.name);
             try {
                 const {data} = await addCF({variables: {columnName: colNames, boardId: (theOne.id)}})
-                const colIds = data?.addColumn?.map(col => Number(col));
+                if (!data || !data.addColumn) {
+                    console.log('addColumn Mutation return Failed')
+                    return
+                }
+                const colIds = data.addColumn.map(col => Number(col));
                 dispatch(editBoard({
-                    id: theOne.id, name, columns, colIds: colIds ?? [0]
+                    id: theOne.id, name, columns, colIds: colIds
                 }))
             } catch (error) {
                 console.error("Error adding columns:", error);
@@ -69,7 +73,8 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
                 </div>
                 <NewItemInput items={columns} setItems={setColumns} used={used} setUsed={setUsed}/>
                 {columns.length < 6 &&
-                    <AddNewColumn onAddNewItem={() => setColumns((old) => [...old, {name: '',id:-1}])} setUsed={setUsed}
+                    <AddNewColumn onAddNewItem={() => setColumns((old) => [...old, {name: '', id: -1}])}
+                                  setUsed={setUsed}
                                   type={'column'}/>}
             </ModalFormWrapper>
         </>

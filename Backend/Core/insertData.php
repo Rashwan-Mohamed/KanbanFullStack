@@ -23,13 +23,14 @@
         $columns = $board['columns'];
         foreach ($columns as $ind => $column) {
             $tasks = $column['tasks'];
-            foreach ($tasks as $task) {
+            foreach ($tasks as $index => $task) {
                 $inputTask = [
                     'title' => $task['title'],
                     'description' => $task['description'],
                     'status' => $task['status'],
                     'statusId' => $colIds[$ind],
-                    'subtasks' => $task['subtasks']
+                    'subtasks' => $task['subtasks'],
+                    'order' => $index + 1,
                 ];
                 $boardArgs = [
                     'inputTask' => $inputTask
@@ -38,6 +39,5 @@
             }
         }
     }
-
 
 

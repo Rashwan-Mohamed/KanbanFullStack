@@ -35,12 +35,9 @@ export const ADD_BOARD = gql`
   }
 `;
 export const EDIT_BOARD = gql`
-  mutation EditBoard($boardID: Int!, $boardName: String!) {
-    editBoard(boardID: $boardID, boardName: $boardName) {
-      id
-      name
+    mutation EditBoard($boardID: Int!, $boardName: String!) {
+        editBoard(boardID: $boardID, boardName: $boardName)
     }
-  }
 `;
 export const DELETE_BOARD = gql`
   mutation DeleteBoard($boardID: Int!) {

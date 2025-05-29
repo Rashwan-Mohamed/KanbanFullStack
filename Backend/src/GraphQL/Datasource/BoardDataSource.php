@@ -16,6 +16,7 @@
        t.description as task_description,
        t.status as task_status,
        t.statusId as statusId,
+       t.order as task_order,
        s.id    as subtask_id,
        s.title as subtask_title,
        s.isCompleted
@@ -47,7 +48,12 @@ FROM boards b
 
         public function editBoard($boardId, $boardName)
         {
-            $this->db->query($this->EDIT_BOARD_STATEMENT, ["id" => $boardId, 'name' => $boardName]);
+            try {
+                $this->db->query($this->EDIT_BOARD_STATEMENT, ["id" => $boardId, 'name' => $boardName]);
+                return true;
+            } catch (Exception $e) {
+                throw new Exception("Edit Board failed.");
+            }
         }
 
         public function deleteBoard($boardId)

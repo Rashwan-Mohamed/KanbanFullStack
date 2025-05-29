@@ -57,8 +57,8 @@ const ControlButtons = ({
                 </button>
                 <button
                     onClick={() => {
-                        setSure(true)
                         setToggle(false)
+                        setSure(true)
                     }}
                 >
                   delete task

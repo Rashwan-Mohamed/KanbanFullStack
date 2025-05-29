@@ -59,8 +59,8 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
     const [subTasks, setSubTasks] = useState(() => current.subtasks);
     const formRef = useRef<HTMLFormElement>(null)
     const [entries, setEntries] = useState({
-        title: current.title ?? '',
-        desc: current.description ?? '',
+        title: current.title ,
+        desc: current.description ,
     })
     const [usedBoard, setUsedBoard] = useState<string>('valid')
     const [used, setUsed] = useState<string[]>(() => subTasks.map(() => 'valid'));
@@ -74,7 +74,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
     }
 
     useEffect(() => {
-        const task = theOne?.columns.flatMap(column => column.tasks).find(task => task?.id === id);
+        const task = theOne.columns.flatMap(column => column.tasks).find(task => task?.id === id);
         if (task) setCurrent(task);
     }, [theOne, id]);
 
@@ -83,7 +83,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         let isValid = true;
 
         // Title validation
-        const currentCol = theOne?.columns.find(col => col.name === status.status);
+        const currentCol = theOne.columns.find(col => col.name === status.status);
         const duplicate = currentCol?.tasks?.some(t => t.title === entries.title && t.id !== selectedTask?.id);
 
         if (!entries.title) {
@@ -123,7 +123,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         order: number
     }) => {
         const {data} = await addTF({variables: {inputTask: baseTask}})
-        if (!data || data.addTask) throw new Error('Mutation did not returned data')
+        if (!data || !data.addTask) throw new Error('Mutation did not returned data')
         const {subTasksIds, taskId} = data.addTask;
         if (taskId) {
             dispatch(addTask({
@@ -150,7 +150,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         if (validate()) {
             const baseTask = {
                 title: entries.title,
-                description: entries.desc ?? '',
+                description: entries.desc ,
                 status: status.status,
                 statusId: status.statusId,
                 subtasks: subTasks,
@@ -167,13 +167,13 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
                     const newSubIds = data.editTask.newSubIds
                     dispatch(
                         editTask({
-                            prevStatus: current.status.toString(),
+                            prevStatus: current.status,
                             id,
                             selected,
-                            status: status.status.toString(),
+                            status: status.status,
                             statusId: status.statusId,
-                            title: entries.title.toString(),
-                            description: (entries.desc).toString() ?? ''
+                            title: entries.title,
+                            description: (entries.desc)
                             , tasks: subTasks, newSubIds, order: selectedTask.order
                         })
                     )
