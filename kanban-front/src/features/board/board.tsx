@@ -8,8 +8,9 @@ import type {task} from './boardSlice'
 import DisplayColumns from "@/features/board/components/Columns/DisplayColumns";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard.ts";
 import {useDroppable} from "@dnd-kit/core";
+import {ApolloError} from "@apollo/client";
 
-const Board = () => {
+const Board = ({error, loading}: { error: ApolloError | undefined, loading: boolean }) => {
     const {dark, hideSide, setHideSide} = UseAppContext()
     const [column, setColumn] = useState(false) // to display new column creation
     const [boardShow, setBoardShow] = useState(false) // to display a new board creation when there are no boards
@@ -20,10 +21,12 @@ const Board = () => {
     const {setNodeRef} = useDroppable({
         id: 'unique-id',
     });
+
     if (!board) {
         return (
             <>
-                <NoBoardFound setBoardShow={setBoardShow} boardShow={boardShow}></NoBoardFound>
+                <NoBoardFound setBoardShow={setBoardShow} boardShow={boardShow} error={error}
+                              loading={loading}></NoBoardFound>
             </>
         )
     }

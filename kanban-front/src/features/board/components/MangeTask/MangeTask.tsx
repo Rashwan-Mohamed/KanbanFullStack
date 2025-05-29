@@ -27,7 +27,7 @@ function MangeTask({setEditTask, selectedTask}: propTypes) {
         status,
         setStatus,
         usedBoard,
-        handleSubmit, theOne
+        handleSubmit, theOne, loading
     } = editTaskState;
 
     const title = `${selectedTask ? 'Edit' : 'add new'} Task`
@@ -38,6 +38,7 @@ function MangeTask({setEditTask, selectedTask}: propTypes) {
                               title={title}
                               onSubmit={handleSubmit}
                               submitLabel={submitLabel}
+                              loading={loading}
             >
                 <ChangeTitle value={entries.title.toString()} usedBoard={usedBoard}
                              onChange={(val) => setEntries((old) => ({...old, title: val}))}

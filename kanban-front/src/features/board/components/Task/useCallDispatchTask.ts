@@ -21,7 +21,7 @@ export const useCallDispatchTask = ({object}: { object: EditTask }) => {
 
     // Memoize dispatch function to prevent unnecessary re-creations
     const callDispatch = useCallback(() => {
-        console.log("Dispatching task update...");
+        // console.log("Dispatching task update...");
         dispatch(editTask(object));
     }, [dispatch, object]); // Only re-create when `object` changes
 

@@ -34,9 +34,9 @@ function MangeBoard({setBoardShow, operation}: {
     const [columns, setColumns] = useState<column[]>(() => operation === 'edit' ? theOne.columns : [{name: '', id: -1}])
     const [used, setUsed] = useState(columns.map(() => "valid"))
     const [usedBoard, setUsedBoard] = useState('valid')
-    const [addNB] = useMutation<AddBoardMutation, AddBoardMutationVariables>(ADD_BOARD)
-    const [editDF] = useMutation<EditBoardMutation, EditBoardMutationVariables>(EDIT_BOARD)
-    const [editCF] = useMutation<EditColumnMutation, EditColumnMutationVariables>(EDIT_COLUMN)
+    const [addNB, {loading: loadingAdd}] = useMutation<AddBoardMutation, AddBoardMutationVariables>(ADD_BOARD)
+    const [editDF, {loading: loadingEditBoard}] = useMutation<EditBoardMutation, EditBoardMutationVariables>(EDIT_BOARD)
+    const [editCF, {loading: loadingEditColumn}] = useMutation<EditColumnMutation, EditColumnMutationVariables>(EDIT_COLUMN)
     const boards = useAppSelector((state) => state.boards)
     const close = useCloseEscape()
     const dispatch = useAppDispatch()
@@ -134,14 +134,16 @@ function MangeBoard({setBoardShow, operation}: {
         active: true
     })
     ;
-
+    const generalLoad = loadingAdd || loadingEditBoard || loadingEditColumn
     return (
         <>
             <ModalFormWrapper formRef={formRef}
                               title={`${operation === 'edit' ? operation : `${operation} new`} Board`}
                               onSubmit={handleSubmit}
                               submitLabel={`${operation === 'edit' ? 'save changes' : `create new`} Board`}
+                              loading={generalLoad}
             >
+
                 <ChangeTitle value={name} usedBoard={usedBoard}
                              onChange={(val) => setName(val)}
                 />
@@ -152,6 +154,8 @@ function MangeBoard({setBoardShow, operation}: {
                                   setUsed={setUsed}
                                   type={'column'}/>
                 }
+
+
             </ModalFormWrapper>
 
         </>

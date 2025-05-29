@@ -29,10 +29,28 @@ function AppContextProvider({children}: AppContextProviderProps): React.JSX.Elem
     const [dark, setDark] = useState<boolean>(true);
     const [tab, setTab] = useState<boolean>(false);
     const boards = useAppSelector((state: RootState) => state.boards);
+    const [selected, setSelected] = useState<string>("");
 
-    const [selected, setSelected] = useState<string>(() => {
-        return boards.length > 0 && boards[0].name ? boards[0].name : "noBoard";
-    });
+// Set initial selected board once boards are loaded
+    useEffect(() => {
+        if (!boards.length) return;
+
+        const fromStorage = localStorage.getItem("selectedBoard");
+        const fallback = boards[0].name;
+
+        // Use fallback if the stored value is null or not found in the current boards
+        const validBoard = boards.find(b => b.name === fromStorage)?.name || fallback;
+
+        setSelected(validBoard); //
+    }, [boards]);
+
+
+// Keep localStorage in sync
+    useEffect(() => {
+        if (selected) {
+            localStorage.setItem("selectedBoard", selected);
+        }
+    }, [selected]);
 
     const checkTab = () => {
         setTab(window.innerWidth <= 768);
@@ -43,6 +61,7 @@ function AppContextProvider({children}: AppContextProviderProps): React.JSX.Elem
         window.addEventListener("resize", checkTab);
         return () => window.removeEventListener("resize", checkTab);
     }, []);
+
 
     const [hideSide, setHideSide] = useState<boolean>(false);
     const board = useMemo(() => boards.find((item) => item.name === selected), [boards, selected]) ?? boards[0]
