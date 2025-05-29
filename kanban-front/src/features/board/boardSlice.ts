@@ -253,6 +253,7 @@ export const boardSlice = createSlice({
                     if (prevStatus === status) {
                         // Update a task within the same column
                         column.tasks?.splice(taskIndex, 1, task);
+
                     } else {
                         // Move a task to a new column
                         const newColumn = board.columns.find((item) => item.name === status);
@@ -296,11 +297,18 @@ export const boardSlice = createSlice({
                 },
             },
             // taskId, prevStatusId, statusId
-//             changeTaskStaus: (state, {payload: {prevStatusId, taskId, statusId, selected}}: {
-//                 payload: { prevStatusId: number, taskId: number, statusId: number, selected: string }
-//             }) => {
-// // get the column
-//             }
+            changeStatusTasks: (state, {payload: {status, selected, tasks}}: {
+                payload: { status: number, selected: string, tasks: task[] }
+            }) => {
+                const board = state.find((item) => item.name === selected);
+                if (!board) return state; // Guard clause if board not found
+
+                // Find the column where the task currently exists
+                const column = board.columns.find((item) => item.id === Number(status));
+                if (!column) return state; // Guard clause if column not found
+                column.tasks = tasks
+                return state
+            }
         },
     })
 ;
@@ -313,6 +321,7 @@ export const {
     editTask,
     deleteTask,
     setBoards,
+    changeStatusTasks
 } = boardSlice.actions;
 
 

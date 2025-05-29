@@ -33,6 +33,7 @@ export type Mutation = {
   addColumn: Array<Maybe<Scalars['Int']['output']>>;
   addSubTask: SubTask;
   addTask: AddTaskResponse;
+  changeOrder: Scalars['Boolean']['output'];
   changeSubTask: Scalars['Boolean']['output'];
   deleteBoard: Scalars['Boolean']['output'];
   deleteColumn: Scalars['Boolean']['output'];
@@ -71,6 +72,12 @@ export type MutationAddSubTaskArgs = {
 
 export type MutationAddTaskArgs = {
   inputTask: InputTask;
+};
+
+
+export type MutationChangeOrderArgs = {
+  orders: Array<Scalars['Int']['input']>;
+  tasksId: Array<Scalars['Int']['input']>;
 };
 
 
@@ -309,6 +316,14 @@ export type DeleteTaskMutationVariables = Exact<{
 
 
 export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask: boolean };
+
+export type ChangeOrderMutationVariables = Exact<{
+  tasksId: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
+  orders: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
+}>;
+
+
+export type ChangeOrderMutation = { __typename?: 'Mutation', changeOrder: boolean };
 
 export type AddSubTaskMutationVariables = Exact<{
   subtask: Subtask;

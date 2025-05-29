@@ -18,6 +18,7 @@
         private string $ADD_COLUMN_TASK = "INSERT INTO kanban.column_task (columnId, taskId) VALUES (:columnId,:taskId)";
         private string $EDIT_COLUMN_TASK = "UPDATE kanban.column_task t SET t.columnId = :columnId WHERE  t.taskId = :taskId";
         private string $EDIT_TASK_ORDER = "UPDATE kanban.tasks t SET t.`order` = :order WHERE t.id = :taskId";
+        private string $CHANGE_TASK_ORDER = "UPDATE kanban.tasks t SET t.order = :order WHERE t.id = :taskId";
 
         public function editTask($taskId, $taskTitle, $statusId, $status, $description, $order)
         {
@@ -33,6 +34,14 @@
             $statusName = $statusName[0]['name'];
             $this->db->query($this->EDIT_TASK_STATUS, ['statusId' => $statusId, 'taskId' => $taskId, 'status' => $statusName]);
             $this->db->query($this->EDIT_COLUMN_TASK, ['columnId' => $statusId, 'taskId' => $taskId]);
+            return true;
+        }
+
+        public function changeOrder($tasksId, $order)
+        {
+            foreach ($tasksId as $index => $taskId) {
+                $this->db->query($this->CHANGE_TASK_ORDER, ['order' => $order[$index], 'taskId' => $taskId]);
+            }
             return true;
         }
 

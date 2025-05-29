@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {
     closestCenter,
     KeyboardSensor,
-    PointerSensor,
     type DragEndEvent, DndContext,
     MouseSensor,
     TouchSensor,
@@ -11,13 +10,15 @@ import {
 } from '@dnd-kit/core';
 import {
     arrayMove,
-    sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 import useTaskStatusUpdater from "@/features/board/components/Task/useTaskStatusUpdater.ts";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard.ts";
-import {editTask, type task} from "@/features/board/boardSlice.ts";
+import {changeStatusTasks, editTask, type task} from "@/features/board/boardSlice.ts";
 import {UseAppContext} from "@/context.tsx";
 import {useAppDispatch} from "@/app/hooks.ts";
+import {useMutation} from "@apollo/client";
+import {CHANGE_TASK_ORDER} from "@/queries.ts";
+import type {ChangeOrderMutation, ChangeOrderMutationVariables} from "@/__generated__/types.ts";
 
 const DndMainContext = ({children}: { children: React.ReactNode }) => {
     const {selected} = UseAppContext()
@@ -25,7 +26,7 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
     const board = useGetBoard()
     useTaskStatusUpdater(move)
     const dispatch = useAppDispatch();
-
+    const [changeTOF] = useMutation<ChangeOrderMutation, ChangeOrderMutationVariables>(CHANGE_TASK_ORDER)
     const mouseSensor = useSensor(MouseSensor, {
         // Require the mouse to move by 10 pixels before activating
         activationConstraint: {
@@ -58,22 +59,32 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
         const status: number = overData.current?.sortable.containerId ?? prevStatus
         // Call Backend via the custom hook and tell it is changed with the new statusId and the new order
         // so we need to get that status and get its tasks and see the order of overId task
-        Number(overId)
         const isSameColumn = prevStatus === status
         const isOverlap = id === overId
+
+        const tasks = board.columns.find((col) => col.id === Number(status))?.tasks ?? []
+        if (!tasks[0]) return;
         // console.log('taskId', id, 'isOver', Number(overId), 'prevColumn', prevStatus, 'newColumn', status)
-        if (id === overId || (Number(overId) == prevStatus && prevStatus === status)) {
+        if (isOverlap || (Number(overId) == prevStatus && isSameColumn)) {
+            console.log('No Change')
             return
         }
 
-        // if (active.id !== over?.id) {
-        //     setItems((items) => {
-        //         const oldIndex = items.indexOf(active.id);
-        //         const newIndex = items.indexOf(over.id);
-        //
-        //         return arrayMove(items, oldIndex, newIndex);
-        //     });
-        // }
+        if (id !== overId) {
+            const oldIndex = tasks.findIndex((task) => task.id === id);
+            const newIndex = tasks.findIndex(task => task.id === overId)
+            let newTasks = arrayMove(tasks, oldIndex, newIndex);
+            newTasks = newTasks.map((tas, index) => {
+                return {
+                    ...tas, order:
+                    index
+                }
+            })
+            const tasksId = newTasks.map((task) => task.id)
+            const orders = newTasks.map((task) => task.order)
+            changeTOF({variables: {tasksId, orders}})
+            dispatch(changeStatusTasks({status, selected, tasks: newTasks}))
+        }
     }
 
     const handleDragOver = (event: DragOverEvent) => {
@@ -95,24 +106,25 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
             });
             const prevStatusColumn = board.columns.find((col) => col.id === Number(prevStatus));
             const statusColumn = board.columns.find((col) => col.id === Number(status));
-            console.log(prevStatusColumn, statusColumn)
             if (!foundTask || !statusColumn || !prevStatusColumn) return
-            console.log('css')
-            setMove({
-                id: foundTask.id,
-                order: statusColumn.tasks?.length ?? 0,
+            const colTasks = statusColumn.tasks?.length
+            const baseParam = {
+                order: colTasks ? colTasks + 1 : 0,
                 prevStatus: prevStatusColumn.name,
                 status: statusColumn.name,
                 statusId: statusColumn.id
+            }
+            setMove({
+                id: foundTask.id,
+                ...baseParam,
             })
             dispatch(editTask({
-                prevStatus: prevStatusColumn.name,
                 selected,
                 ...foundTask,
                 tasks: foundTask.subtasks,
                 newSubIds: [],
-                status: statusColumn.name,
-                statusId: statusColumn.id
+                ...baseParam,
+
             }))
 
         }
