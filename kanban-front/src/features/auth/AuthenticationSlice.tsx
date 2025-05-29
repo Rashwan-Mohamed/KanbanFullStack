@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit'
 
 
-
-const initialState = { user: 'ahmed', auth: false, userId: 0 }
+const initialState = {}
+// const initialState = { user: 'ahmed', auth: false, userId: 0 }
 
 
 export const authSlice = createSlice({

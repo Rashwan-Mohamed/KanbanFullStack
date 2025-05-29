@@ -1,17 +1,17 @@
-
 interface propTypes {
     value: string
-
     usedBoard: string
     onChange: (val: string) => void;
-
+    label?: string
+    additionalClass?: string
 }
 
-function ChangeTitle({usedBoard, value, onChange}: propTypes) {
+function ChangeTitle({usedBoard, value, onChange, label, additionalClass}: propTypes) {
     return (
-        <div>
-            <label htmlFor='title'>title</label>
+        <div className={'inputWrapper'} >
+            <label htmlFor='title'>{label ?? 'title'}</label>
             <input
+                className={`inputFormMain ${additionalClass ?? ''}`}
                 autoComplete='off'
                 style={{
                     border: usedBoard !== 'valid' ? '2px solid #EA5555' : '',
@@ -20,6 +20,7 @@ function ChangeTitle({usedBoard, value, onChange}: propTypes) {
 
                     onChange(e.target.value)
                 }
+                required={true}
                 value={value}
                 type='text'
                 id='title'
