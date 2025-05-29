@@ -36,12 +36,13 @@ type UseEditTaskReturn = {
     usedBoard: string;
     handleSubmit: (e: React.FormEvent) => Promise<void>;
     theOne: board;
+    loading: boolean;
 };
 
 export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boolean>>, selectedTask: task | null): UseEditTaskReturn | null {
     const {selected} = UseAppContext()
-    const [editTaskFunc] = useMutation<EditTaskMutation, EditTaskMutationVariables>(EDIT_TASK)
-    const [addTF] = useMutation<AddTaskMutation, AddTaskMutationVariables>(ADD_TASK)
+    const [editTaskFunc, {loading: editLoading}] = useMutation<EditTaskMutation, EditTaskMutationVariables>(EDIT_TASK)
+    const [addTF, {loading}] = useMutation<AddTaskMutation, AddTaskMutationVariables>(ADD_TASK)
 
     const theOne = useGetBoard()
     const initialStatus = theOne.columns[0]
@@ -59,8 +60,8 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
     const [subTasks, setSubTasks] = useState(() => current.subtasks);
     const formRef = useRef<HTMLFormElement>(null)
     const [entries, setEntries] = useState({
-        title: current.title ,
-        desc: current.description ,
+        title: current.title,
+        desc: current.description,
     })
     const [usedBoard, setUsedBoard] = useState<string>('valid')
     const [used, setUsed] = useState<string[]>(() => subTasks.map(() => 'valid'));
@@ -150,7 +151,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         if (validate()) {
             const baseTask = {
                 title: entries.title,
-                description: entries.desc ,
+                description: entries.desc,
                 status: status.status,
                 statusId: status.statusId,
                 subtasks: subTasks,
@@ -201,7 +202,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         setStatus,
         usedBoard,
         handleSubmit,
-        theOne
+        theOne, loading: loading || editLoading
     };
 
 }

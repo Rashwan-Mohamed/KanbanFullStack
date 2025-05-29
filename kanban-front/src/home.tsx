@@ -10,15 +10,14 @@ import Aside from './features/board/components/Aside/aside'
 import useCloseEscape from './features/board/components/hooks/useCloseEscape.tsx'
 import type {GetBoardsQuery, GetBoardsQueryVariables} from "@/__generated__/types.ts";
 
-
 function Home() {
-    const {dark, tab, setSelected,board} = UseAppContext()
+    const {dark, tab, setSelected, board} = UseAppContext()
     const [selectBord, setSelectBord] = useState(false)
     const form = useRef<HTMLFormElement>(null);
     const close = useCloseEscape()
     const dispatch = useDispatch();
 
-    const { loading, error, data } = useQuery<GetBoardsQuery, GetBoardsQueryVariables>(GET_BOARDS, {
+    const {loading, error, data} = useQuery<GetBoardsQuery, GetBoardsQueryVariables>(GET_BOARDS, {
         skip: Boolean(board) // Skip query if data already exists in Redux
     });
 
@@ -53,7 +52,7 @@ function Home() {
             ) : (
                 ''
             )}
-            <Board/>
+            <Board error={error} loading={loading} />
         </main>
     )
 }

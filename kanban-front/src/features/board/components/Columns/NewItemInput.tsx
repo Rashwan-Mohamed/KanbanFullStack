@@ -68,7 +68,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                             )}
                         </label>
 
-                        {!(isColumn && (term === 0 || oldItem)) && (
+                        {!(isColumn && (term === 0 || (oldItem && !fromBoard))) && (
                             <span
                                 onClick={() => {
                                     setItems((old) => old.filter((_, ind) => ind !== term));
