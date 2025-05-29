@@ -34,7 +34,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
 
     return (
         <div className='subtasksContainer'>
-            <label htmlFor='Columns'>Columns</label>
+            <label htmlFor='Columns'>{hasColumn(items[0]) ? 'Columns' : 'Subtasks'}</label>
             {items.map((item, term) => {
                 const oldItem = item.id !== -1
                 return (
@@ -42,6 +42,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                         <label className='spanerContainer'>
                             {' '}
                             <input
+                                autoComplete='off'
                                 style={{
                                     border: used[term] !== 'valid' ? '2px solid #EA5555' : '',
                                 }}

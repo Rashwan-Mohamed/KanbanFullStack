@@ -16,7 +16,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 type Documents = {
     "\n    query getBoards {\n        getBoards {\n            id\n            name\n            columns {\n                id\n                name\n                tasks {\n                    id\n                    title\n                    description\n                    status\n                    statusId\n                    order\n                    subtasks {\n                        id\n                        title\n                        isCompleted\n                    }\n                }\n            }\n        }\n    }\n": typeof types.GetBoardsDocument,
     "\n  mutation AddBoard($boardName: String!, $boardColumnsId: [String!]!) {\n    addBoard(boardName: $boardName, boardColumnsId: $boardColumnsId) {\n    boardId\n    columnIds}\n  }\n": typeof types.AddBoardDocument,
-    "\n  mutation EditBoard($boardID: Int!, $boardName: String!) {\n    editBoard(boardID: $boardID, boardName: $boardName) {\n      id\n      name\n    }\n  }\n": typeof types.EditBoardDocument,
+    "\n    mutation EditBoard($boardID: Int!, $boardName: String!) {\n        editBoard(boardID: $boardID, boardName: $boardName)\n    }\n": typeof types.EditBoardDocument,
     "\n  mutation DeleteBoard($boardID: Int!) {\n    deleteBoard(boardID: $boardID)\n  }\n": typeof types.DeleteBoardDocument,
     "\n  mutation AddColumn($columnName: [String!]!,$boardId:Int!) {\n    addColumn(columnName:$columnName,boardId:$boardId)\n  }\n": typeof types.AddColumnDocument,
     "\n  mutation EditColumn($columnID: [Int!]!, $columnName: [String!]!,$boardID:Int!) {\n    editColumn(columnID: $columnID, columnName: $columnName,boardID:$boardID) {\n     colIds\n    }\n  }\n": typeof types.EditColumnDocument,
@@ -36,7 +36,7 @@ type Documents = {
 const documents: Documents = {
     "\n    query getBoards {\n        getBoards {\n            id\n            name\n            columns {\n                id\n                name\n                tasks {\n                    id\n                    title\n                    description\n                    status\n                    statusId\n                    order\n                    subtasks {\n                        id\n                        title\n                        isCompleted\n                    }\n                }\n            }\n        }\n    }\n": types.GetBoardsDocument,
     "\n  mutation AddBoard($boardName: String!, $boardColumnsId: [String!]!) {\n    addBoard(boardName: $boardName, boardColumnsId: $boardColumnsId) {\n    boardId\n    columnIds}\n  }\n": types.AddBoardDocument,
-    "\n  mutation EditBoard($boardID: Int!, $boardName: String!) {\n    editBoard(boardID: $boardID, boardName: $boardName) {\n      id\n      name\n    }\n  }\n": types.EditBoardDocument,
+    "\n    mutation EditBoard($boardID: Int!, $boardName: String!) {\n        editBoard(boardID: $boardID, boardName: $boardName)\n    }\n": types.EditBoardDocument,
     "\n  mutation DeleteBoard($boardID: Int!) {\n    deleteBoard(boardID: $boardID)\n  }\n": types.DeleteBoardDocument,
     "\n  mutation AddColumn($columnName: [String!]!,$boardId:Int!) {\n    addColumn(columnName:$columnName,boardId:$boardId)\n  }\n": types.AddColumnDocument,
     "\n  mutation EditColumn($columnID: [Int!]!, $columnName: [String!]!,$boardID:Int!) {\n    editColumn(columnID: $columnID, columnName: $columnName,boardID:$boardID) {\n     colIds\n    }\n  }\n": types.EditColumnDocument,
@@ -79,7 +79,7 @@ export function gql(source: "\n  mutation AddBoard($boardName: String!, $boardCo
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  mutation EditBoard($boardID: Int!, $boardName: String!) {\n    editBoard(boardID: $boardID, boardName: $boardName) {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation EditBoard($boardID: Int!, $boardName: String!) {\n    editBoard(boardID: $boardID, boardName: $boardName) {\n      id\n      name\n    }\n  }\n"];
+export function gql(source: "\n    mutation EditBoard($boardID: Int!, $boardName: String!) {\n        editBoard(boardID: $boardID, boardName: $boardName)\n    }\n"): (typeof documents)["\n    mutation EditBoard($boardID: Int!, $boardName: String!) {\n        editBoard(boardID: $boardID, boardName: $boardName)\n    }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

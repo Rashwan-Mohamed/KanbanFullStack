@@ -40,7 +40,7 @@ FROM boards b
             } catch (Exception $e) {
                 error_log("Delete Task Error: " . $e->getMessage());
                 echo "Delete Task Error: " . $e->getMessage();
-                throw new Exception("Task deletion failed.");
+                throw new \Error("Task deletion failed.");
             }
             return $this->groupData($flat);
         }
@@ -52,13 +52,17 @@ FROM boards b
                 $this->db->query($this->EDIT_BOARD_STATEMENT, ["id" => $boardId, 'name' => $boardName]);
                 return true;
             } catch (Exception $e) {
-                throw new Exception("Edit Board failed.");
+                throw new \Error("Edit Board failed.");
             }
         }
 
         public function deleteBoard($boardId)
         {
-            $this->db->query($this->DELETE_FROM_BOARD_STATEMENT, ['id' => $boardId]);
+            try {
+                return $this->db->query($this->DELETE_FROM_BOARD_STATEMENT, ['id' => $boardId]);
+            } catch (Exception $e) {
+                throw new \Error("Delete Board failed.");
+            }
         }
 
         public function addBoard($boardName)

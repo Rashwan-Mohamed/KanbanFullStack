@@ -78,7 +78,11 @@ function MangeBoard({setBoardShow, operation}: {
     }
     const handleEditBoard = async () => {
         setSelected(name)
-        await editDF({variables: {boardID: (theOne.id), boardName: name}})
+        const {data: boardResponse} = await editDF({variables: {boardID: (theOne.id), boardName: name}})
+        if (!boardResponse || !boardResponse.editBoard) {
+            console.error(`Error while editing board: `)
+            return
+        }
         const colName = columns.map((col) => col.name)
         const colId = columns.map((col) => col.id)
         try {
@@ -87,7 +91,7 @@ function MangeBoard({setBoardShow, operation}: {
                 console.error("Error: Mutation returned undefined data.");
                 return;
             }
-            const colIds = data.editColumn.colIds ?? []; // Ensures it's always an array
+            const colIds = data.editColumn.colIds; // Ensures it's always an array
             dispatch(editBoard({id: theOne.id, name, columns, colIds}));
 
         } catch (error) {

@@ -16,14 +16,14 @@
 
         public function editBoard()
         {
-            $this->ds()->editBoard($this->args['boardID'], $this->args['boardName']);
+            return $this->ds()->editBoard($this->args['boardID'], $this->args['boardName']);
         }
 
         public function deleteBoard()
         {
             $boId = $this->args['boardID'];
             (new ColumnDataSource())->deleteBoardColumn($boId);
-            $this->ds()->deleteBoard($boId);
+            return $this->ds()->deleteBoard($boId);
         }
 
         public function addBoard()
