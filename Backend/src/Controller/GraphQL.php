@@ -50,6 +50,7 @@
                     'editTaskStatus' => fn($rootValue, $args) => (new EditTask($args))->editTaskStatus(),
                     'deleteTask' => fn($rootValue, $args) => (new EditTask($args))->deleteTask(),
                     'addTask' => fn($rootValue, $args) => (new EditTask($args))->addTask(),
+                    'changeOrder' => fn($rootValue, $args) => (new EditTask($args))->changeOrder(),
                     'changeSubTask' => fn($rootValue, $args) => (new EditSubTask($args))->changeSubTask()
                 ];
 

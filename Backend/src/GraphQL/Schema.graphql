@@ -94,7 +94,8 @@ type Mutation {
     editTaskStatus(taskId:Int!,statusID:Int!,order:Int!): Boolean!
     # Add a new task (returns created Task)
     addTask(inputTask:inputTask!): addTaskResponse!
-
+    # Change Tasks Order
+    changeOrder(tasksId:[Int!]!,orders:[Int!]!):Boolean!
     # Add a new task (returns created Task)
     deleteTask(taskID: Int!): Boolean!
 

@@ -25,6 +25,7 @@ type Documents = {
     "\n  mutation EditTask($inputTask:inputTask!) {\n    editTask(inputTask:$inputTask) {\n      newSubIds\n    }\n  }\n": typeof types.EditTaskDocument,
     "\n  mutation EditTaskStatus($taskId: Int!, $statusID: Int!,$order:Int!) {\n    editTaskStatus(taskId: $taskId, statusID: $statusID,order:$order)\n  }\n": typeof types.EditTaskStatusDocument,
     "\n  mutation DeleteTask($taskID: Int!) {\n    deleteTask(taskID: $taskID)\n  }\n": typeof types.DeleteTaskDocument,
+    "\n    mutation ChangeOrder($tasksId: [Int!]!,$orders:[Int!]!) {\n        changeOrder(tasksId:$tasksId, orders:$orders)}\n": typeof types.ChangeOrderDocument,
     "\n  mutation AddSubTask($subtask: subtask!) {\n    addSubTask(subtask: $subtask) {\n      id\n      title\n      isCompleted\n    }\n  }\n": typeof types.AddSubTaskDocument,
     "\n  mutation EditSubTask($subtask:subtask) {\n    editSubTask(subtask:$subtask) {\n      id\n      title\n      isCompleted\n    }\n  }\n": typeof types.EditSubTaskDocument,
     "\n  mutation DeleteSubTask($SubTaskID: Int!) {\n    deleteSubTask(SubTaskID: $SubTaskID) \n  }": typeof types.DeleteSubTaskDocument,
@@ -45,6 +46,7 @@ const documents: Documents = {
     "\n  mutation EditTask($inputTask:inputTask!) {\n    editTask(inputTask:$inputTask) {\n      newSubIds\n    }\n  }\n": types.EditTaskDocument,
     "\n  mutation EditTaskStatus($taskId: Int!, $statusID: Int!,$order:Int!) {\n    editTaskStatus(taskId: $taskId, statusID: $statusID,order:$order)\n  }\n": types.EditTaskStatusDocument,
     "\n  mutation DeleteTask($taskID: Int!) {\n    deleteTask(taskID: $taskID)\n  }\n": types.DeleteTaskDocument,
+    "\n    mutation ChangeOrder($tasksId: [Int!]!,$orders:[Int!]!) {\n        changeOrder(tasksId:$tasksId, orders:$orders)}\n": types.ChangeOrderDocument,
     "\n  mutation AddSubTask($subtask: subtask!) {\n    addSubTask(subtask: $subtask) {\n      id\n      title\n      isCompleted\n    }\n  }\n": types.AddSubTaskDocument,
     "\n  mutation EditSubTask($subtask:subtask) {\n    editSubTask(subtask:$subtask) {\n      id\n      title\n      isCompleted\n    }\n  }\n": types.EditSubTaskDocument,
     "\n  mutation DeleteSubTask($SubTaskID: Int!) {\n    deleteSubTask(SubTaskID: $SubTaskID) \n  }": types.DeleteSubTaskDocument,
@@ -112,6 +114,10 @@ export function gql(source: "\n  mutation EditTaskStatus($taskId: Int!, $statusI
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation DeleteTask($taskID: Int!) {\n    deleteTask(taskID: $taskID)\n  }\n"): (typeof documents)["\n  mutation DeleteTask($taskID: Int!) {\n    deleteTask(taskID: $taskID)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    mutation ChangeOrder($tasksId: [Int!]!,$orders:[Int!]!) {\n        changeOrder(tasksId:$tasksId, orders:$orders)}\n"): (typeof documents)["\n    mutation ChangeOrder($tasksId: [Int!]!,$orders:[Int!]!) {\n        changeOrder(tasksId:$tasksId, orders:$orders)}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

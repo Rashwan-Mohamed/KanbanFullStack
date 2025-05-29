@@ -71,7 +71,8 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
         statusId: status.statusId,
         title: title.toString(),
         description: description.toString(),
-        tasks: subtasks, newSubIds: subtasks.map(t => t.id), order: selectedTask.order
+        tasks: subtasks, newSubIds: subtasks.map(t => t.id),
+        order: taskIndex === -1 ? statusTasksLength + 1 : taskIndex
     }
     const memoizedObject = useMemo(() => object, [object.tasks, object.status]);
     useCallDispatchTask({object: memoizedObject});

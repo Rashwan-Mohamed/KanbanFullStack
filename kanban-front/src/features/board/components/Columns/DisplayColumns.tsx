@@ -19,6 +19,9 @@ const DisplayColumns: React.FC<propTypes> = ({columns, dark, setTaskShow, setSel
                 <DndMainContext>
                     {columns.map((item, index) => {
                         const {id, name, tasks} = item
+                        if (!tasks) return null
+                        const sortedTasks = [...tasks]
+                        sortedTasks.sort((a, b) => a.order - b.order)
                         return (
 
                             <SortableColumnContext key={id ?? index} tasks={tasks?.map((task) => task.id) ?? [0]}
@@ -33,7 +36,7 @@ const DisplayColumns: React.FC<propTypes> = ({columns, dark, setTaskShow, setSel
                                     <ul
                                         className={`${!tasks?.length ? 'emptyColumn' : 'undefined'}`}
                                     >
-                                        {tasks?.map((task) => {
+                                        {sortedTasks.map((task) => {
                                             return (
                                                 <SortableTask key={task.id ?? index} dark={dark}
                                                               setTaskShow={setTaskShow}
