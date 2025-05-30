@@ -23,6 +23,8 @@ export const REGISTER = gql(/* GraphQL */`
         register(username:$username,email:$email,password:$password){
             successful
             userId
+            existingUser
+            existingEmail
         }
     }
 `);

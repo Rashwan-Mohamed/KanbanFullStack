@@ -39,6 +39,7 @@ export default function SessionPage() {
                 {!signIn &&
                     <ChangeTitle value={email} onChange={setEmail} usedBoard={usedEmail} label={'email address'}
                                  additionalClass={'loginFormInput'} type={'email'}></ChangeTitle>}
+
                 <ChangeTitle value={name} onChange={setName} usedBoard={usedName} label={'user name'}
                              additionalClass={'loginFormInput'}></ChangeTitle>
 

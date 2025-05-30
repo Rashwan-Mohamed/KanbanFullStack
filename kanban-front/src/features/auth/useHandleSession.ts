@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useMutation} from "@apollo/client";
 import {LOGIN, REGISTER} from "@/GraphQL Queries/SessionQueries.ts";
@@ -20,6 +20,7 @@ function useHandleSession() {
     const [registerFC, {loading: registeringLoad}] = useMutation(REGISTER)
     const dispatch = useAppDispatch()
     // const notify = () => toast("Logged in successfully. Welcome back!");
+    console.log(signIn, 'changed')
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('submitAttempt')
@@ -38,7 +39,11 @@ function useHandleSession() {
             handleRegister()
         }
     }
-
+    useEffect(() => {
+        setUsedName('valid');
+        setValidPassword('valid');
+        setUsedEmail('valid');
+    }, [signIn])
     const handleLogin = async () => {
         try {
             const response = await loginFC({
@@ -49,7 +54,6 @@ function useHandleSession() {
                     }
                 }
             });
-            // console.log()
             const data = response?.data?.login;
             if (!data) {
                 console.error('server error: no data returned from login mutation')
@@ -60,7 +64,6 @@ function useHandleSession() {
                 newSession(user.username, user.id)
             } else {
                 // console.warn('Login failed: no user returned');
-                console.log(data, loading)
                 const message = data.message ?? 'invalid credentials';
                 if (message === 'INVALID_PASSWORD') {
                     setValidPassword('invalid password');
@@ -73,7 +76,6 @@ function useHandleSession() {
             alert("Something went wrong during login. Please try again later.");
         }
     };
-
     const handleRegister = async () => {
         try {
             const response = await registerFC({
@@ -83,19 +85,23 @@ function useHandleSession() {
                     password
                 }
             });
-            // console.log()
             const data = response.data?.register;
-            console.log(data)
-            if (!data || !data.userId || !data?.successful) {
+            if (!data) {
                 console.error('server error: no data returned from login mutation')
                 return
             }
-            if (data?.successful) {
+            if (data.successful && data.userId) {
                 const user = data.userId;
                 newSession(name, user)
             } else {
+                // const [exi]
+                if (data.existingEmail) {
+                    setUsedEmail('this email is already associated with an account. Please try another one.');
+                }
+                if (data.existingUser) {
+                    setUsedName('this user name is already associated with an account. Please try another one.');
+                }
                 // console.warn('Login failed: no user returned');
-                console.log(data, loading)
                 // const message = data.message ?? 'invalid credentials';
             }
         } catch (err) {
@@ -110,7 +116,11 @@ function useHandleSession() {
             userId: id
         }));
         // notify()
-        localStorage.setItem('user', JSON.stringify(username))
+        localStorage.setItem('user', JSON.stringify({
+            user: username,
+            auth: true,
+            userId: id
+        }))
         navigate('/kanban');
     }
 

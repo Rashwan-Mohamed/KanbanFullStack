@@ -28,7 +28,7 @@ const link = ApolloLink.from([
     errorLink,
     createHttpLink({
         uri: 'http://localhost:8888/graphql',
-        credentials: 'same-origin',
+        credentials: 'include',
     })
 ]);
 
@@ -39,8 +39,22 @@ export const client = new ApolloClient({
     }),
 });
 
+const container = document.getElementById('root');
 
-createRoot(document.getElementById('root')!).render(
+if (!container) {
+    throw new Error('Root container missing');
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+if (!container._root) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    container._root = createRoot(container);
+}
+
+// @ts-expect-error
+container._root.render(
     <ApolloProvider client={client}>
         <Provider store={store}>
             <AppContextProvider>
@@ -48,5 +62,4 @@ createRoot(document.getElementById('root')!).render(
             </AppContextProvider>
         </Provider>
     </ApolloProvider>
-)
-
+);

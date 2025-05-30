@@ -17,14 +17,12 @@ function Home() {
     const close = useCloseEscape()
     const dispatch = useDispatch();
     const authState = useAppSelector((state) => state.auth)
-    const [getBoards, {loading, error}] = useLazyQuery(GET_BOARDS,{variables:{userId
-    }});
+    const [getBoards, {loading, error}] = useLazyQuery(GET_BOARDS);
     useEffect(() => {
         if (authState.auth) {
-            getBoards().then(r => dispatch(setBoards(r.data?.getBoards ?? []))).catch(e => console.log(e))
+            getBoards({variables: {userId: authState.userId}}).then(r => dispatch(setBoards(r.data?.getBoards ?? []))).catch(e => console.log(e))
         }
-    }, [authState.auth, dispatch, getBoards])
-
+    }, [authState, dispatch])
 
 
     useEffect(() => {
