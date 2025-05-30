@@ -4,6 +4,7 @@
 
     use App\GraphQL\Datasource\BoardDataSource;
     use App\GraphQL\Datasource\ColumnDataSource;
+    use Core\Session;
 
 
     class EditBoard extends BaseMutationResolver
@@ -28,8 +29,15 @@
 
         public function addBoard()
         {
+            $user = Session::get('user');
+//            dd($user);
+            if (!$user) {
+                http_response_code(401);
+                return false;
+            };
+            $userId = $user['id'];
             $columnsNamesArr = $this->args['boardColumnsId'];
-            $boardId = $this->ds()->addBoard($this->args['boardName']);
+            $boardId = $this->ds()->addBoard($this->args['boardName'], $userId);
             $colIds = [];
             foreach ($columnsNamesArr as $columnsName) {
                 $colIds[] = (new ColumnDataSource())->addColumn($columnsName, $boardId[0]['id']);

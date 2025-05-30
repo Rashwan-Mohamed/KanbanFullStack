@@ -7,9 +7,9 @@
 
     class GetBoards
     {
-        public static function getBoards()
+        public function getBoards($userId)
         {
             $source = new BoardDataSource();
-            return $source->getBoardsWithRelations();
+            return $source->getBoardsWithRelations($userId);
         }
     }

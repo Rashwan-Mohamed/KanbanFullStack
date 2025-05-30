@@ -3,6 +3,7 @@
     namespace App\GraphQL\Datasource;
 
 
+    use Core\Session;
     use Exception;
 
     class BoardDataSource extends BaseDataSource
@@ -30,18 +31,18 @@ FROM kanban.boards b
          WHERE b.userId=:userId";
         private string $EDIT_BOARD_STATEMENT = "UPDATE kanban.boards t SET t.name = :name WHERE t.id = :id";
         private string $DELETE_FROM_BOARD_STATEMENT = "DELETE FROM kanban.boards WHERE id = :id";
-        private string $ADD_TO_BOARD_STATEMENT = "INSERT INTO kanban.boards (name, userId) VALUES (:name, 0)";
+        private string $ADD_TO_BOARD_STATEMENT = "INSERT INTO kanban.boards (name, userId) VALUES (:name, :userId)";
         private string $GET_BOARD_ID = "SELECT id FROM kanban.boards WHERE name = :name";
         private string $ADD_BOARD_COLUMN = "INSERT INTO kanban.board_column (boardId, columnId) VALUES (:boardId,:columnId)";
 
         public function getBoardsWithRelations($userId)
         {
             try {
-                $flat = $this->db->query($this->GET_BOARDS_STATEMENT, ['userId' => $userId])->get();
+                $flat = $this->db->query($this->GET_BOARDS_STATEMENT, ['userId' => $userId['userId']])->get();
             } catch (Exception $e) {
-                error_log("Delete Task Error: " . $e->getMessage());
-                echo "Delete Task Error: " . $e->getMessage();
-                throw new \Error("Task deletion failed.");
+                error_log("Failed To Fetch Boards: " . $e->getMessage());
+                echo "Fetching Boards Error: " . $e->getMessage();
+                throw new \Error("Fetching Boards failed.");
             }
             return $this->groupData($flat);
         }
@@ -66,9 +67,10 @@ FROM kanban.boards b
             }
         }
 
-        public function addBoard($boardName)
+        public function addBoard($boardName,$userId)
         {
-            $this->db->query($this->ADD_TO_BOARD_STATEMENT, ['name' => $boardName]);
+
+            $this->db->query($this->ADD_TO_BOARD_STATEMENT, ['name' => $boardName, 'userId' => $userId]);
             return $this->db->query($this->GET_BOARD_ID, ['name' => $boardName])->get();
         }
 
