@@ -37,12 +37,12 @@
 
             Session::destroy(); // ❗ Always destroy any session before login attempt
             Session::ensureSession(); // Optionally start a fresh one for safety
-
-            $password = $this->args['password'];
-            $email = $this->args['email'];
+            $useCredentials = $this->args['userCredentials'];
+            $password = $useCredentials['password'];
+            $username = $useCredentials['username'];
 
             // Check credentials
-            $user = $this->ds()->handleLogin($password, $email);
+            $user = $this->ds()->handleLogin($password, $username);
 
             if (!$user) {
                 http_response_code(401); // ❗ Explicitly set HTTP 401 Unauthorized
@@ -50,17 +50,12 @@
             }
             // after here we can continue with session generation
             session_regenerate_id(true);
-            Session::put('user', ['email' => $user['email'], 'id' => $user['userId'], 'username' => $user['userName']]);
-
+            Session::put('user', ['email' => $user['email'], 'id' => $user['id'], 'username' => $user['username']]);
 
 
             return ([
                 'message' => 'Login successful',
-                'user' => [
-                    'id' => $user['userId'],
-                    'email' => $user['email'],
-                    'username' => $user['userName'],
-                ]
+                'user' => $user
             ]);
         }
 

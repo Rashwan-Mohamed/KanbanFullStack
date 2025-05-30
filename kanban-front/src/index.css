@@ -935,6 +935,26 @@ aside footer {
     background-color: #a8a4ff;
 }
 
+.subtasksContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 7px 0;
+}
+
+
+.header-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+}
+
+.header-btns {
+    justify-self: flex-end;
+    margin-right: 30px;
+}
+.logoutButton{
+    width: fit-content;
+    justify-self: flex-end;
+}
 /******************WHITE THEME ***************/
 .editDeletWhite:hover {
     background-color: #e4ebfa;

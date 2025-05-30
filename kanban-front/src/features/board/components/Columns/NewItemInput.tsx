@@ -38,10 +38,12 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
             {items.map((item, term) => {
                 const oldItem = item.id !== -1
                 return (
-                    <div key={term}>
+                    <div key={term} className={'inputWrapper'} >
                         <label className='spanerContainer'>
                             {' '}
                             <input
+
+                                className={`inputFormMain`}
                                 autoComplete='off'
                                 style={{
                                     border: used[term] !== 'valid' ? '2px solid #EA5555' : '',
@@ -60,7 +62,8 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                             />
                             {hasColumn(item) && oldItem && !fromBoard && (
                                 <div className='overlies'>
-                                    <input type='text' value={item.name} readOnly/>
+                                    <input type='text'                                 className={`inputFormMain`}
+                                           value={item.name} readOnly/>
                                 </div>
                             )}
                             {used[term] !== 'valid' && (

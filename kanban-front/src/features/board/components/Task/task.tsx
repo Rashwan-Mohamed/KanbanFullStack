@@ -4,7 +4,6 @@ import {UseAppContext} from '@/context'
 import useCloseEscape from '../hooks/useCloseEscape.tsx'
 import CustomDrop from '../customDrop'
 import {useMutation} from '@apollo/client'
-import {DELETE_TASK} from '@/queries'
 import type {task} from "../../boardSlice";
 import {useAppDispatch} from "@/app/hooks";
 import ControlButtons from "@/features/board/components/Task/ControlButtons";
@@ -13,8 +12,8 @@ import ViewSubTasks from "@/features/board/components/Task/ViewSubTasks";
 import useTaskStatusUpdater from "@/features/board/components/Task/useTaskStatusUpdater";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 import AssureDelete from "@/features/board/components/AssureDelete.tsx";
-import type {DeleteTaskMutation, DeleteTaskMutationVariables} from "@/__generated__/types.ts";
 import {useCallDispatchTask} from "@/features/board/components/Task/useCallDispatchTask.ts";
+import {DELETE_TASK} from "@/GraphQL Queries/TasksQueries.ts";
 
 
 interface propTypes {
@@ -24,7 +23,7 @@ interface propTypes {
 }
 
 function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
-    const [deleteTF] = useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DELETE_TASK)
+    const [deleteTF] = useMutation(DELETE_TASK)
     const {selected, dark} = UseAppContext()
     const theOne = useGetBoard()
     const formRef = useRef<HTMLFormElement>(null)

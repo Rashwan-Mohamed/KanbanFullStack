@@ -31,7 +31,7 @@ function AppContextProvider({children}: AppContextProviderProps): React.JSX.Elem
     const boards = useAppSelector((state: RootState) => state.boards);
     const [selected, setSelected] = useState<string>("");
 
-// Set initial selected board once boards are loaded
+    // Set the initially selected board once boards are loaded
     useEffect(() => {
         if (!boards.length) return;
 
@@ -65,6 +65,8 @@ function AppContextProvider({children}: AppContextProviderProps): React.JSX.Elem
 
     const [hideSide, setHideSide] = useState<boolean>(false);
     const board = useMemo(() => boards.find((item) => item.name === selected), [boards, selected]) ?? boards[0]
+
+
     return (
         <AppContext.Provider
             value={{

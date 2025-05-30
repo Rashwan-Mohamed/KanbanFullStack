@@ -16,7 +16,7 @@ const AddNewColumn = ({onAddNewItem, setUsed, type}: propTypes) => {
                 setUsed((old) => [...old, 'valid']);
             }}
         >
-            +add new ${type}
+            + add new {type}
         </button>
 
     )

@@ -1,14 +1,14 @@
 import React, {useState, useRef} from 'react'
 import {deleteBoard} from '../boardSlice.ts'
 import {useMutation} from '@apollo/client'
-import {DELETE_BOARD} from '@/queries.ts'
 import {useAppDispatch, useAppSelector} from '@/app/hooks.ts'
 import {UseAppContext} from '@/context.tsx'
 import AssureDelete from "@/features/board/components/AssureDelete.tsx";
 import MangeTask from "@/features/board/components/MangeTask/MangeTask.tsx";
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
 import MangeBoard from "@/features/board/MangeBoard.tsx";
-import type {MutationDeleteBoardArgs,DeleteBoardMutationVariables} from "@/__generated__/types.ts";
+import {DELETE_BOARD} from "@/GraphQL Queries/BoardQueries.ts";
+import Logout from "@/features/auth/Logout.tsx";
 
 interface propTypes {
     selectBord: boolean
@@ -17,7 +17,7 @@ interface propTypes {
 
 const Header = ({selectBord, setSelectBord}: propTypes) => {
     const {selected, setSelected, dark, tab} = UseAppContext()
-    const [deleteBF] = useMutation<MutationDeleteBoardArgs,DeleteBoardMutationVariables>(DELETE_BOARD)
+    const [deleteBF] = useMutation(DELETE_BOARD)
     const [toggle, setToggle] = useState(false)
     const [boardShow, setBoardShow] = useState(false)
     const [taskShow, setTaskShow] = useState(false)
@@ -115,6 +115,7 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
                     {toggle && <ControlBtns dark={dark} drop={drop} setBoardShow={setBoardShow} setToggle={setToggle}
                                             setSure={setSure}/>}
                 </div>)}
+                <Logout/>
             </div>
         </header>
     </>)

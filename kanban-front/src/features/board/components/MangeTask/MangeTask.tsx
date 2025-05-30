@@ -43,7 +43,7 @@ function MangeTask({setEditTask, selectedTask}: propTypes) {
                 <ChangeTitle value={entries.title.toString()} usedBoard={usedBoard}
                              onChange={(val) => setEntries((old) => ({...old, title: val}))}
                 />
-                <div>
+                <div className='inputWrapper'>
                     <label htmlFor='Description'>Description</label>
                     <textarea
                         onChange={(e) =>
