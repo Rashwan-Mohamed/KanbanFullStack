@@ -20,7 +20,11 @@ export const LOGOUT = gql(/* GraphQL */`
 `);
 export const REGISTER = gql(/* GraphQL */`
     mutation Register($username: String!, $email: String!, $password: String!){
-        register(username:$username,email:$email,password:$password)}
+        register(username:$username,email:$email,password:$password){
+            successful
+            userId
+        }
+    }
 `);
 
 

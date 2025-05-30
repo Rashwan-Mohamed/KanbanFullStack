@@ -951,10 +951,18 @@ aside footer {
     justify-self: flex-end;
     margin-right: 30px;
 }
-.logoutButton{
+
+.logoutButton {
     width: fit-content;
     justify-self: flex-end;
 }
+
+.guidanceLabel {
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+}
+
 /******************WHITE THEME ***************/
 .editDeletWhite:hover {
     background-color: #e4ebfa;

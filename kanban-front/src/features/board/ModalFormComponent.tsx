@@ -6,7 +6,7 @@ export const ModalFormWrapper = ({
                                      onSubmit,
                                      formRef,
                                      children,
-                                     submitLabel, loading
+                                     submitLabel, loading, extraChildren
                                  }: {
     title: string;
     onSubmit: (e: React.FormEvent) => void;
@@ -14,17 +14,16 @@ export const ModalFormWrapper = ({
     children: React.ReactNode;
     submitLabel: string;
     loading?: boolean;
+    extraChildren?: React.ReactNode;
 }) => (
     <div className="modalOverlay">
         <form onSubmit={onSubmit} ref={formRef} className="newBoard">
-
             {loading ? <LoadingSpinner message={'loading'} color={'fff'}/> : <><h3>{title}</h3>
                 {children}
                 <button type="submit">{submitLabel}</button>
+                {extraChildren}
             </>
             }
-
-
         </form>
     </div>
 );

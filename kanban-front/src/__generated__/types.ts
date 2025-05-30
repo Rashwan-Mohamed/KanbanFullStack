@@ -49,7 +49,7 @@ export type Mutation = {
   editTask_Sub: Task;
   login: LoginResponse;
   logout: Scalars['Boolean']['output'];
-  register: Scalars['Boolean']['output'];
+  register: RegisterResponse;
 };
 
 
@@ -170,6 +170,11 @@ export type Query = {
   getBoards: Array<Board>;
 };
 
+
+export type QueryGetBoardsArgs = {
+  userId: Scalars['Int']['input'];
+};
+
 export type SubTask = {
   __typename?: 'SubTask';
   id: Scalars['Int']['output'];
@@ -223,6 +228,12 @@ export type LoginResponse = {
   user?: Maybe<User>;
 };
 
+export type RegisterResponse = {
+  __typename?: 'registerResponse';
+  successful: Scalars['Boolean']['output'];
+  userId?: Maybe<Scalars['Int']['output']>;
+};
+
 export type Subtask = {
   id?: InputMaybe<Scalars['Int']['input']>;
   isCompleted: Scalars['Boolean']['input'];
@@ -245,7 +256,9 @@ export type UserCredentials = {
   username: Scalars['String']['input'];
 };
 
-export type GetBoardsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetBoardsQueryVariables = Exact<{
+  userId: Scalars['Int']['input'];
+}>;
 
 
 export type GetBoardsQuery = { __typename?: 'Query', getBoards: Array<{ __typename?: 'board', id: number, name: string, columns: Array<{ __typename?: 'Column', id: number, name: string, tasks: Array<{ __typename?: 'task', id: number, title: string, description: string, status: string, statusId: number, order: number, subtasks: Array<{ __typename?: 'SubTask', id: number, title: string, isCompleted: boolean }> }> }> }> };
@@ -309,7 +322,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: boolean };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'registerResponse', successful: boolean, userId?: number | null } };
 
 export type AddTaskMutationVariables = Exact<{
   inputTask: InputTask;

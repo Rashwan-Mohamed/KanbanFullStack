@@ -20,23 +20,24 @@
        s.id    as subtask_id,
        s.title as subtask_title,
        s.isCompleted
-FROM boards b
+FROM kanban.boards b
          LEFT JOIN board_column bc ON bc.boardId = b.id
          LEFT JOIN columns c ON c.id = bc.columnId
          LEFT JOIN column_task ct ON c.id = ct.columnId
          LEFT JOIN tasks t ON ct.taskId = t.id
          LEFT JOIN tasks_sub ON t.id = tasks_sub.taskId
-         LEFT JOIN subtasks s ON tasks_sub.subTaskId = s.id";
+         LEFT JOIN subtasks s ON tasks_sub.subTaskId = s.id
+         WHERE b.userId=:userId";
         private string $EDIT_BOARD_STATEMENT = "UPDATE kanban.boards t SET t.name = :name WHERE t.id = :id";
         private string $DELETE_FROM_BOARD_STATEMENT = "DELETE FROM kanban.boards WHERE id = :id";
         private string $ADD_TO_BOARD_STATEMENT = "INSERT INTO kanban.boards (name, userId) VALUES (:name, 0)";
         private string $GET_BOARD_ID = "SELECT id FROM kanban.boards WHERE name = :name";
         private string $ADD_BOARD_COLUMN = "INSERT INTO kanban.board_column (boardId, columnId) VALUES (:boardId,:columnId)";
 
-        public function getBoardsWithRelations()
+        public function getBoardsWithRelations($userId)
         {
             try {
-                $flat = $this->db->query($this->GET_BOARDS_STATEMENT)->get();
+                $flat = $this->db->query($this->GET_BOARDS_STATEMENT, ['userId' => $userId])->get();
             } catch (Exception $e) {
                 error_log("Delete Task Error: " . $e->getMessage());
                 echo "Delete Task Error: " . $e->getMessage();

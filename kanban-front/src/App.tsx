@@ -8,7 +8,7 @@ import {
     Navigate,
 } from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "./app/hooks";
-import LoginPage from "./features/auth/LoginPage";
+import SessionPage from "./features/auth/SessionPage.tsx";
 import RegisterPage from "./features/auth/RegisterPage";
 import React, {useEffect, useState} from "react";
 import {setAuth} from "@/features/auth/AuthenticationSlice.tsx";
@@ -45,7 +45,7 @@ function App(): React.JSX.Element {
 
                 <Route path="/" element={
                     <RedirectOnAuth>
-                        <LoginPage/>
+                        <SessionPage/>
                     </RedirectOnAuth>
                 }/>
 

@@ -3,7 +3,7 @@ import {loggedOut} from "@/features/auth/AuthenticationSlice.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "@/app/hooks.ts";
 import {useMutation} from "@apollo/client";
-import {LOGOUT} from "@/GraphQL Queries/ControlQueries.ts";
+import {LOGOUT} from "@/GraphQL Queries/SessionQueries.ts";
 
 const Logout = () => {
     const [logout] = useMutation(LOGOUT)
