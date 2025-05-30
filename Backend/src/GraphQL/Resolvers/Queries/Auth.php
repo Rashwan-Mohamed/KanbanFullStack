@@ -18,41 +18,37 @@
             $password = $this->args['password'];
             $username = $this->args['username'];
             $email = $this->args['email'];
-
             // Hash the password and register the user
             $password = password_hash($password, PASSWORD_DEFAULT);
-            $this->ds()->handleRegister($password, $username, $email);
-
-            return "User registered successfully";
+            return $this->ds()->handleRegister($password, $username, $email);
         }
 
         public function login()
         {
-//            $attempts = $cache->get("login_attempts_$email");
-//            if ($attempts > 5) {
-//                http_response_code(429); // Too many requests
-//                echo json_encode(['error' => 'Too many login attempts. Try again later.']);
-//                exit;
-//            }
-
-            Session::destroy(); // ❗ Always destroy any session before login attempt
-            Session::ensureSession(); // Optionally start a fresh one for safety
             $useCredentials = $this->args['userCredentials'];
             $password = $useCredentials['password'];
             $username = $useCredentials['username'];
 
             // Check credentials
-            $user = $this->ds()->handleLogin($password, $username);
+            $response = $this->ds()->handleLogin($password, $username);
 
-            if (!$user) {
-                http_response_code(401); // ❗ Explicitly set HTTP 401 Unauthorized
-                echo json_encode(['error' => 'No matching account found for these credentials.']);
+            if (!$response['validity']) {
+//                http_response_code(401); // ❗ Explicitly set HTTP 401 Unauthorized
+                return ([
+                    'message' => $response['message'],
+                    'user' => null
+                ]);
             }
             // after here we can continue with session generation
+            return $this::newSession($response['user']);
+        }
+
+        static function newSession($user)
+        {
+            Session::destroy(); // ❗ Always destroy any session before login attempt
+            Session::ensureSession(); // Optionally start a fresh one for safety
             session_regenerate_id(true);
             Session::put('user', ['email' => $user['email'], 'id' => $user['id'], 'username' => $user['username']]);
-
-
             return ([
                 'message' => 'Login successful',
                 'user' => $user
