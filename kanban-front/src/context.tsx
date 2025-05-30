@@ -33,8 +33,7 @@ function AppContextProvider({children}: AppContextProviderProps): React.JSX.Elem
 
     // Set the initially selected board once boards are loaded
     useEffect(() => {
-        if (!boards.length) return;
-
+        if (boards.length === 0) return;
         const fromStorage = localStorage.getItem("selectedBoard");
         const fallback = boards[0].name;
 

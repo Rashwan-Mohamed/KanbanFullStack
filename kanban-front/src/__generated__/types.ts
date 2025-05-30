@@ -230,6 +230,8 @@ export type LoginResponse = {
 
 export type RegisterResponse = {
   __typename?: 'registerResponse';
+  existingEmail?: Maybe<Scalars['Boolean']['output']>;
+  existingUser?: Maybe<Scalars['Boolean']['output']>;
   successful: Scalars['Boolean']['output'];
   userId?: Maybe<Scalars['Int']['output']>;
 };
@@ -322,7 +324,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'registerResponse', successful: boolean, userId?: number | null } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'registerResponse', successful: boolean, userId?: number | null, existingUser?: boolean | null, existingEmail?: boolean | null } };
 
 export type AddTaskMutationVariables = Exact<{
   inputTask: InputTask;

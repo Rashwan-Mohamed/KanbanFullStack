@@ -8,8 +8,9 @@ interface propTypes {
 }
 
 function ChangeTitle({usedBoard, value, onChange, label, additionalClass, type}: propTypes) {
+    const comboClass = additionalClass?.concat('dive') ?? ''
     return (
-        <div className={'inputWrapper'}>
+        <div className={`inputWrapper ${comboClass ?? ''}`}>
             <label htmlFor={label}>{label ?? 'title'}</label>
             <input
                 className={`inputFormMain ${additionalClass ?? ''}`}
