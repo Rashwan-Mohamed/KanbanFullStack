@@ -32,7 +32,7 @@ function CustomDrop
         }
     }
     return (
-        <div className='choosecat'>
+        <div className='choosecat inputWrapper'>
             <h5>{label}</h5>
             <section
                 ref={select}
@@ -42,7 +42,7 @@ function CustomDrop
                 className='select-option'
                 id=''
             >
-                <input value={varia.status.toString()} readOnly type='text'/>
+                <input value={varia.status} readOnly type='text'/>
                 <span>
           {' '}
                     <svg

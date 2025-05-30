@@ -2,19 +2,14 @@ import React, {useState, useRef} from 'react'
 import {addTask, editTask, type subtask} from '../../boardSlice'
 import {UseAppContext} from '@/context'
 import {useEffect} from 'react'
-import {ADD_TASK, EDIT_TASK} from '@/queries'
 import {useMutation} from '@apollo/client'
 import {useAppDispatch} from "@/app/hooks";
 
 import type {task, board} from "../../boardSlice";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
-import type {
-    EditTaskMutation,
-    EditTaskMutationVariables,
-    AddTaskMutation,
-    AddTaskMutationVariables
-} from "@/__generated__/types.ts";
+
+import {ADD_TASK, EDIT_TASK} from "@/GraphQL Queries/TasksQueries.ts";
 
 
 type UseEditTaskReturn = {
@@ -41,8 +36,8 @@ type UseEditTaskReturn = {
 
 export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boolean>>, selectedTask: task | null): UseEditTaskReturn | null {
     const {selected} = UseAppContext()
-    const [editTaskFunc, {loading: editLoading}] = useMutation<EditTaskMutation, EditTaskMutationVariables>(EDIT_TASK)
-    const [addTF, {loading}] = useMutation<AddTaskMutation, AddTaskMutationVariables>(ADD_TASK)
+    const [editTaskFunc, {loading: editLoading}] = useMutation(EDIT_TASK)
+    const [addTF, {loading}] = useMutation(ADD_TASK)
 
     const theOne = useGetBoard()
     const initialStatus = theOne.columns[0]

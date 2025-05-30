@@ -3,7 +3,6 @@ import {addNewBoard, editBoard} from './boardSlice'
 import {UseAppContext} from '@/context'
 import useCloseEscape from './components/hooks/useCloseEscape.tsx'
 import {useMutation} from '@apollo/client'
-import {ADD_BOARD, EDIT_BOARD, EDIT_COLUMN} from '@/queries'
 import {useAppDispatch, useAppSelector} from '@/app/hooks'
 import NewItemInput from './components/Columns/NewItemInput.tsx'
 import AddNewColumn from "@/features/board/components/Columns/AddNewColumn";
@@ -13,12 +12,8 @@ import useCheckColumns from "@/features/board/components/hooks/useCheckColumns.t
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
 import ChangeTitle from "@/features/board/components/MangeTask/ChangeTitle.tsx";
 import {ModalFormWrapper} from "@/features/board/ModalFormComponent.tsx";
-import type {
-    AddBoardMutation,
-    AddBoardMutationVariables,
-    EditBoardMutation,
-    EditBoardMutationVariables, EditColumnMutation, EditColumnMutationVariables
-} from "@/__generated__/types.ts";
+import {ADD_BOARD, EDIT_BOARD} from "@/GraphQL Queries/BoardQueries.ts";
+import {EDIT_COLUMN} from "@/GraphQL Queries/ColumnQueries.ts";
 
 function MangeBoard({setBoardShow, operation}: {
     setBoardShow: React.Dispatch<React.SetStateAction<boolean>>,
@@ -34,9 +29,9 @@ function MangeBoard({setBoardShow, operation}: {
     const [columns, setColumns] = useState<column[]>(() => operation === 'edit' ? theOne.columns : [{name: '', id: -1}])
     const [used, setUsed] = useState(columns.map(() => "valid"))
     const [usedBoard, setUsedBoard] = useState('valid')
-    const [addNB, {loading: loadingAdd}] = useMutation<AddBoardMutation, AddBoardMutationVariables>(ADD_BOARD)
-    const [editDF, {loading: loadingEditBoard}] = useMutation<EditBoardMutation, EditBoardMutationVariables>(EDIT_BOARD)
-    const [editCF, {loading: loadingEditColumn}] = useMutation<EditColumnMutation, EditColumnMutationVariables>(EDIT_COLUMN)
+    const [addNB, {loading: loadingAdd}] = useMutation(ADD_BOARD)
+    const [editDF, {loading: loadingEditBoard}] = useMutation(EDIT_BOARD)
+    const [editCF, {loading: loadingEditColumn}] = useMutation(EDIT_COLUMN)
     const boards = useAppSelector((state) => state.boards)
     const close = useCloseEscape()
     const dispatch = useAppDispatch()

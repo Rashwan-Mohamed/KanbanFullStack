@@ -1,7 +1,6 @@
 import {useEffect} from "react";
 import {useMutation} from "@apollo/client";
-import {EDIT_TASK_STATUS} from "@/queries";
-import type {EditTaskStatusMutation, EditTaskStatusMutationVariables} from "@/__generated__/types.ts";
+import {EDIT_TASK_STATUS} from "@/GraphQL Queries/TasksQueries.ts";
 
 
 interface Props {
@@ -13,7 +12,7 @@ interface Props {
 }
 
 const useTaskStatusUpdater = ({status, prevStatus, id, statusId, order}: Props) => {
-    const [editTSF] = useMutation<EditTaskStatusMutation, EditTaskStatusMutationVariables>(EDIT_TASK_STATUS);
+    const [editTSF] = useMutation(EDIT_TASK_STATUS);
     useEffect(() => {
         if (prevStatus !== status && order !== -1) {
             editTSF({variables: {taskId: (id), statusID: (statusId), order}})

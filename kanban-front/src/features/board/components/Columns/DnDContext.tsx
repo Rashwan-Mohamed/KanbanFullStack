@@ -16,8 +16,7 @@ import {changeStatusTasks, editTask, type task} from "@/features/board/boardSlic
 import {UseAppContext} from "@/context.tsx";
 import {useAppDispatch} from "@/app/hooks.ts";
 import {useMutation} from "@apollo/client";
-import {CHANGE_TASK_ORDER} from "@/queries.ts";
-import type {ChangeOrderMutation, ChangeOrderMutationVariables} from "@/__generated__/types.ts";
+import {CHANGE_TASK_ORDER} from "@/GraphQL Queries/TasksQueries.ts";
 
 const DndMainContext = ({children}: { children: React.ReactNode }) => {
     const {selected} = UseAppContext()
@@ -25,7 +24,7 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
     const board = useGetBoard()
     useTaskStatusUpdater(move)
     const dispatch = useAppDispatch();
-    const [changeTOF] = useMutation<ChangeOrderMutation, ChangeOrderMutationVariables>(CHANGE_TASK_ORDER)
+    const [changeTOF] = useMutation(CHANGE_TASK_ORDER)
     const mouseSensor = useSensor(MouseSensor, {
         // Require the mouse to move by 10 pixels before activating
         activationConstraint: {

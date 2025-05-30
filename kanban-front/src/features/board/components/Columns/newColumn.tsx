@@ -2,7 +2,6 @@ import React, {useState, useRef, useEffect} from 'react'
 import {editBoard} from '../../boardSlice'
 import {UseAppContext} from '@/context'
 import useCloseEscape from '../hooks/useCloseEscape.tsx'
-import {ADD_COLUMN} from '@/queries'
 import {useMutation} from '@apollo/client'
 import {useAppDispatch} from "@/app/hooks";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
@@ -11,11 +10,11 @@ import useCheckColumns from '../hooks/useCheckColumns'
 import AddNewColumn from "@/features/board/components/Columns/AddNewColumn";
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
 import {ModalFormWrapper} from "@/features/board/ModalFormComponent.tsx";
-import type {AddColumnMutation, AddColumnMutationVariables} from "@/__generated__/types.ts";
+import {ADD_COLUMN} from "@/GraphQL Queries/ColumnQueries.ts";
 
 function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction<boolean>> }) {
     const {setSelected} = UseAppContext()
-    const [addCF] = useMutation<AddColumnMutation, AddColumnMutationVariables>(ADD_COLUMN)
+    const [addCF] = useMutation(ADD_COLUMN)
     const theOne = useGetBoard()
     const [name, setName] = useState(theOne.name)
     const [columns, setColumns] = useState(theOne.columns)
@@ -67,9 +66,9 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
         <>
             <ModalFormWrapper formRef={formRef} submitLabel={'save changes'} onSubmit={handleSubmit}
                               title={'Add New Column'}>
-                <div>
+                <div className='inputWrapper'>
                     <label htmlFor='nameeee'>name</label>
-                    <input readOnly value={name} type='text' id='nameeee'/>
+                    <input className={'inputFormMain'} readOnly value={name} type='text' id='nameeee'/>
                 </div>
                 <NewItemInput items={columns} setItems={setColumns} used={used} setUsed={setUsed}/>
                 {columns.length < 6 &&

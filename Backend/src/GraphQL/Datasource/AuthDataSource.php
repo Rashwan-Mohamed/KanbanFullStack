@@ -13,16 +13,18 @@
             $this->db->query($this->REGISTER_NEW_USER, [':user' => $username, ':email' => $email, ':password' => $password]);
         }
 
-        public function handleLogin($plainPassword, $email)
+        public function handleLogin($plainPassword, $username)
         {
-            $user = $this->db->query("SELECT * FROM kanban.users WHERE email = :email", [
-                ':email' => $email
+            $user = $this->db->query("SELECT * FROM kanban.users WHERE username = :username", [
+                ':username' => $username
             ])->get();
 
             if (!$user) return null;
 
             $user = $user[0];
-
+//            dd($plainPassword===$user['password']);
+//            $passwordHas = password_hash('123',PASSWORD_DEFAULT);
+//            dd($passwordHas);
             if (!password_verify($plainPassword, $user['password'])) {
                 return null;
             }
