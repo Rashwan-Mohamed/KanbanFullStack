@@ -40,7 +40,7 @@
             try {
                 $schema = self::getSchema();
                 $rootResolver = [
-                    'getBoards' => fn() => (new GetBoards())->getBoards(),
+                    'getBoards' => fn($rootValue, $args) => (new GetBoards())->getBoards($args),
                     'editBoard' => fn($rootValue, $args) => (new EditBoard($args))->editBoard(),
                     'deleteBoard' => fn($rootValue, $args) => (new EditBoard($args))->deleteBoard(),
                     'addBoard' => fn($rootValue, $args) => (new EditBoard($args))->addBoard(),
