@@ -2,8 +2,8 @@ import {gql} from "@/__generated__";
 
 
 export const GET_BOARDS = gql(/* GraphQL */`
-    query getBoards {
-        getBoards {
+    query getBoards($userId:Int!) {
+        getBoards(userId:$userId) {
             id
             name
             columns {

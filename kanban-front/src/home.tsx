@@ -17,7 +17,8 @@ function Home() {
     const close = useCloseEscape()
     const dispatch = useDispatch();
     const authState = useAppSelector((state) => state.auth)
-    const [getBoards, {loading, error}] = useLazyQuery(GET_BOARDS);
+    const [getBoards, {loading, error}] = useLazyQuery(GET_BOARDS,{variables:{userId
+    }});
     useEffect(() => {
         if (authState.auth) {
             getBoards().then(r => dispatch(setBoards(r.data?.getBoards ?? []))).catch(e => console.log(e))
