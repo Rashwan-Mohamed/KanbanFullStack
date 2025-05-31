@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useMutation} from "@apollo/client";
-import {LOGIN, REGISTER} from "@/GraphQL Queries/SessionQueries.ts";
+import {LOGIN, LOGIN_GUEST, REGISTER} from "@/GraphQL Queries/SessionQueries.ts";
 import {useAppDispatch} from "@/app/hooks.ts";
 import {setAuth} from "@/features/auth/AuthenticationSlice.tsx";
 
@@ -18,6 +18,7 @@ function useHandleSession() {
     const [signIn, setSignIn] = useState<boolean>(true)
     const [loginFC, {loading}] = useMutation(LOGIN)
     const [registerFC, {loading: registeringLoad}] = useMutation(REGISTER)
+    const [guestLogin, {loading: loggingGuest}] = useMutation(LOGIN_GUEST)
     const dispatch = useAppDispatch()
     // const notify = () => toast("Logged in successfully. Welcome back!");
     console.log(signIn, 'changed')
@@ -109,6 +110,13 @@ function useHandleSession() {
             alert("Something went wrong during login. Please try again later.");
         }
     };
+    const handleGuest = async () => {
+        const response = await guestLogin()
+        const res = response.data?.loginGuest
+        if (res) {
+            newSession('Guest', 0)
+        }
+    }
     const newSession = (username: string, id: number) => {
         dispatch(setAuth({
             user: username,
@@ -137,8 +145,8 @@ function useHandleSession() {
         usedName,
         setUsedName,
         validPassword
-        , setValidPassword, formRef, loading: loading || registeringLoad,
-        navigate, signIn, setSignIn, usedEmail
+        , setValidPassword, formRef, loading: loading || registeringLoad || loggingGuest,
+        navigate, signIn, setSignIn, usedEmail,handleGuest
     }
 }
 

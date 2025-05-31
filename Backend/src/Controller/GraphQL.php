@@ -3,11 +3,12 @@
 
     namespace App\Controller;
 
+    use App\GraphQL\Resolvers\Mutation\Auth;
     use App\GraphQL\Resolvers\Mutation\EditBoard;
     use App\GraphQL\Resolvers\Mutation\EditColumns;
     use App\GraphQL\Resolvers\Mutation\EditSubTask;
     use App\GraphQL\Resolvers\Mutation\EditTask;
-    use App\GraphQL\Resolvers\Queries\Auth;
+    use App\GraphQL\Resolvers\Mutation\GuestAuth;
     use App\GraphQL\Resolvers\Queries\GetBoards;
     use GraphQL\GraphQL as GraphQLBase;
     use GraphQL\Language\Parser;
@@ -36,7 +37,6 @@
 
         public static function handle()
         {
-//            require_once __DIR__ . '/../../Core/insertData.php';
             try {
                 $schema = self::getSchema();
                 $rootResolver = [
@@ -56,6 +56,8 @@
                     'login' => fn($rootValue, $args) => (new Auth($args))->login(),
                     'logout' => fn($rootValue, $args) => (new Auth($args))->logout(),
                     'register' => fn($rootValue, $args) => (new Auth($args))->register(),
+                    'loginGuest' => fn($rootValue, $args) => (new GuestAuth($args))->handleNewGuest(),
+                    'logOutGuest' => fn($rootValue, $args) => (new GuestAuth($args))->deleteGuestSession(),
                 ];
 
 

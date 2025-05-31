@@ -30,7 +30,6 @@
         public function addBoard()
         {
             $user = Session::get('user');
-//            dd($user);
             if (!$user) {
                 http_response_code(401);
                 return false;

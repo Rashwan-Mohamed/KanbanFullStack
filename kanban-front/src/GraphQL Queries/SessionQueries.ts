@@ -1,4 +1,3 @@
-
 import {gql} from '@/__generated__/gql';
 
 export const LOGIN = gql(/* GraphQL */`
@@ -29,7 +28,16 @@ export const REGISTER = gql(/* GraphQL */`
     }
 `);
 
-
+export const LOGIN_GUEST = gql(/* GraphQL */`
+    mutation LoginGuest {
+        loginGuest
+    }
+`);
+export const LOGOUT_GUEST = gql(/* GraphQL */`
+    mutation LogOutGuest {
+        logOutGuest
+    }
+`);
 /*export const DELETE_COLUMN = gql`
     mutation DeleteColumn($columnID: [Int!]!) {
         deleteColumn(columnID: $columnID)

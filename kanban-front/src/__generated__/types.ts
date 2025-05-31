@@ -47,7 +47,9 @@ export type Mutation = {
   editTask: EditTaskResponse;
   editTaskStatus: Scalars['Boolean']['output'];
   editTask_Sub: Task;
+  logOutGuest: Scalars['Boolean']['output'];
   login: LoginResponse;
+  loginGuest: Scalars['Boolean']['output'];
   logout: Scalars['Boolean']['output'];
   register: RegisterResponse;
 };
@@ -325,6 +327,16 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'registerResponse', successful: boolean, userId?: number | null, existingUser?: boolean | null, existingEmail?: boolean | null } };
+
+export type LoginGuestMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoginGuestMutation = { __typename?: 'Mutation', loginGuest: boolean };
+
+export type LogOutGuestMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogOutGuestMutation = { __typename?: 'Mutation', logOutGuest: boolean };
 
 export type AddTaskMutationVariables = Exact<{
   inputTask: InputTask;

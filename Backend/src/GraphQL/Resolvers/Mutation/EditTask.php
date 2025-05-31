@@ -38,7 +38,6 @@
 
         public function deleteTask()
         {
-            (new SubTaskDataSource)->taskSubs($this->args['taskID']);
             return $this->ds()->deleteTask($this->args['taskID']);
         }
 
