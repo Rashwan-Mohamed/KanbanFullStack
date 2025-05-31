@@ -961,6 +961,8 @@ aside footer {
     font-size: 12px;
     font-weight: 700;
     text-align: left;
+    border-top: 1px solid #ffffff75;
+    padding-top: 15px;
 }
 
 .LoggingOutMessage {
@@ -983,6 +985,25 @@ aside footer {
 
 .loginFormInputdive .dangerSpan {
     position: static;
+}
+
+.ButtonGeneric {
+    width: 100%;
+    border-radius: 17px;
+    padding: 10px 4px;
+    font-family: var(--plus), cursive;
+    font-weight: 700;
+    text-transform: capitalize;
+    transition: all 200ms ease-in-out;
+    background-color: white;
+    color: #635fc7;
+    /*background-color: #635fc7;*/
+    /*color: white;*/
+}
+
+.ButtonGeneric:hover {
+    /*background-color: rgba(255, 255, 255, 0.877);*/
+    opacity: 0.8;
 }
 
 /******************WHITE THEME ***************/

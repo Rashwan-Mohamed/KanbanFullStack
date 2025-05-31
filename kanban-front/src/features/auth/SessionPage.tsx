@@ -19,7 +19,7 @@ export default function SessionPage() {
         validPassword,
         formRef,
         loading,
-        signIn, setSignIn, usedEmail
+        signIn, setSignIn, usedEmail, handleGuest
     }
         = handleSession
     const opo = signIn ? 'login' : 'register'
@@ -29,6 +29,9 @@ export default function SessionPage() {
             <p className={'guidanceLabel'}> {!signIn ? 'already a user?' : 'not a user?'}</p>
             <button type="button" onClick={() => setSignIn((!signIn))}>
                 {!signIn ? 'login' : 'register'}
+            </button>
+            <button className='ButtonGeneric' type="button" onClick={() => handleGuest()}>
+                Continue As Guest
             </button>
         </>
     return (

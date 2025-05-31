@@ -1,9 +1,8 @@
 <?php
 
-    namespace App\GraphQL\Resolvers\Queries;
+    namespace App\GraphQL\Resolvers\Mutation;
 
     use App\GraphQL\Datasource\AuthDataSource;
-    use App\GraphQL\Resolvers\Mutation\BaseMutationResolver;
     use Core\Session;
 
     class Auth extends BaseMutationResolver
@@ -43,7 +42,7 @@
             return $this::newSession($response['user']);
         }
 
-        static function newSession($user)
+        static function newSession($user): array
         {
             Session::destroy(); // ❗ Always destroy any session before login attempt
             Session::ensureSession(); // Optionally start a fresh one for safety
@@ -53,16 +52,17 @@
                 'message' => 'Login successful',
                 'user' => $user
             ]);
+
         }
 
         public function getCurrentUser()
         {
             $user = Session::get('user');
             if ($user) {
-                echo json_encode($user);
+                return $user;
             } else {
                 http_response_code(401);
-                echo json_encode(['error' => 'Not logged in']);
+                return json_encode(['error' => 'Not logged in']);
             }
         }
 
@@ -72,6 +72,7 @@
             Session::destroy();
             return "Logged out";
         }
+
 
     }
 

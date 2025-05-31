@@ -86,6 +86,8 @@ type Mutation {
     register(username: String!, email: String!, password: String!): registerResponse!
     login(userCredentials:userCredentials!): loginResponse!
     logout: Boolean!
+    loginGuest:Int!
+    logOutGuest:Boolean!
 
     # Update a subtask (returns full updated SubTask)
     editSubTask(

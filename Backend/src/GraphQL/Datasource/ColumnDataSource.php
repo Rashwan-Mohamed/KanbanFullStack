@@ -7,11 +7,10 @@
 
         private string $EDIT_COLUMN_STATEMENT = " UPDATE kanban.columns t SET t.name = :name WHERE t.id = :id";
         private string $DELETE_FROM_COLUMNS_STATEMENT = "DELETE FROM kanban.columns WHERE id = :id";
-        private string $ADD_TO_COLUMNS_STATEMENT = "INSERT INTO kanban.columns (name) VALUES (:name)";
+        private string $ADD_TO_COLUMNS_STATEMENT = "INSERT INTO kanban.columns (name,boardId) VALUES (:name,:boardId)";
         private string $GET_COLUMN_ID = "SELECT id FROM kanban.columns  ORDER BY id DESC LIMIT 1";
         private string $GET_COLUMN_NAME = "SELECT name FROM kanban.columns WHERE id = :id";
-        private string $GET_BOARD_COLUMN = "SELECT columnId FROM kanban.board_column WHERE boardId = :id";
-        private string $ADD_BOARD_COLUMN = "INSERT INTO kanban.board_column (boardId, columnId) VALUES (:boardId,:columnId)";
+        private string $GET_BOARD_COLUMN = "SELECT id,name  FROM kanban.columns WHERE boardId = :id";
 
         public function editColumn($columnIds, $columnNames, $boardId)
         {
@@ -28,9 +27,9 @@
             }
             $existingCol = $this->db->query($this->GET_BOARD_COLUMN, ['id' => $boardId])->get();
             foreach ($existingCol as $col) {
-                $idea = $col['columnId'];
-                $colName = $this->db->query($this->GET_COLUMN_NAME, ['id' => $idea])->get();
-                if (!in_array($colName[0]['name'], $columnNames)) {
+                $idea = $col['id'];
+                $colName = $col['name'];
+                if (!in_array($colName, $columnNames)) {
                     $this->deleteColumn($idea);
                 }
             }
@@ -40,7 +39,6 @@
 
         public function deleteColumn($columnId)
         {
-            (new TaskDataSource)->deleteTaskAssocColumn($columnId);
             $this->db->query($this->DELETE_FROM_COLUMNS_STATEMENT, ['id' => $columnId]);
         }
 
@@ -48,7 +46,7 @@
         {
             $columns = $this->db->query($this->GET_BOARD_COLUMN, ['id' => $boardId])->get();
             foreach ($columns as $col) {
-                $idea = $col['columnId'];
+                $idea = $col['id'];
                 $this->deleteColumn($idea);
             }
         }
@@ -56,10 +54,8 @@
 
         public function addColumn($columnsName, $boardId)
         {
-            $this->db->query($this->ADD_TO_COLUMNS_STATEMENT, ['name' => $columnsName]);
+            $this->db->query($this->ADD_TO_COLUMNS_STATEMENT, ['name' => $columnsName, 'boardId' => $boardId]);
             $y = $this->db->query($this->GET_COLUMN_ID)->get();
-            $id = $y[0]['id'];
-            $this->db->query($this->ADD_BOARD_COLUMN, ['boardId' => $boardId, 'columnId' => $id]);
-            return $id;
+            return $y[0]['id'];
         }
     }

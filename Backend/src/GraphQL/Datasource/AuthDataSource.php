@@ -2,16 +2,19 @@
 
     namespace App\GraphQL\Datasource;
 
-    use App\GraphQL\Resolvers\Queries\Auth;
+    use App\GraphQL\Resolvers\Mutation\Auth;
     use PDOException;
 
 
     class AuthDataSource extends BaseDataSource
     {
-        private string $REGISTER_NEW_USER = "INSERT  INTO kanban.users (username, email, password, created_at) VALUES (:user, :email, :password, DEFAULT)";
-        private string $GET_USER_ID = "SELECT id FROM kanban.users WHERE username = :user";
+        protected string $REGISTER_NEW_USER = "INSERT  INTO kanban.users (username, email, password, created_at,isGuest) VALUES (:user, :email, :password, DEFAULT,:isGuest)";
+        protected string $GET_USER_ID = "SELECT id FROM kanban.users WHERE username = :user";
+        protected string $GET_LAST_GUEST_ADDED_USER = "SELECT * FROM kanban.users WHERE isGuest=1 ORDER BY created_at DESC LIMIT 1";
+        protected string $DELETE_USER = "DELETE FROM kanban.users WHERE id = :id";
+        protected string $REGISTER_GUEST = "INSERT INTO kanban.users (username, email, password, created_at,isGuest) VALUES (DEFAULT, DEFAULT, 123, DEFAULT,true)";
 
-        public function handleRegister($password, $username, $email)
+        public function handleRegister($password, $username, $email, $guest = false)
         {
             $userExists = $this->db->query("SELECT COUNT(*) as count FROM kanban.users WHERE username = :username", [':username' => $username])->find()['count'] > 0;
             $emailExists = $this->db->query("SELECT COUNT(*) as count FROM kanban.users WHERE email = :email", [':email' => $email])->find()['count'] > 0;
@@ -25,11 +28,8 @@
                 ]);
             }
             try {
-                $this->db->query($this->REGISTER_NEW_USER, [':user' => $username, ':email' => $email, ':password' => $password]);
+                $this->db->query($this->REGISTER_NEW_USER, [':user' => $username, ':email' => $email, ':password' => $password, ':isGuest' => $guest]);
             } catch (PDOException  $e) {
-//                string(102) "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'ahmed' for key 'users.username'"
-//                string(109) "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'ahmed@gmail.com' for key 'users.email'"
-//                dd($e->getCode());
                 $message = $e->getMessage();
                 $code = $e->getCode();
                 if ($code == 23000) {
@@ -52,8 +52,10 @@
                 'id' => $id,
                 'username' => $username,
                 'email' => $email,
+                'isGuest' => $guest,
             ];
             Auth::newSession($user);
+            insertData();
             return ([
                 'successful' => true,
                 'userId' => $id,
@@ -87,5 +89,20 @@
             ];
         }
 
+        public function handleDeleteUser($id)
+        {
+            $this->db->query($this->DELETE_USER, ['id' => $id]);
+            return true;
+        }
+
+        public function handleNewGuest()
+        {
+            $this->db->query($this->REGISTER_GUEST);
+            $user = $this->db->query($this->GET_LAST_GUEST_ADDED_USER)->find();
+//            dd($user);
+            Auth::newSession($user);
+            insertData();
+            return $user['id'];
+        }
 
     }

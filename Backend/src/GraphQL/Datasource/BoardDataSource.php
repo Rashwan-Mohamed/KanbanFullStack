@@ -8,32 +8,29 @@
 
     class BoardDataSource extends BaseDataSource
     {
-        private string $GET_BOARDS_STATEMENT = "SELECT b.id    as board_id,
-       b.name  as board_name,
-       c.id    as column_id,
-       c.name  as column_name,
-       t.id    as task_id,
-       t.title as task_title,
+        private string $GET_BOARDS_STATEMENT = "SELECT b.id          as board_id,
+       b.name        as board_name,
+       c.id          as column_id,
+       c.name        as column_name,
+       t.id          as task_id,
+       t.title       as task_title,
        t.description as task_description,
-       t.status as task_status,
-       t.statusId as statusId,
-       t.order as task_order,
-       s.id    as subtask_id,
-       s.title as subtask_title,
-       s.isCompleted
+       t.status      as task_status,
+       t.statusId    as statusId,
+       t.order       as task_order,
+       ts.id         as subtask_id,
+       ts.title      as subtask_title,
+       ts.isCompleted
 FROM kanban.boards b
-         LEFT JOIN board_column bc ON bc.boardId = b.id
-         LEFT JOIN columns c ON c.id = bc.columnId
-         LEFT JOIN column_task ct ON c.id = ct.columnId
-         LEFT JOIN tasks t ON ct.taskId = t.id
-         LEFT JOIN tasks_sub ON t.id = tasks_sub.taskId
-         LEFT JOIN subtasks s ON tasks_sub.subTaskId = s.id
-         WHERE b.userId=:userId";
+         LEFT JOIN kanban.columns c on c.boardId = b.id
+         LEFT JOIN kanban.tasks t ON t.statusId = c.id
+         LEFT JOIN kanban.subtasks ts ON ts.taskId = t.id
+WHERE b.userId = :userId
+";
         private string $EDIT_BOARD_STATEMENT = "UPDATE kanban.boards t SET t.name = :name WHERE t.id = :id";
         private string $DELETE_FROM_BOARD_STATEMENT = "DELETE FROM kanban.boards WHERE id = :id";
         private string $ADD_TO_BOARD_STATEMENT = "INSERT INTO kanban.boards (name, userId) VALUES (:name, :userId)";
-        private string $GET_BOARD_ID = "SELECT id FROM kanban.boards WHERE name = :name";
-        private string $ADD_BOARD_COLUMN = "INSERT INTO kanban.board_column (boardId, columnId) VALUES (:boardId,:columnId)";
+        private string $GET_BOARD_ID = "SELECT id FROM kanban.boards WHERE name = :name AND userId = :userId";
 
         public function getBoardsWithRelations($userId)
         {
@@ -67,11 +64,10 @@ FROM kanban.boards b
             }
         }
 
-        public function addBoard($boardName,$userId)
+        public function addBoard($boardName, $userId)
         {
-
             $this->db->query($this->ADD_TO_BOARD_STATEMENT, ['name' => $boardName, 'userId' => $userId]);
-            return $this->db->query($this->GET_BOARD_ID, ['name' => $boardName])->get();
+            return $this->db->query($this->GET_BOARD_ID, ['name' => $boardName, 'userId' => $userId])->get();
         }
 
     }
