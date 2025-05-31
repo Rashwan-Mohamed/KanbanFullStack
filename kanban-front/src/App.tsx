@@ -17,7 +17,8 @@ import LoadingSpinner from "@/generalComponents/loadingSpinner.tsx";
 interface userLocal {
     userId: number;
     user: string;
-    email: string
+    email: string,
+    isGuest: boolean;
 }
 
 function App(): React.JSX.Element {
@@ -29,7 +30,7 @@ function App(): React.JSX.Element {
         const hasUser = localStorage.getItem("user");
         if (hasUser && !auth) {
             const user: userLocal = JSON.parse(hasUser);
-            dispatch(setAuth({user: user.user, auth: true, userId: user.userId}));
+            dispatch(setAuth({user: user.user, auth: true, userId: user.userId, isGuest: user.isGuest}));
             auth = Boolean(user.userId)
         }
         setRehydrated(true); // Now we're ready to render routes

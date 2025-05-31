@@ -51,7 +51,7 @@ export type Mutation = {
   editTask_Sub: Task;
   logOutGuest: Scalars['Boolean']['output'];
   login: LoginResponse;
-  loginGuest: Scalars['Boolean']['output'];
+  loginGuest: Scalars['Int']['output'];
   logout: Scalars['Boolean']['output'];
   register: RegisterResponse;
 };
@@ -333,7 +333,7 @@ export type RegisterMutation = { __typename?: 'Mutation', register: { __typename
 export type LoginGuestMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoginGuestMutation = { __typename?: 'Mutation', loginGuest: boolean };
+export type LoginGuestMutation = { __typename?: 'Mutation', loginGuest: number };
 
 export type LogOutGuestMutationVariables = Exact<{ [key: string]: never; }>;
 

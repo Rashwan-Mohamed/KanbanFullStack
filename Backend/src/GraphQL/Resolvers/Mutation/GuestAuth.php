@@ -10,8 +10,6 @@
 
         public function handleNewGuest()
         {
-
-            // Create new user as a guest
 // Create a session for him
             return $this->ds()->handleNewGuest();
         }

@@ -85,7 +85,7 @@
                 'validity' => true,
                 'user' => ['id' => $user['id'],
                     'username' => $user['username'],
-                    'email' => $user['email']],
+                    'email' => $user['email'], 'isGuest' => $user['isGuest']],
             ];
         }
 

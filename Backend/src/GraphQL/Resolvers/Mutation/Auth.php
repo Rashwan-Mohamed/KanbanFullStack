@@ -47,7 +47,7 @@
             Session::destroy(); // ❗ Always destroy any session before login attempt
             Session::ensureSession(); // Optionally start a fresh one for safety
             session_regenerate_id(true);
-            Session::put('user', ['email' => $user['email'], 'id' => $user['id'], 'username' => $user['username']]);
+            Session::put('user', ['email' => $user['email'], 'id' => $user['id'], 'username' => $user['username'],'isGuest' => $user['isGuest']]);
             return ([
                 'message' => 'Login successful',
                 'user' => $user

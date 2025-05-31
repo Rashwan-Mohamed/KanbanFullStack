@@ -112,22 +112,24 @@ function useHandleSession() {
     };
     const handleGuest = async () => {
         const response = await guestLogin()
-        const res = response.data?.loginGuest
-        if (res) {
-            newSession('Guest', 0)
+        const id = response.data?.loginGuest
+        if (id) {
+            newSession('Guest', id, true)
         }
     }
-    const newSession = (username: string, id: number) => {
+    const newSession = (username: string, id: number, isGuest = false) => {
         dispatch(setAuth({
             user: username,
             auth: true,
-            userId: id
+            userId: id,
+            isGuest
         }));
         // notify()
         localStorage.setItem('user', JSON.stringify({
             user: username,
             auth: true,
-            userId: id
+            userId: id,
+            isGuest
         }))
         navigate('/kanban');
     }
@@ -146,7 +148,7 @@ function useHandleSession() {
         setUsedName,
         validPassword
         , setValidPassword, formRef, loading: loading || registeringLoad || loggingGuest,
-        navigate, signIn, setSignIn, usedEmail,handleGuest
+        navigate, signIn, setSignIn, usedEmail, handleGuest
     }
 }
 
