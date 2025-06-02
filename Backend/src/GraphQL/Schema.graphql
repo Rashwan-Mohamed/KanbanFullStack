@@ -96,6 +96,7 @@ type Mutation {
     loginGuest:Int!
     logOutGuest:Boolean!
     changeProfile(newName:String!,newEmail:String!,newPassword:String,oldPassword:String):changeProfileResponse!
+    deleteProfile(userId:Int!):Boolean
     # Update a subtask (returns full updated SubTask)
     editSubTask(
         subtask:subtask

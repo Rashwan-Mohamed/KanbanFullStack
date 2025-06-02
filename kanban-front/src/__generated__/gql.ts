@@ -27,6 +27,7 @@ type Documents = {
     "\n    mutation LogOutGuest {\n        logOutGuest\n    }\n": typeof types.LogOutGuestDocument,
     "\n    query getCurrentUser {\n        getCurrentUser{\n            message\n            user{\n                id\n                username\n                email\n                isGuest\n                last_updated\n            }\n        }\n    }": typeof types.GetCurrentUserDocument,
     "\n    mutation ChangeProfile($newName:String!,$newEmail:String!,$newPassword:String,$oldPassword:String){\n        changeProfile(newName:$newName,newEmail:$newEmail,newPassword:$newPassword,oldPassword:$oldPassword){\n            message\n            successful\n        }\n    }\n": typeof types.ChangeProfileDocument,
+    "\n    mutation DeleteProfile($userId:Int!){\n        deleteProfile(userId:$userId)}\n": typeof types.DeleteProfileDocument,
     "\n    mutation AddTask(\n        $inputTask:inputTask!\n    ) {\n        addTask(\n            inputTask:$inputTask\n        ) {\n            taskId\n            subTasksIds\n        }\n    }\n": typeof types.AddTaskDocument,
     "\n    mutation EditTask($inputTask:inputTask!) {\n        editTask(inputTask:$inputTask) {\n            newSubIds\n        }\n    }\n": typeof types.EditTaskDocument,
     "\n    mutation EditTaskStatus($taskId: Int!, $statusID: Int!,$order:Int!) {\n        editTaskStatus(taskId: $taskId, statusID: $statusID,order:$order)\n    }\n": typeof types.EditTaskStatusDocument,
@@ -48,6 +49,7 @@ const documents: Documents = {
     "\n    mutation LogOutGuest {\n        logOutGuest\n    }\n": types.LogOutGuestDocument,
     "\n    query getCurrentUser {\n        getCurrentUser{\n            message\n            user{\n                id\n                username\n                email\n                isGuest\n                last_updated\n            }\n        }\n    }": types.GetCurrentUserDocument,
     "\n    mutation ChangeProfile($newName:String!,$newEmail:String!,$newPassword:String,$oldPassword:String){\n        changeProfile(newName:$newName,newEmail:$newEmail,newPassword:$newPassword,oldPassword:$oldPassword){\n            message\n            successful\n        }\n    }\n": types.ChangeProfileDocument,
+    "\n    mutation DeleteProfile($userId:Int!){\n        deleteProfile(userId:$userId)}\n": types.DeleteProfileDocument,
     "\n    mutation AddTask(\n        $inputTask:inputTask!\n    ) {\n        addTask(\n            inputTask:$inputTask\n        ) {\n            taskId\n            subTasksIds\n        }\n    }\n": types.AddTaskDocument,
     "\n    mutation EditTask($inputTask:inputTask!) {\n        editTask(inputTask:$inputTask) {\n            newSubIds\n        }\n    }\n": types.EditTaskDocument,
     "\n    mutation EditTaskStatus($taskId: Int!, $statusID: Int!,$order:Int!) {\n        editTaskStatus(taskId: $taskId, statusID: $statusID,order:$order)\n    }\n": types.EditTaskStatusDocument,
@@ -122,6 +124,10 @@ export function gql(source: "\n    query getCurrentUser {\n        getCurrentUse
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n    mutation ChangeProfile($newName:String!,$newEmail:String!,$newPassword:String,$oldPassword:String){\n        changeProfile(newName:$newName,newEmail:$newEmail,newPassword:$newPassword,oldPassword:$oldPassword){\n            message\n            successful\n        }\n    }\n"): (typeof documents)["\n    mutation ChangeProfile($newName:String!,$newEmail:String!,$newPassword:String,$oldPassword:String){\n        changeProfile(newName:$newName,newEmail:$newEmail,newPassword:$newPassword,oldPassword:$oldPassword){\n            message\n            successful\n        }\n    }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    mutation DeleteProfile($userId:Int!){\n        deleteProfile(userId:$userId)}\n"): (typeof documents)["\n    mutation DeleteProfile($userId:Int!){\n        deleteProfile(userId:$userId)}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

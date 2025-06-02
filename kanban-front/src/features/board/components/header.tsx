@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import {deleteBoard} from '../boardSlice.ts'
 import {useMutation} from '@apollo/client'
 import {useAppDispatch, useAppSelector} from '@/app/hooks.ts'
@@ -33,6 +33,8 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
     const len = boards.length
     const indeed = boards.findIndex((item) => item.name === selected)
     const user = useAppSelector((state) => state.auth)
+    const formRef = useRef<HTMLFormElement>(null)
+
     const handleDelete = () => {
         const boardID = boards[indeed]['id']
         deleteBF({
@@ -48,17 +50,21 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
             setSelected(boards[0].name)
         }
     }
-
+    useEffect(() => {
+        if (!toggle && profileShow) {
+            setProfileShow(false)
+        }
+    }, [toggle]);
 
     useClickOutside({
-        elements: [drop, doper],
+        elements: [drop, doper, formRef],
         handler: () => setToggle(false),
         active: toggle
     })
     ;
 
     return (<>
-        {profileShow && <Profile setProfileShow={setProfileShow}></Profile>}
+        {profileShow && <Profile setProfileShow={setProfileShow} formRef={formRef}></Profile>}
         <header
             style={{
                 backgroundColor: !dark ? 'white' : '', borderBottom: !dark ? '1px solid var(--second)' : '',

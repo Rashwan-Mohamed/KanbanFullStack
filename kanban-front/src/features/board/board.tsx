@@ -27,6 +27,11 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
             <>
                 <NoBoardFound setBoardShow={setBoardShow} boardShow={boardShow} error={error}
                               loading={loading}></NoBoardFound>
+                {hideSide && (
+                    <div className='reverseHide' onClick={() => setHideSide(false)}>
+                        {svg1}
+                    </div>
+                )}
             </>
         )
     }

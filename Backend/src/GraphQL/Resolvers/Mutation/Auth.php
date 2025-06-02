@@ -73,6 +73,16 @@
             return $this->ds()->changeProfile($newName, $newEmail, $userId, $oldPassword, $newPassword);
         }
 
+        public function deleteProfile()
+        {
+            $id = Session::get('user')['id'];
+            $userId = $this->args['userId'];
+            if ($id !== $userId) {
+                return false;
+            }
+            Session::destroy();
+            return $this->ds()->handleDeleteUser($id);
+        }
 
         public static function getCurrentUser()
         {

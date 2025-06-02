@@ -70,7 +70,7 @@ function App(): React.JSX.Element {
 
                 <Route
                     path="/kanban"
-                    element={auth ? <Home/> : <Navigate to="/" replace/>}
+                    element={auth.auth ? <Home/> : <Navigate to="/" replace/>}
                 />
                 <Route path="*" element={<h1 className={'notFound'}>404 Not Found</h1>}/>
             </Routes>

@@ -58,6 +58,7 @@
                     'getCurrentUser' => fn($rootValue, $args) => Auth::getCurrentUser(),
                     'register' => fn($rootValue, $args) => (new Auth($args))->register(),
                     'changeProfile' => fn($rootValue, $args) => (new Auth($args))->changeProfile(),
+                    'deleteProfile' => fn($rootValue, $args) => (new Auth($args))->deleteProfile(),
                     'loginGuest' => fn($rootValue, $args) => (new GuestAuth($args))->handleNewGuest(),
                     'logOutGuest' => fn($rootValue, $args) => (new GuestAuth($args))->deleteGuestSession(),
                 ];

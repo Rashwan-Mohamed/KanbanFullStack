@@ -18,17 +18,20 @@ const AssureDelete: React.FC<propTypes> = ({
             ,
             active: true
         })
+        const text = type === 'user' ? `are you sure you want to delete user ${selected}, this action will remove all data associated with that user and
+         can't be reversed` : `Are you sure you want to delete the ${selected} ${type}?
+                        This action will remove all columns and tasks and cannot be
+                        reversed.`
         return (
             <div className='confirmDelete'>
                 <article ref={deleteRef}>
                     <h3>Delete this {type}?</h3>
                     <p>
-                        Are you sure you want to delete the {selected} {type}?
-                        This action will remove all columns and tasks and cannot be
-                        reversed.
+                        {text}
                     </p>
                     <div>
                         <button
+                            className={'deleteFinal'}
                             onClick={() => {
                                 handleDelete()
                                 setSure(false)
