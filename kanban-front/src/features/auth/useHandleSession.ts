@@ -4,6 +4,7 @@ import {useMutation} from "@apollo/client";
 import {LOGIN, LOGIN_GUEST, REGISTER} from "@/GraphQL Queries/SessionQueries.ts";
 import {useAppDispatch} from "@/app/hooks.ts";
 import {setAuth} from "@/features/auth/AuthenticationSlice.tsx";
+// import {UseAppContext} from "@/context.tsx";
 
 function useHandleSession() {
     const formRef = useRef<HTMLFormElement>(null);
@@ -20,6 +21,7 @@ function useHandleSession() {
     const [registerFC, {loading: registeringLoad}] = useMutation(REGISTER)
     const [guestLogin, {loading: loggingGuest}] = useMutation(LOGIN_GUEST)
     const dispatch = useAppDispatch()
+    // const {setMessage, notify} = UseAppContext()
     // const notify = () => toast("Logged in successfully. Welcome back!");
     console.log(signIn, 'changed')
     const handleSubmit = (e: React.FormEvent) => {
@@ -63,6 +65,8 @@ function useHandleSession() {
             if (data?.user) {
                 const user = data.user;
                 newSession(user.username, user.id)
+                // setMessage(() => `Welcome Back ${user.username}!`)
+                // notify();
             } else {
                 // console.warn('Login failed: no user returned');
                 const message = data.message ?? 'invalid credentials';

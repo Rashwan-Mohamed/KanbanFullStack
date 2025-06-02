@@ -8,6 +8,7 @@ export const LOGIN = gql(/* GraphQL */`
                 id
                 username
                 email
+                isGuest
             }
         }
     }
@@ -38,6 +39,18 @@ export const LOGOUT_GUEST = gql(/* GraphQL */`
         logOutGuest
     }
 `);
+export const GET_CURRENT_USER = gql(/* GraphQL */`
+    query getCurrentUser {
+        getCurrentUser{
+            message
+            user{
+                id
+                username
+                email
+                isGuest
+            }
+        }
+    }`);
 /*export const DELETE_COLUMN = gql`
     mutation DeleteColumn($columnID: [Int!]!) {
         deleteColumn(columnID: $columnID)

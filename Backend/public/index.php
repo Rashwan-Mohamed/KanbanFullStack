@@ -1,29 +1,38 @@
 <?php
-    header("Access-Control-Allow-Origin: http://localhost:5173");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
-    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-    header("Access-Control-Allow-Credentials: true");
+    $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+    $allowedOrigin = 'http://localhost:5173'; // or wherever your client runs
 
+    if ($origin === $allowedOrigin) {
+        header("Access-Control-Allow-Origin: $origin");
+        header("Access-Control-Allow-Credentials: true");
+    }
+    header("Access-Control-Allow-Headers: Content-Type");
+    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        http_response_code(200);
-        exit; // Preflight request; no need to continue
+        header('Access-Control-Allow-Origin: http://localhost:5173');
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type');
+        exit(0); // Handle preflight
     }
     const BASE_PATH = __DIR__ . '/../';
     require BASE_PATH . 'vendor/autoload.php';
     require BASE_PATH . 'Core/functions.php';
     require BASE_PATH . 'bootstrap.php';
-//    dd('ALIVE');
 
 
-//    session_start();
     $router = new \Core\Router();
 
     include BASE_PATH . 'routes.php';
     $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+    // Remove the base path from the URI
+    $basePath = '/KANPAN_FULL_STACK/Backend/public';
+    $normalizedUri = str_replace($basePath, '', $uri);
+
     $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
     try {
-        $router->route($uri, $method);
+        $router->route($normalizedUri, $method);
     } catch (Exception $e) {
         echo($e);
     }

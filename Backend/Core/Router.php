@@ -2,7 +2,6 @@
 
     namespace Core;
 
-    use Core\Middleware\Middleware;
 
     class Router
     {
@@ -39,6 +38,8 @@
 
         public function route($uri, $method)
         {
+
+//            dd($uri);
             foreach ($this->routes as $route) {
                 if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
 //                    Middleware::resolve($route['middleware']);
@@ -54,7 +55,7 @@
         {
             http_response_code($code);
 //            dd('NOT FOUND');
-            var_dump('NOT FUND');
+            var_dump('NOT FOUND');
 //            die();
         }
 

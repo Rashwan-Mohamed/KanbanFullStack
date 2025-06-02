@@ -6,6 +6,16 @@
 
     class EditColumns extends BaseMutationResolver
     {
+//        public function verifyOwnership($columnId)
+//        {
+//
+//            $userId = Auth::getCurrentUser($columnId)['id'];
+//            $currentUser = $this->ds()->getCurrentUser();
+//            if ($currentUser['id'] == $userId['userId']) {
+//                return true;
+//            }
+//            throw new \Error('Unauthorized access');
+//        }
 
         protected function createDataSource()
         {
