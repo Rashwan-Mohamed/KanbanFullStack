@@ -1,13 +1,14 @@
 interface propTypes {
     value: string
     usedBoard: string
-    onChange: (val: string) => void;
+    onChange?: (val: string) => void;
     label?: string
     additionalClass?: string
     type?: string
+    readonly?: boolean
 }
 
-function ChangeTitle({usedBoard, value, onChange, label, additionalClass, type}: propTypes) {
+function ChangeTitle({usedBoard, value, onChange, label, additionalClass, type, readonly}: propTypes) {
     const comboClass = additionalClass?.concat('dive') ?? ''
     return (
         <div className={`inputWrapper ${comboClass ?? ''}`}>
@@ -18,7 +19,8 @@ function ChangeTitle({usedBoard, value, onChange, label, additionalClass, type}:
                 style={{
                     border: usedBoard !== 'valid' ? '2px solid #EA5555' : '',
                 }}
-                onChange={(e) => onChange(e.target.value)}
+                disabled={readonly}
+                onChange={(e) => onChange && onChange(e.target.value)}
                 required={true}
                 value={value}
                 type={type ?? 'text'}

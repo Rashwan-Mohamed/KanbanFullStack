@@ -32,7 +32,7 @@ const Logout = () => {
     </p>
     return (
         <>
-            <button className={'addNewTask logoutButton'} onClick={handleLogOut}>Log out</button>
+            <button onClick={handleLogOut}>Log out</button>
         </>
     );
 };

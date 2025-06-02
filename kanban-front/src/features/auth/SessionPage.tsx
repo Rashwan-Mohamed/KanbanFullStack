@@ -27,7 +27,7 @@ export default function SessionPage() {
     const extraChild =
         <>
             <p className={'guidanceLabel'}> {!signIn ? 'already a user?' : 'not a user?'}</p>
-            <button type="button" onClick={() => setSignIn((!signIn))}>
+            <button className='ButtonGeneric' type="button" onClick={() => setSignIn((!signIn))}>
                 {!signIn ? 'login' : 'register'}
             </button>
             <button className='ButtonGeneric' type="button" onClick={() => handleGuest()}>

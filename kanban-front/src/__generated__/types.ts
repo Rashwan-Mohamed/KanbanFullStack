@@ -34,6 +34,7 @@ export type Mutation = {
   addSubTask: SubTask;
   addTask: AddTaskResponse;
   changeOrder: Scalars['Boolean']['output'];
+  changeProfile: ChangeProfileResponse;
   changeSubTask: Scalars['Boolean']['output'];
   deleteBoard: Scalars['Boolean']['output'];
   deleteColumn: Scalars['Boolean']['output'];
@@ -80,6 +81,14 @@ export type MutationAddTaskArgs = {
 export type MutationChangeOrderArgs = {
   orders: Array<Scalars['Int']['input']>;
   tasksId: Array<Scalars['Int']['input']>;
+};
+
+
+export type MutationChangeProfileArgs = {
+  newEmail: Scalars['String']['input'];
+  newName: Scalars['String']['input'];
+  newPassword?: InputMaybe<Scalars['String']['input']>;
+  oldPassword?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -190,6 +199,7 @@ export type User = {
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   isGuest?: Maybe<Scalars['Boolean']['output']>;
+  last_updated: Scalars['String']['output'];
   username: Scalars['String']['output'];
 };
 
@@ -204,6 +214,12 @@ export type Board = {
   columns: Array<Column>;
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
+};
+
+export type ChangeProfileResponse = {
+  __typename?: 'changeProfileResponse';
+  message: Scalars['String']['output'];
+  successful: Scalars['Boolean']['output'];
 };
 
 export type EditColumnResponse = {
@@ -314,7 +330,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string, isGuest?: boolean | null } | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string, isGuest?: boolean | null, last_updated: string } | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -343,7 +359,17 @@ export type LogOutGuestMutation = { __typename?: 'Mutation', logOutGuest: boolea
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string, isGuest?: boolean | null } | null } | null };
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string, isGuest?: boolean | null, last_updated: string } | null } | null };
+
+export type ChangeProfileMutationVariables = Exact<{
+  newName: Scalars['String']['input'];
+  newEmail: Scalars['String']['input'];
+  newPassword?: InputMaybe<Scalars['String']['input']>;
+  oldPassword?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type ChangeProfileMutation = { __typename?: 'Mutation', changeProfile: { __typename?: 'changeProfileResponse', message: string, successful: boolean } };
 
 export type AddTaskMutationVariables = Exact<{
   inputTask: InputTask;
