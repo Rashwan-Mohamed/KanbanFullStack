@@ -20,9 +20,9 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
     const [usedName, setUsedName] = useState('valid');
     const [usedEmail, setUsedEmail] = useState('valid');
     const [validPassword, setValidPassword] = useState('valid');
+    const [newPassword, setNewPassword] = useState('valid');
     const navigate = useNavigate();
     const [signIn, setSignIn] = useState<boolean>(true)
-    const [editProfile, setEditProfile] = useState<boolean>(false)
     const [loginFC, {loading}] = useMutation(LOGIN)
     const [registerFC, {loading: registeringLoad}] = useMutation(REGISTER)
     const [guestLogin, {loading: loggingGuest}] = useMutation(LOGIN_GUEST)
@@ -31,8 +31,9 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
     const user = useAppSelector((state) => state.auth)
     // const {setMessage, notify} = UseAppContext()
     // const notify = () => toast("Logged in successfully. Welcome back!");
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent, operation = 'default') => {
         e.preventDefault();
+        const editProfile = operation === 'editProfile'
         console.log('submitAttempt')
         setUsedName('valid');
         setValidPassword('valid');
@@ -44,7 +45,10 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
             return;
         }
         if (editProfile) {
-            console.log(editProfile, 'SSSSSS')
+            if (repeatedPassword.length < 6) {
+                setNewPassword('invalid, must be at least 6 characters long');
+                return;
+            }
             changeProfile();
             return
         }
@@ -153,6 +157,10 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
                     email: email,
                 }));
                 setProfileShow(false)
+            } else {
+                if (message === 'PASSWORD DOES NOT MATCH') {
+                    setValidPassword('incorrect password!');
+                }
             }
         } else {
             console.error('failed to update')
@@ -196,7 +204,7 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
         navigate,
         signIn, setSignIn,
         usedEmail, handleGuest,
-        editProfile, setEditProfile
+        newPassword
     }
 }
 

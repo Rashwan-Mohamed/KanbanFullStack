@@ -42,7 +42,6 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                         <label className='spanerContainer'>
                             {' '}
                             <input
-
                                 className={`inputFormMain`}
                                 autoComplete='off'
                                 style={{

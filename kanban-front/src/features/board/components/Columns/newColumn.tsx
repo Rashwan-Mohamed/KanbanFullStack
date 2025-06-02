@@ -27,7 +27,7 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
         if (close) {
             setColumn(false)
         }
-    }, [close])
+    }, [close, setColumn])
 
     const resetForm = () => {
         setColumns([{name: '', id: -1}])
@@ -68,8 +68,9 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
                               title={'Add New Column'}>
                 <div className='inputWrapper'>
                     <label htmlFor='nameeee'>name</label>
-                    <input className={'inputFormMain'} readOnly value={name} type='text' id='nameeee'/>
+                    <input className={'inputFormMain'} readOnly disabled={true} value={name} type='text' id='nameeee'/>
                 </div>
+
                 <NewItemInput items={columns} setItems={setColumns} used={used} setUsed={setUsed}/>
                 {columns.length < 6 &&
                     <AddNewColumn onAddNewItem={() => setColumns((old) => [...old, {name: '', id: -1}])}

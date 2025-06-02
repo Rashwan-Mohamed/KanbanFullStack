@@ -10,6 +10,7 @@ interface propTypes {
 const AddNewColumn = ({onAddNewItem, setUsed, type}: propTypes) => {
     return (
         <button
+            className={'addNewColumnWhiteButton ButtonGeneric'}
             onClick={(e) => {
                 e.preventDefault();
                 onAddNewItem()

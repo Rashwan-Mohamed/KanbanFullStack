@@ -38,6 +38,7 @@ export type Mutation = {
   changeSubTask: Scalars['Boolean']['output'];
   deleteBoard: Scalars['Boolean']['output'];
   deleteColumn: Scalars['Boolean']['output'];
+  deleteProfile?: Maybe<Scalars['Boolean']['output']>;
   deleteSubTask: Scalars['Boolean']['output'];
   deleteTask: Scalars['Boolean']['output'];
   editBoard?: Maybe<Scalars['Boolean']['output']>;
@@ -104,6 +105,11 @@ export type MutationDeleteBoardArgs = {
 
 export type MutationDeleteColumnArgs = {
   columnID: Array<Scalars['Int']['input']>;
+};
+
+
+export type MutationDeleteProfileArgs = {
+  userId: Scalars['Int']['input'];
 };
 
 
@@ -370,6 +376,13 @@ export type ChangeProfileMutationVariables = Exact<{
 
 
 export type ChangeProfileMutation = { __typename?: 'Mutation', changeProfile: { __typename?: 'changeProfileResponse', message: string, successful: boolean } };
+
+export type DeleteProfileMutationVariables = Exact<{
+  userId: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteProfileMutation = { __typename?: 'Mutation', deleteProfile?: boolean | null };
 
 export type AddTaskMutationVariables = Exact<{
   inputTask: InputTask;
