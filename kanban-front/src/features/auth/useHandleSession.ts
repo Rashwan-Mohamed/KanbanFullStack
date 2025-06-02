@@ -1,12 +1,17 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useMutation} from "@apollo/client";
-import {LOGIN, LOGIN_GUEST, REGISTER} from "@/GraphQL Queries/SessionQueries.ts";
-import {useAppDispatch} from "@/app/hooks.ts";
+import {CHANGE_PROFILE, LOGIN, LOGIN_GUEST, REGISTER} from "@/GraphQL Queries/SessionQueries.ts";
+import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
 import {setAuth} from "@/features/auth/AuthenticationSlice.tsx";
-// import {UseAppContext} from "@/context.tsx";
 
-function useHandleSession() {
+// import {UseAppContext} from "@/context.tsx";
+interface PropTypes {
+    setProfileShow?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function useHandleSession({setProfileShow}: PropTypes = {}) {
+
     const formRef = useRef<HTMLFormElement>(null);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -17,13 +22,15 @@ function useHandleSession() {
     const [validPassword, setValidPassword] = useState('valid');
     const navigate = useNavigate();
     const [signIn, setSignIn] = useState<boolean>(true)
+    const [editProfile, setEditProfile] = useState<boolean>(false)
     const [loginFC, {loading}] = useMutation(LOGIN)
     const [registerFC, {loading: registeringLoad}] = useMutation(REGISTER)
     const [guestLogin, {loading: loggingGuest}] = useMutation(LOGIN_GUEST)
+    const [changeFC, {loading: changeLoading}] = useMutation(CHANGE_PROFILE)
     const dispatch = useAppDispatch()
+    const user = useAppSelector((state) => state.auth)
     // const {setMessage, notify} = UseAppContext()
     // const notify = () => toast("Logged in successfully. Welcome back!");
-    console.log(signIn, 'changed')
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('submitAttempt')
@@ -32,9 +39,14 @@ function useHandleSession() {
         if (!name) {
             setUsedName('required');
         }
-        if (password.length < 2) {
+        if (password.length < 2 && !editProfile) {
             setValidPassword('invalid, must be at least 6 characters long');
             return;
+        }
+        if (editProfile) {
+            console.log(editProfile, 'SSSSSS')
+            changeProfile();
+            return
         }
         if (signIn) {
             handleLogin()
@@ -64,7 +76,7 @@ function useHandleSession() {
             }
             if (data?.user) {
                 const user = data.user;
-                newSession(user.username, user.id)
+                newSession(user.username, user.id, data.user.email, false, (user.last_updated))
                 // setMessage(() => `Welcome Back ${user.username}!`)
                 // notify();
             } else {
@@ -118,15 +130,42 @@ function useHandleSession() {
         const response = await guestLogin()
         const id = response.data?.loginGuest
         if (id) {
-            newSession('Guest', id, true)
+            newSession('Guest', id, '_', true)
         }
     }
-    const newSession = (username: string, id: number, isGuest = false) => {
+    const changeProfile = async () => {
+
+        const rechange = await changeFC({
+            variables: {
+                newName: name,
+                newEmail: email,
+                newPassword: repeatedPassword,
+                oldPassword: password
+            }
+        })
+        console.log(rechange)
+        if (rechange?.data?.changeProfile) {
+            const {message, successful} = rechange.data.changeProfile;
+            if (successful && setProfileShow) {
+                dispatch(setAuth({
+                    ...user,
+                    user: name,
+                    email: email,
+                }));
+                setProfileShow(false)
+            }
+        } else {
+            console.error('failed to update')
+        }
+    }
+    const newSession = (username: string, id: number, user_email = email, isGuest = false, last_updated = String(Date.now())) => {
         dispatch(setAuth({
             user: username,
             auth: true,
             userId: id,
-            isGuest
+            isGuest,
+            email: user_email,
+            last_updated: (last_updated)
         }));
         // notify()
         localStorage.setItem('user', JSON.stringify({
@@ -137,7 +176,7 @@ function useHandleSession() {
         }))
         navigate('/kanban');
     }
-
+    const generalLoad = loading || registeringLoad || loggingGuest || changeLoading
     return {
         handleSubmit,
         name,
@@ -151,8 +190,13 @@ function useHandleSession() {
         usedName,
         setUsedName,
         validPassword
-        , setValidPassword, formRef, loading: loading || registeringLoad || loggingGuest,
-        navigate, signIn, setSignIn, usedEmail, handleGuest
+        , setValidPassword,
+        formRef,
+        loading: generalLoad,
+        navigate,
+        signIn, setSignIn,
+        usedEmail, handleGuest,
+        editProfile, setEditProfile
     }
 }
 

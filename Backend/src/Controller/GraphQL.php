@@ -55,7 +55,9 @@
                     'changeSubTask' => fn($rootValue, $args) => (new EditSubTask($args))->changeSubTask(),
                     'login' => fn($rootValue, $args) => (new Auth($args))->login(),
                     'logout' => fn($rootValue, $args) => (new Auth($args))->logout(),
+                    'getCurrentUser' => fn($rootValue, $args) => Auth::getCurrentUser(),
                     'register' => fn($rootValue, $args) => (new Auth($args))->register(),
+                    'changeProfile' => fn($rootValue, $args) => (new Auth($args))->changeProfile(),
                     'loginGuest' => fn($rootValue, $args) => (new GuestAuth($args))->handleNewGuest(),
                     'logOutGuest' => fn($rootValue, $args) => (new GuestAuth($args))->deleteGuestSession(),
                 ];

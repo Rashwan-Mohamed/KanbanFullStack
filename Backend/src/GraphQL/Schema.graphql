@@ -4,6 +4,7 @@ schema {
 }
 type Query {
     getBoards(userId:Int!): [board!]!
+    getCurrentUser:loginResponse
 }
 
 type board {
@@ -65,6 +66,8 @@ type User {
     id: Int!
     username: String!
     email: String!
+    isGuest:Boolean
+    last_updated:String!
 }
 
 input userCredentials{
@@ -81,6 +84,10 @@ type registerResponse {
     existingUser:Boolean
     existingEmail:Boolean
 }
+type changeProfileResponse {
+    message:String!
+    successful:Boolean!
+}
 type Mutation {
 
     register(username: String!, email: String!, password: String!): registerResponse!
@@ -88,7 +95,7 @@ type Mutation {
     logout: Boolean!
     loginGuest:Int!
     logOutGuest:Boolean!
-
+    changeProfile(newName:String!,newEmail:String!,newPassword:String,oldPassword:String):changeProfileResponse!
     # Update a subtask (returns full updated SubTask)
     editSubTask(
         subtask:subtask

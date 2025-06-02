@@ -9,6 +9,7 @@ export const LOGIN = gql(/* GraphQL */`
                 username
                 email
                 isGuest
+                last_updated
             }
         }
     }
@@ -48,9 +49,20 @@ export const GET_CURRENT_USER = gql(/* GraphQL */`
                 username
                 email
                 isGuest
+                last_updated
             }
         }
     }`);
+//
+export const CHANGE_PROFILE = gql(/* GraphQL */`
+    mutation ChangeProfile($newName:String!,$newEmail:String!,$newPassword:String,$oldPassword:String){
+        changeProfile(newName:$newName,newEmail:$newEmail,newPassword:$newPassword,oldPassword:$oldPassword){
+            message
+            successful
+        }
+    }
+`)
+
 /*export const DELETE_COLUMN = gql`
     mutation DeleteColumn($columnID: [Int!]!) {
         deleteColumn(columnID: $columnID)

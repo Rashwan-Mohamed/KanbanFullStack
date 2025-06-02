@@ -290,11 +290,11 @@ aside footer {
 .addNewTask {
     background-color: #635fc7;
     color: white;
-    font-family: var(--plus);
+    font-family: var(--plus), serif;
     font-weight: 700;
     text-transform: capitalize;
-    padding: 15px 25px;
-    border-radius: 30px;
+    padding: 10px 15px;
+    border-radius: 20px;
     font-size: 14px;
     display: flex;
     align-items: center;
@@ -324,12 +324,10 @@ aside footer {
     gap: 0 35px;
     width: 100vw;
     overflow: scroll;
-    cursor: all-scroll;
     cursor: default;
     grid-column: 2/-1;
     grid-row: 2/-1;
     background-color: var(--primary);
-    transition: all 200ms ease-in-out;
     transition: left 0.2s ease;
     position: relative;
 }
@@ -353,7 +351,6 @@ aside footer {
 
 .boardColumn > span {
     margin-bottom: 22px;
-    display: block;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -511,14 +508,14 @@ aside footer {
     background-color: rgba(255, 255, 255, 0.877);
 }
 
-.newBoard button:nth-of-type(2) {
-    background-color: #635fc7;
-    color: white;
+.newBoard button.mainSubmitButton {
+    background-color: #635fc7 ;
+    color: white ;
     margin-bottom: 10px;
 }
 
-.newBoard button:nth-of-type(2):hover {
-    background-color: #9989f1;
+.newBoard .mainSubmitButton:hover {
+    background-color: #9989f1 !important;
 }
 
 .inputWrapper {
@@ -888,8 +885,14 @@ aside footer {
 }
 
 .spanishBtns {
-    width: 45%;
-    right: -80px;
+
+    width: 150px;
+    right: 0;
+}
+
+.header-btns span {
+    width: 150px;
+    right: 0;
 }
 
 .selectedTask .choosecat > h5:nth-child(1) {
@@ -1005,6 +1008,47 @@ aside footer {
     /*background-color: rgba(255, 255, 255, 0.877);*/
     opacity: 0.8;
 }
+
+
+/* Element | http://localhost:5173/kanban */
+
+.headerFirst {
+    display: flex;
+    border-right: 1px solid var(--first);
+    justify-content: space-evenly;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+/* Element | http://localhost:5173/kanban */
+
+.headerFirst > h3:nth-child(2) {
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: white;
+    background: #635fc7;
+    border-radius: 0 5px 4px 0;
+    padding: 5px 4px 5px 10px;
+}
+
+.deleteBoard {
+    background-color: #ea5555;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.deleteBoard:hover {
+    opacity: 0.6;
+    background: #ea5555;
+}
+
+/* Inline | http://localhost:5173/kanban */
+
+.logo-container {
+    /* border-right: 1px solid var(--first); */
+    padding-right: 5px;
+}
+
 
 /******************WHITE THEME ***************/
 .editDeletWhite:hover {

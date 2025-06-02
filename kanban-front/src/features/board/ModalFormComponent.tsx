@@ -20,7 +20,7 @@ export const ModalFormWrapper = ({
         <form onSubmit={onSubmit} ref={formRef} className="newBoard">
             {loading ? <LoadingSpinner message={'loading'} color={'fff'}/> : <><h3>{title}</h3>
                 {children}
-                <button type="submit">{submitLabel}</button>
+                <button className={'mainSubmitButton'} type="submit">{submitLabel}</button>
                 {extraChildren}
             </>
             }

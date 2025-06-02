@@ -5,13 +5,16 @@ export interface authState {
     auth: boolean;
     userId: number | null
     isGuest: boolean;
+    last_updated?: string;
+    email: string
 }
 
-const initialState: authState = {
+export const initialState: authState = {
     user: '',
     auth: false,
-    userId: 0 ,
-    isGuest: false
+    userId: 0,
+    isGuest: false,
+    email: ''
 }
 // const initialState = { user: 'ahmed', auth: false, userId: 0 }
 

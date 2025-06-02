@@ -9,6 +9,7 @@ import useClickOutside from "@/features/board/components/hooks/useClickOutside.t
 import MangeBoard from "@/features/board/MangeBoard.tsx";
 import {DELETE_BOARD} from "@/GraphQL Queries/BoardQueries.ts";
 import Logout from "@/features/auth/Logout.tsx";
+import Profile from "@/features/auth/Profile.tsx";
 
 interface propTypes {
     selectBord: boolean
@@ -21,6 +22,7 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
     const [toggle, setToggle] = useState(false)
     const [boardShow, setBoardShow] = useState(false)
     const [taskShow, setTaskShow] = useState(false)
+    const [profileShow, setProfileShow] = useState(false)
     const [sure, setSure] = useState(false)
     const drop = useRef<HTMLElement>(null)
     const doper = useRef<HTMLButtonElement>(null)
@@ -30,6 +32,7 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
     })
     const len = boards.length
     const indeed = boards.findIndex((item) => item.name === selected)
+    const user = useAppSelector((state) => state.auth)
     const handleDelete = () => {
         const boardID = boards[indeed]['id']
         deleteBF({
@@ -54,8 +57,8 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
     })
     ;
 
-
     return (<>
+        {profileShow && <Profile setProfileShow={setProfileShow}></Profile>}
         <header
             style={{
                 backgroundColor: !dark ? 'white' : '', borderBottom: !dark ? '1px solid var(--second)' : '',
@@ -66,14 +69,25 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
                                     handleDelete={handleDelete} type={'board'}/>)}
             {boardShow && <MangeBoard setBoardShow={setBoardShow} operation={'edit'}/>}{' '}
             {taskShow && <MangeTask setEditTask={setTaskShow} selectedTask={null}/>}{' '}
-            {!tab && (<picture
-                style={{
-                    backgroundColor: !dark ? 'white' : '', borderRight: !dark ? '1px solid var(--second)' : '',
-                }}
-                className='logo-container'
-            >
-                {dark ? (<img src='assets/logo-light.svg' alt=''/>) : (<img src='assets/logo-dark.svg' alt=''/>)}
-            </picture>)}
+            {!tab && (
+                <>
+                    <div className={'headerFirst'}>
+                        <picture
+                            style={{
+                                backgroundColor: !dark ? 'white' : '',
+                                borderRight: !dark ? '1px solid var(--second)' : '',
+                            }}
+                            className='logo-container'
+                        >
+                            {dark ? (<img src='assets/logo-light.svg' alt=''/>) : (
+                                <img src='assets/logo-dark.svg' alt=''/>)}
+                        </picture>
+                        <h3>{user.isGuest ? 'Guest' : user.user}</h3>
+
+                    </div>
+                </>
+
+            )}
             <div className='header-body'>
                 <h1
                     style={{
@@ -85,6 +99,7 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
                 >
                     {tab && <img src='assets/logo-mobile.svg' alt=''/>}{' '}
                     {selected || 'no boards'}
+
                     {tab && (<span>
                         <svg
                             style={{transform: selectBord ? 'rotate(180deg)' : ''}}
@@ -101,10 +116,37 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
                         </svg>
                     </span>)}
                 </h1>
-                {boards.length > 0 && (<div className='header-btns'>
-                    <button onClick={() => setTaskShow(true)} className='addNewTask'>
-                        {tab ? svg1 : ('+ add new task')}
-                    </button>
+
+                <div className='header-btns'>
+                    {boards.length > 0 && <>
+                        <button onClick={() => setTaskShow(true)} className='addNewTask'>
+                            {tab ? svg1 : ('+ add new task')}
+                        </button>
+
+                        <button
+                            onClick={() => {
+                                setBoardShow(true)
+                                setToggle(false)
+                            }}
+                            className='addNewTask'
+                        >
+                            edit board
+                        </button>
+                        <button
+                            onClick={() => {
+                                setSure(true)
+                                setToggle(false)
+                            }}
+                            className='addNewTask deleteBoard'
+
+                        >
+                            delete board
+                        </button>
+
+                    </>
+                    }
+
+
                     <button
                         ref={doper}
                         onClick={() => setToggle(!toggle)}
@@ -112,10 +154,11 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
                     >
                         {svg2}
                     </button>
-                    {toggle && <ControlBtns dark={dark} drop={drop} setBoardShow={setBoardShow} setToggle={setToggle}
+
+                    {toggle && <ControlBtns dark={dark} drop={drop} profileShow={setProfileShow} setToggle={setToggle}
                                             setSure={setSure}/>}
-                </div>)}
-                <Logout/>
+                </div>
+
             </div>
         </header>
     </>)
@@ -127,33 +170,19 @@ export default Header
 interface propTypesBtns {
     dark: boolean
     drop: React.RefObject<HTMLElement | null>
-    setBoardShow: React.Dispatch<React.SetStateAction<boolean>>
+    profileShow: React.Dispatch<React.SetStateAction<boolean>>
     setToggle: React.Dispatch<React.SetStateAction<boolean>>
     setSure: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ControlBtns: React.FC<propTypesBtns> = ({dark, drop, setBoardShow, setToggle, setSure}) => {
+const ControlBtns: React.FC<propTypesBtns> = ({dark, drop, profileShow, setToggle, setSure}) => {
     return (
         <span
             style={{backgroundColor: !dark ? 'white' : ''}}
             ref={drop}
         >
-            <button
-                onClick={() => {
-                    setBoardShow(true)
-                    setToggle(false)
-                }}
-            >
-                edit board
-            </button>
-            <button
-                onClick={() => {
-                    setSure(true)
-                    setToggle(false)
-                }}
-            >
-                delete board
-            </button>
+            <button onClick={() => profileShow(true)}>Edit Profile</button>
+                <Logout/>
         </span>
     );
 };

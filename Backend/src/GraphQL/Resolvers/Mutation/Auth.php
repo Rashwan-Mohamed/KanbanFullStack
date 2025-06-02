@@ -62,22 +62,39 @@
             return "Logged out";
         }
 
+        public function changeProfile()
+        {
+            $newName = $this->args['newName'];
+            $newEmail = $this->args['newEmail'];
+            $newPassword = $this->args['newPassword'];
+            $oldPassword = $this->args['oldPassword'];
+            $currentUser = self::getCurrentUser()['user'];
+            $userId = $currentUser['id'];
+            return $this->ds()->changeProfile($newName, $newEmail, $userId, $oldPassword, $newPassword);
+        }
+
+
         public static function getCurrentUser()
         {
             $user = Session::get('user');
+            $noUser = [
+                'user' => null,
+                'message' => "Not Logged in",
+            ];
             if ($user) {
-                return [
-                    'user' => $user,
-                    'message' => "Logged_in_user",
-                ];
-//                return $user;
-            } else {
-//                http_response_code(401);
-                return [
-                    'user' => null,
-                    'message' => "Not Logged in",
-                ];
+                $instance = new self(0);
+                $user = $instance->ds()->getUser($user['id']);
+//                dd($user);
+                if ($user) {
+                    return [
+                        'user' => $user,
+                        'message' => "Logged_in_user",
+                    ];
+                } else {
+                    Session::destroy();
+                }
             }
+            return $noUser;
         }
 
 
