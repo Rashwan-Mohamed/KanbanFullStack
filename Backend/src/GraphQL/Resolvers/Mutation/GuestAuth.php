@@ -10,22 +10,28 @@
 
         public function handleNewGuest()
         {
-// Create a session for him
             return $this->ds()->handleNewGuest();
         }
 
         public function deleteGuestSession()
         {
-            $user = $this->getCurrentUser();
+            $sessionInfo = self::getCurrentUser();
+            $user = $sessionInfo['user'];
             if (!$user['isGuest']) {
                 return false;
             }
             $this->ds()->handleDeleteUser($user['id']);
             Session::destroy();
             return true;
-            //Get The Current Session
-            // Executes Delete Query
-            // Handle Logout
-            // Delete that Guest
+        }
+
+        public function deleteAllGuestSession()
+        {
+            try {
+                return $this->ds()->cleanGuests();
+            } catch (\PDOException  $e) {
+                error_log("Guest cleanup failed: " . $e->getMessage());
+                echo "Error: " . $e->getMessage() . "\n";
+            }
         }
     }

@@ -12,11 +12,13 @@ import {
 import {AppContextProvider} from "@/context.tsx";
 import {onError} from "@apollo/client/link/error";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 
 const errorLink = onError(({graphQLErrors, networkError}) => {
     if (graphQLErrors) {
         for (const err of graphQLErrors) {
-            if (err.message.includes("Not logged in")) {
+            if (err.message.includes("Not logged in..")) {
                 // Optionally redirect or show a message
                 console.warn("User is not authenticated", networkError);
             }
@@ -27,7 +29,7 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
 const link = ApolloLink.from([
     errorLink,
     createHttpLink({
-        uri: 'http://localhost:8888/graphql',
+        uri: baseURL,
         credentials: 'include',
     })
 ]);

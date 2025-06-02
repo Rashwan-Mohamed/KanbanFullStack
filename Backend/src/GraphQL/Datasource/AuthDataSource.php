@@ -12,7 +12,8 @@
         protected string $GET_USER_ID = "SELECT id FROM kanban.users WHERE username = :user";
         protected string $GET_LAST_GUEST_ADDED_USER = "SELECT * FROM kanban.users WHERE isGuest=1 ORDER BY created_at DESC LIMIT 1";
         protected string $DELETE_USER = "DELETE FROM kanban.users WHERE id = :id";
-        protected string $REGISTER_GUEST = "INSERT INTO kanban.users (username, email, password, created_at,isGuest) VALUES (DEFAULT, DEFAULT, 123, DEFAULT,true)";
+        protected string $DELETE_ALL_GUESTS_USERS = "DELETE FROM kanban.users WHERE isGuest = 1 AND guest_expired_at < NOW()";
+        protected string $REGISTER_GUEST = "INSERT INTO kanban.users (username, email, password, created_at,isGuest,guest_expired_at) VALUES (DEFAULT, DEFAULT, 123, DEFAULT,1,NOW() + INTERVAL 1 HOUR)";
 
         public function handleRegister($password, $username, $email, $guest = false)
         {
@@ -27,10 +28,10 @@
 
                 ]);
             }
+
             try {
-                $this->db->query($this->REGISTER_NEW_USER, [':user' => $username, ':email' => $email, ':password' => $password, ':isGuest' => $guest]);
+                $this->db->query($this->REGISTER_NEW_USER, [':user' => $username, ':email' => $email, ':password' => $password, ':isGuest' => $guest ? 1 : 0]);
             } catch (PDOException  $e) {
-                $message = $e->getMessage();
                 $code = $e->getCode();
                 if ($code == 23000) {
                     $hasUsername = str_contains($username, 'username');
@@ -99,10 +100,14 @@
         {
             $this->db->query($this->REGISTER_GUEST);
             $user = $this->db->query($this->GET_LAST_GUEST_ADDED_USER)->find();
-//            dd($user);
             Auth::newSession($user);
             insertData();
             return $user['id'];
         }
 
+        public function cleanGuests()
+        {
+            $this->db->query($this->DELETE_ALL_GUESTS_USERS);
+            return "Old guest users deleted successfully at " . date('Y-m-d H:i:s') . "\n";
+        }
     }

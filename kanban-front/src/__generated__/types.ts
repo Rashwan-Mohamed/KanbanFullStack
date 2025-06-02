@@ -170,6 +170,7 @@ export type MutationRegisterArgs = {
 export type Query = {
   __typename?: 'Query';
   getBoards: Array<Board>;
+  getCurrentUser?: Maybe<LoginResponse>;
 };
 
 
@@ -188,6 +189,7 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
+  isGuest?: Maybe<Scalars['Boolean']['output']>;
   username: Scalars['String']['output'];
 };
 
@@ -312,7 +314,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string } | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string, isGuest?: boolean | null } | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -337,6 +339,11 @@ export type LogOutGuestMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogOutGuestMutation = { __typename?: 'Mutation', logOutGuest: boolean };
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string, isGuest?: boolean | null } | null } | null };
 
 export type AddTaskMutationVariables = Exact<{
   inputTask: InputTask;

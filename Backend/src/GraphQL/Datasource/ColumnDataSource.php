@@ -11,6 +11,7 @@
         private string $GET_COLUMN_ID = "SELECT id FROM kanban.columns  ORDER BY id DESC LIMIT 1";
         private string $GET_COLUMN_NAME = "SELECT name FROM kanban.columns WHERE id = :id";
         private string $GET_BOARD_COLUMN = "SELECT id,name  FROM kanban.columns WHERE boardId = :id";
+        private string $GET_COLUMN_USER = 'SELECT u.id FROM kanban.columns C INNER JOIN kanban.boards b on c.boardId = b.id INNER JOIN kanban.users u on u.id = b.userId WHERE c.id = :id';
 
         public function editColumn($columnIds, $columnNames, $boardId)
         {
@@ -57,5 +58,10 @@
             $this->db->query($this->ADD_TO_COLUMNS_STATEMENT, ['name' => $columnsName, 'boardId' => $boardId]);
             $y = $this->db->query($this->GET_COLUMN_ID)->get();
             return $y[0]['id'];
+        }
+
+        public function getColumnUsers($columnId)
+        {
+            return $this->db->query($this->GET_COLUMN_USER, ['id' => $columnId])->find()['id'];
         }
     }

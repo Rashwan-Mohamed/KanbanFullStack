@@ -5,7 +5,7 @@
     class SubTaskDataSource extends BaseDataSource
     {
 
-        private string $ADD_TO_SUBTASKS_STATEMENT = "INSERT INTO kanban.subtasks (title, isCompleted,taskId) VALUES (:title, DEFAULT, :taskId)";
+        private string $ADD_TO_SUBTASKS_STATEMENT = "INSERT INTO kanban.subtasks (title, isCompleted,taskId) VALUES (:title, :isCompleted, :taskId)";
         private string $EDIT_SUBTASK_STATEMENT = "UPDATE kanban.subtasks t SET  t.title = :title WHERE t.id = :id";
         private string $DELETE_FROM_SUBTASKS_STATEMENT = "DELETE FROM kanban.subtasks WHERE id = :id";
         private string $GET_SUBTASK_ID = "SELECT id FROM kanban.subtasks  ORDER BY id DESC LIMIT 1";
@@ -62,7 +62,7 @@
         // adds a single Subtask to the db and relate it to a column
         public function addSubTask($title, $isCompleted, $taskId)
         {
-            $this->db->query($this->ADD_TO_SUBTASKS_STATEMENT, ['title' => $title, 'taskId' => $taskId]);
+            $this->db->query($this->ADD_TO_SUBTASKS_STATEMENT, ['title' => $title, 'taskId' => $taskId, 'isCompleted' => $isCompleted ? 1 : 0]);
             $y = $this->db->query($this->GET_SUBTASK_ID)->get();
             return $y[0]['id'];
         }
