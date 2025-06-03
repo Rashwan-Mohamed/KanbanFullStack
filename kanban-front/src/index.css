@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=WDXL+Lubrifont+TC&display=swap');*/
 *,
 *::after,
 *::before {
@@ -318,9 +320,9 @@ aside footer {
     padding: 1.5rem 0 0 2rem;
     display: flex;
     gap: 0 35px;
-    width: 100vw;
+    width: fit-content;
     overflow: scroll;
-    cursor: default;
+    cursor: all-scroll;
     grid-column: 2/-1;
     grid-row: 2/-1;
     background-color: var(--primary);
@@ -336,6 +338,7 @@ aside footer {
     grid-template-columns: 280px;
     grid-auto-rows: min-content;
     margin-bottom: 20px;
+    min-height: 100vh;
 }
 
 .boardColumn {
@@ -377,15 +380,15 @@ aside footer {
     border: 1px solid var(--first);
     box-shadow: 0 4px 6px rgba(54, 78, 126, 0.101545);
     padding: 25px 20px;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 15px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
     line-height: 22px;
-    word-break: break-all;
-    cursor: pointer;
+    word-break: keep-all;
+    cursor: grab;
     transition: opacity 100ms ease-in-out;
 }
 
@@ -404,7 +407,7 @@ aside footer {
     border-radius: 8px;
 }
 
-.board-container > article:nth-last-of-type(1) > ul {
+.board-container > .lastAddArt > ul {
     margin-top: 16px;
     border-radius: 8px;
     width: 280px;
@@ -1062,6 +1065,70 @@ aside footer {
     padding-right: 5px;
 }
 
+.emptyBoards p {
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: fit-content;
+    margin: auto;
+    text-align: center;
+}
+
+.loginFormInput {
+    width: 100% !important;
+}
+
+.Toastify__toast-theme--dark {
+    background-color: var(--primary);
+}
+
+.Toastify__toast-icon > svg:nth-child(1) {
+    fill: var(--eers);
+}
+
+.Toastify__progress-bar--wrp {
+    color: #fff;
+}
+
+.Toastify__progress-bar--success {
+    background: var(--eers);
+}
+
+.Toastify__toast {
+    font-size: 15px;
+}
+
+
+.headerFirst > h3:nth-child(2) {
+    letter-spacing: initial;
+    padding: 3px 10px;
+    text-align: left;
+    overflow-x: hidden;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+}
+
+.headerFirst {
+    justify-content: flex-start;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 10px 0;
+    padding-bottom: 12px;
+}
+
+
+.header-body {
+    grid-template-columns: auto 1fr;
+}
+
 
 /******************WHITE THEME ***************/
 .editDeletWhite:hover {
@@ -1140,6 +1207,166 @@ aside footer {
     grid-row: 1/-1;
 }
 
+@media screen and (max-width: 1500px ) {
+
+    .board-container {
+
+        padding: 1.5rem 0 0 1rem;
+        gap: 0 10px;
+    }
+
+    .board-container > article > ul {
+        grid-template-columns: 200px;
+    }
+
+    .boardColumn li {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    /* Inline | http://localhost:5173/kanban */
+    main {
+        /* grid-template-columns: 300px 1fr; */
+        grid-template-columns: 250px 1fr;
+    }
+
+    header {
+        /* grid-template-columns: 300px 1fr; */
+        grid-template-columns: 250px 1fr;
+    }
+
+}
+
+@media screen and (max-width: 1250px ) {
+    .header-body > h1:nth-child(1) {
+        width: fit-content;
+    }
+
+    .header-body {
+        grid-template-columns: auto 1fr;
+    }
+
+    /*.board-container {*/
+    /*    !* padding: 1.5rem 0 0 2rem; *!*/
+    /*    !* gap: 0 35px; *!*/
+    /*    padding: 1.5rem 0 0 1rem;*/
+    /*    gap: 0 10px;*/
+    /*}*/
+
+    /*.board-container > article > ul {*/
+    /*    !* grid-template-columns: 280px; *!*/
+    /*    grid-template-columns: 220px;*/
+    /*}*/
+
+
+    /*.boardColumn li {*/
+    /*    !* padding: 25px 20px; *!*/
+    /*    !* font-size: 15px; *!*/
+    /*    !* word-break: break-all; *!*/
+    /*    padding: 10px 0 10px 8px;*/
+    /*    font-size: 14px;*/
+    /*    word-break: keep-all;*/
+    /*    font-weight: 500;*/
+    /*}*/
+
+
+    /* Inline | http://localhost:5173/kanban */
+    .header-body {
+        /* padding: 0 28px; */
+        padding: 0 5px 0 10px;
+    }
+
+    .header-btns {
+        /* margin-right: 30px; */
+        margin-right: 0;
+    }
+
+    .header-btns {
+        /* gap: 0 25px; */
+        gap: 0 5px;
+    }
+
+    .addNewTask {
+        /* padding: 10px 15px; */
+        /* border-radius: 20px; */
+        padding: 10px 12px;
+        border-radius: 18px;
+    }
+
+
+    main {
+        /* grid-template-columns: 300px 1fr; */
+        grid-template-columns: 250px 1fr;
+    }
+
+    header {
+        /* grid-template-columns: 300px 1fr; */
+        grid-template-columns: 250px 1fr;
+    }
+
+}
+
+@media screen and (max-width: 1025px ) {
+    :root {
+        --paddingLeft: 10px;
+    }
+
+    .header-body {
+        padding: 0 10px;
+    }
+
+    .header-btns {
+        margin-right: 0;
+    }
+
+    .addNewTask {
+
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    main {
+        grid-template-rows: auto 1fr;
+    }
+
+    header {
+        height: 100px;
+    }
+
+    .header-btns {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .header-body {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .header-btns {
+        /* gap: 0 25px; */
+        gap: 0 1.2vw;
+    }
+
+    .addNewTask {
+        /* padding: 10px; */
+        padding: 10px 4px;
+    }
+
+    .header-body {
+        /* padding: 10px; */
+        padding: 10px 0;
+    }
+
+
+    .addNewTask {
+        /* border-radius: 20px; */
+        border-radius: 5px;
+    }
+
+}
+
 @media screen and (max-width: 768px) {
     header {
         display: flex;
@@ -1177,48 +1404,29 @@ aside footer {
         height: 670px;
         width: 350px;
     }
+
+    .header-btns {
+        justify-content: space-evenly;
+    }
+
+    .header-body {
+        gap: 20px 0;
+        padding: 1rem 0;
+    }
+
+    header {
+        height: 120px;
+    }
+
+    .header-btns span {
+        width: 150px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        left: unset;
+        right: 20px;
+    }
 }
 
-.emptyBoards p {
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
-
-.loading-spinner {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    width: fit-content;
-    margin: auto;
-    text-align: center;
-}
-
-.loginFormInput {
-    width: 100% !important;
-}
-
-.Toastify__toast-theme--dark {
-    background-color: var(--primary);
-}
-
-.Toastify__toast-icon > svg:nth-child(1) {
-    fill: var(--eers);
-}
-
-.Toastify__progress-bar--wrp {
-    color: #fff;
-}
-
-.Toastify__progress-bar--success {
-    background: var(--eers);
-}
-
-.Toastify__toast {
-    font-size: 15px;
-}
 
 @media screen and (max-width: 480px) {
     .header-body > h1:nth-child(1) {
@@ -1280,4 +1488,101 @@ aside footer {
     .confirmDelete article div {
         justify-content: space-between;
     }
+
+    .header-body {
+        justify-content: center;
+    }
+
+    /* Inline | http://localhost:5173/kanban */
+    .addNewTask {
+        /* padding: 10px 4px; */
+        padding: 10px 7px;
+    }
+
+
+    .header-btns {
+        /* gap: 0 10px; */
+        gap: 0 5px;
+    }
+
+    .addNewTask {
+        /* padding: 10px 15px; */
+        padding: 7px 5px;
+        font-size: 12px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .header-body {
+        /* padding: 0 10px; */
+        padding: 15px 5px;
+    }
+
+
+    header {
+        /* height: 120px; */
+        height: fit-content;
+    }
+
+
+    .editDelet {
+        grid-column: 2/3;
+        place-self: flex-end;
+    }
+
+    .header-btns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    /***/
+    /* Inline | http://localhost:5173/kanban */
+    .boardColumn li {
+        /* font-size: 14px; */
+        font-size: 10px;
+    }
+
+    .board-container > article > ul {
+        /* grid-template-columns: 220px; */
+        grid-template-columns: 120px;
+    }
+
+    .board-container {
+        /* gap: 0 10px; */
+        gap: 0 5px;
+    }
+
+
+    .boardColumn li {
+        /* line-height: 22px; */
+        line-height: 15px;
+    }
+
+    .board-container > article > ul {
+        /* gap: 15px; */
+        gap: 10px 0;
+    }
+
+    .boardColumn > span {
+        /* margin-bottom: 22px; */
+        margin-bottom: 15px;
+    }
+
+    .boardColumn > span > p {
+        /* font-size: 13px; */
+        /* letter-spacing: 2.4px; */
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+
+    .board-container > .lastAddArt > ul {
+        /* font-size: 22px; */
+        font-size: 12px;
+        width: 100px;
+        text-align: center;
+    }
+
+
 }
