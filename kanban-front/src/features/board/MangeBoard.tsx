@@ -14,6 +14,7 @@ import ChangeTitle from "@/features/board/components/MangeTask/ChangeTitle.tsx";
 import {ModalFormWrapper} from "@/features/board/ModalFormComponent.tsx";
 import {ADD_BOARD, EDIT_BOARD} from "@/GraphQL Queries/BoardQueries.ts";
 import {EDIT_COLUMN} from "@/GraphQL Queries/ColumnQueries.ts";
+import {notifyError, notifySuccess} from "@/generalComponents/toastService.ts";
 
 function MangeBoard({setBoardShow, operation}: {
     setBoardShow: React.Dispatch<React.SetStateAction<boolean>>,
@@ -88,9 +89,12 @@ function MangeBoard({setBoardShow, operation}: {
             }
             const colIds = data.editColumn.colIds; // Ensures it's always an array
             dispatch(editBoard({id: theOne.id, name, columns, colIds}));
+            notifySuccess('Board Edited Successfully')
 
         } catch (error) {
             console.error("Failed to edit column:", error);
+            notifyError('Failed to edit column')
+
         } finally {
             resetForm();
         }
@@ -109,9 +113,13 @@ function MangeBoard({setBoardShow, operation}: {
             const {boardId, columnIds} = data.addBoard;
             if (boardId) {
                 dispatch(addNewBoard({name, columns, boardId, columnIds}))
+                notifySuccess('Board Added Successfully')
+
             }
         } catch (error) {
             console.error("Failed to add board", error);
+            notifyError('Failed to add board')
+
         } finally {
             resetForm()
         }

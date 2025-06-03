@@ -18,7 +18,9 @@
             $username = $this->args['username'];
             $email = $this->args['email'];
             $password = password_hash($password, PASSWORD_DEFAULT);
-            return $this->ds()->handleRegister($password, $username, $email);
+            $userid = self::getCurrentUser()['user'];
+            $userid = $userid['id'];
+            return $this->ds()->handleRegister($password, $username, $email, false, $userid ?? null);
         }
 
         public function login()
@@ -86,24 +88,31 @@
 
         public static function getCurrentUser()
         {
-            $user = Session::get('user');
             $noUser = [
                 'user' => null,
                 'message' => "Not Logged in",
             ];
+
+            if (!Session::has('user')) {
+                return $noUser;
+            }
+
+            $user = Session::get('user');
+
             if ($user) {
                 $instance = new self(0);
-                $user = $instance->ds()->getUser($user['id']);
-//                dd($user);
-                if ($user) {
+                $userData = $instance->ds()->getUser($user['id']);
+
+                if ($userData) {
                     return [
-                        'user' => $user,
+                        'user' => $userData,
                         'message' => "Logged_in_user",
                     ];
                 } else {
                     Session::destroy();
                 }
             }
+
             return $noUser;
         }
 

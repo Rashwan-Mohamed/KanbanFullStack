@@ -2,9 +2,13 @@ import {ModalFormWrapper} from "@/features/board/ModalFormComponent.tsx";
 import ChangeTitle from "@/features/board/components/MangeTask/ChangeTitle.tsx";
 
 import useHandleSession from "@/features/auth/useHandleSession.ts";
-// import {ToastContainer, toast} from 'react-toastify';
+import React, {useEffect} from "react";
+import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
 
-export default function SessionPage() {
+export default function SessionPage({registerGuest, setRegisterGuest}: {
+    registerGuest?: boolean,
+    setRegisterGuest?: React.Dispatch<React.SetStateAction<boolean>>
+}) {
 
     const handleSession = useHandleSession()
     const {
@@ -19,10 +23,29 @@ export default function SessionPage() {
         validPassword,
         formRef,
         loading,
-        signIn, setSignIn, usedEmail, handleGuest
+        signIn,
+        setSignIn
+        , usedEmail,
+        handleGuest,
+        user
     }
         = handleSession
     const opo = signIn ? 'login' : 'register'
+    useEffect(() => {
+        if (registerGuest) {
+            setSignIn(false);
+        }
+    }, []);
+    // const closeHandler = setRegisterGuest ? setRegisterGuest(false) : null
+    useClickOutside({
+        active: registerGuest ?? false,
+        elements: [formRef],
+        handler: () => {
+            if (typeof setRegisterGuest === "function") {
+                setRegisterGuest(false);
+            }
+        },
+    });
 
     const extraChild =
         <>
@@ -30,14 +53,18 @@ export default function SessionPage() {
             <button className='ButtonGeneric' type="button" onClick={() => setSignIn((!signIn))}>
                 {!signIn ? 'login' : 'register'}
             </button>
-            <button className='ButtonGeneric' type="button" onClick={() => handleGuest()}>
-                Continue As Guest
-            </button>
+            {!(user?.auth && user?.isGuest) &&
+                <button className='ButtonGeneric' type="button" onClick={() => handleGuest()}>
+                    Continue As Guest
+                </button>
+            }
+
         </>
     return (
         <>
             {/*<ToastContainer/>*/}
-            <ModalFormWrapper title={opo} formRef={formRef} onSubmit={handleSubmit}
+            <ModalFormWrapper title={opo} formRef={formRef}
+                              onSubmit={(e) => handleSubmit(e, registerGuest ? 'registerGuest' : '')}
                               submitLabel={opo} loading={loading} extraChildren={extraChild}>
                 {!signIn &&
                     <ChangeTitle value={email} onChange={setEmail} usedBoard={usedEmail} label={'email address'}

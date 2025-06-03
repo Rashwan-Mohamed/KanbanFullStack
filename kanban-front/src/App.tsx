@@ -1,11 +1,6 @@
 import Home from "./home";
 
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Navigate,
-} from "react-router-dom";
+import {BrowserRouter as Router, Navigate, Route, Routes,} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "./app/hooks";
 import SessionPage from "./features/auth/SessionPage.tsx";
 import React, {useEffect, useState} from "react";
@@ -20,7 +15,7 @@ function App(): React.JSX.Element {
     const dispatch = useAppDispatch();
     const auth = useAppSelector((state) => state.auth);
 
-    const {loading, error, data,refetch} = useQuery(GET_CURRENT_USER, {
+    const {loading, error, data, refetch} = useQuery(GET_CURRENT_USER, {
         pollInterval: 600000,
         fetchPolicy: 'network-only',
     });
@@ -42,6 +37,8 @@ function App(): React.JSX.Element {
 
         if (data?.getCurrentUser?.user) {
             const user = data.getCurrentUser.user;
+
+
             dispatch(setAuth({
                 user: user.username,
                 auth: true,
@@ -58,23 +55,26 @@ function App(): React.JSX.Element {
     }, [data, loading, error, dispatch]);
 
     if (!rehydrated) return <p><LoadingSpinner message={'Loading...'}/></p>
+
+
     return (
-        <>   <Router>
-            <Routes>
+        <>
 
-                <Route path="/" element={
-                    <RedirectOnAuth>
-                        <SessionPage/>
-                    </RedirectOnAuth>
-                }/>
+            <Router>
+                <Routes>
+                    <Route path="/" element={
+                        <RedirectOnAuth>
+                            <SessionPage/>
+                        </RedirectOnAuth>
+                    }/>
 
-                <Route
-                    path="/kanban"
-                    element={auth.auth ? <Home/> : <Navigate to="/" replace/>}
-                />
-                <Route path="*" element={<h1 className={'notFound'}>404 Not Found</h1>}/>
-            </Routes>
-        </Router></>
+                    <Route
+                        path="/kanban"
+                        element={auth.auth ? <Home/> : <Navigate to="/" replace/>}
+                    />
+                    <Route path="*" element={<h1 className={'notFound'}>404 Not Found</h1>}/>
+                </Routes>
+            </Router></>
     )
 }
 

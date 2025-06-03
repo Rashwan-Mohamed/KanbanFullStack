@@ -1019,6 +1019,7 @@ aside footer {
 .userButtons > .deleteBoard {
     color: white;
 }
+
 .userButtons {
     display: flex;
     flex-direction: column;
@@ -1026,6 +1027,7 @@ aside footer {
     border-top: 1px solid white;
     padding-top: 15px;
 }
+
 /* Element | http://localhost:5173/kanban */
 
 .headerFirst > h3:nth-child(2) {
@@ -1035,7 +1037,7 @@ aside footer {
     background: #635fc7;
     border-radius: 0 5px 4px 0;
     padding: 5px 4px 5px 10px;
-    font-style:italic ;
+    font-style: italic;
 }
 
 .deleteBoard {
@@ -1052,6 +1054,7 @@ aside footer {
 .confirmDelete {
     z-index: 1000;
 }
+
 /* Inline | http://localhost:5173/kanban */
 
 .logo-container {
@@ -1085,7 +1088,7 @@ aside footer {
     color: var(--greyish);
 }
 
-.whiteMain .ButtonGeneric{
+.whiteMain .ButtonGeneric {
     background-color: #f0effa;
 }
 
@@ -1195,6 +1198,26 @@ aside footer {
 
 .loginFormInput {
     width: 100% !important;
+}
+
+.Toastify__toast-theme--dark {
+    background-color: var(--primary);
+}
+
+.Toastify__toast-icon > svg:nth-child(1) {
+    fill: var(--eers);
+}
+
+.Toastify__progress-bar--wrp {
+    color: #fff;
+}
+
+.Toastify__progress-bar--success {
+    background: var(--eers);
+}
+
+.Toastify__toast {
+    font-size: 15px;
 }
 
 @media screen and (max-width: 480px) {

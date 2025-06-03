@@ -7,6 +7,7 @@ import AssureDelete from "@/features/board/components/AssureDelete.tsx";
 import {DELETE_PROFILE} from "@/GraphQL Queries/SessionQueries.ts";
 import {useMutation} from "@apollo/client";
 import {initialState, setAuth} from "@/features/auth/AuthenticationSlice.tsx";
+import {notify} from "@/generalComponents/toastService.ts";
 
 
 const Profile = ({setProfileShow, formRef}: {
@@ -45,6 +46,7 @@ const Profile = ({setProfileShow, formRef}: {
             const res = await deleteFC({variables: {userId: user.userId}})
             if (res?.data?.deleteProfile) {
                 dispatch(setAuth(initialState))
+                notify('Account Deleted Successfully, sorry to see you leave.')
             }
         }
         const additionalContent = <>

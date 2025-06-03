@@ -11,6 +11,7 @@ import AddNewColumn from "@/features/board/components/Columns/AddNewColumn";
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
 import {ModalFormWrapper} from "@/features/board/ModalFormComponent.tsx";
 import {ADD_COLUMN} from "@/GraphQL Queries/ColumnQueries.ts";
+import {notifyError, notifySuccess} from "@/generalComponents/toastService.ts";
 
 function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction<boolean>> }) {
     const {setSelected} = UseAppContext()
@@ -44,14 +45,17 @@ function NewColumn({setColumn}: { setColumn: React.Dispatch<React.SetStateAction
             try {
                 const {data} = await addCF({variables: {columnName: colNames, boardId: (theOne.id)}})
                 if (!data || !data.addColumn) {
+                    notifyError("Failed to add columns.")
                     console.log('addColumn Mutation return Failed')
                     return
                 }
                 const colIds = data.addColumn.map(col => Number(col));
+                notifySuccess("Columns Added Successfully")
                 dispatch(editBoard({
                     id: theOne.id, name, columns, colIds: colIds
                 }))
             } catch (error) {
+                notifyError("Failed to add columns.")
                 console.error("Error adding columns:", error);
             } finally {
                 resetForm()

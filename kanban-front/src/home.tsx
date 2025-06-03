@@ -17,12 +17,12 @@ function Home() {
     const close = useCloseEscape()
     const dispatch = useDispatch();
     const authState = useAppSelector((state) => state.auth)
-    const [getBoards, {loading, error}] = useLazyQuery(GET_BOARDS);
+    const [getBoards, {loading, error}] = useLazyQuery(GET_BOARDS, {fetchPolicy: 'network-only'});
     useEffect(() => {
-        if (authState.auth&&authState.userId) {
+        if (authState.auth && authState.userId) {
             getBoards({variables: {userId: authState.userId}}).then(r => dispatch(setBoards(r.data?.getBoards ?? []))).catch(e => console.log(e))
         }
-    }, [authState, dispatch])
+    }, [authState, dispatch, authState.isGuest])
 
 
     useEffect(() => {
@@ -36,9 +36,9 @@ function Home() {
         }
     };
     // dispatch(setBoards(data.getBoards));
-
     return (
         <main className={!dark ? 'whiteMain' : ''}>
+
             <Header selectBord={selectBord} setSelectBord={setSelectBord}/>
             {!tab && <Aside/>}
             {tab && selectBord ? (

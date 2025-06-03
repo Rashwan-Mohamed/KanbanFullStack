@@ -10,6 +10,8 @@ import MangeBoard from "@/features/board/MangeBoard.tsx";
 import {DELETE_BOARD} from "@/GraphQL Queries/BoardQueries.ts";
 import Logout from "@/features/auth/Logout.tsx";
 import Profile from "@/features/auth/Profile.tsx";
+import {notifySuccess} from "@/generalComponents/toastService.ts";
+import SessionPage from "@/features/auth/SessionPage.tsx";
 
 interface propTypes {
     selectBord: boolean
@@ -23,6 +25,7 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
     const [boardShow, setBoardShow] = useState(false)
     const [taskShow, setTaskShow] = useState(false)
     const [profileShow, setProfileShow] = useState(false)
+    const [registerGuest, setRegisterGuest] = useState(false)
     const [sure, setSure] = useState(false)
     const drop = useRef<HTMLElement>(null)
     const doper = useRef<HTMLButtonElement>(null)
@@ -34,12 +37,13 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
     const indeed = boards.findIndex((item) => item.name === selected)
     const user = useAppSelector((state) => state.auth)
     const formRef = useRef<HTMLFormElement>(null)
-
+    // const seesionRef = useRef<HTMLFormElement>(null)
     const handleDelete = () => {
         const boardID = boards[indeed]['id']
         deleteBF({
             variables: {boardID: (boardID)}
         });
+        notifySuccess("Board Deleted Successfully")
         dispatch(deleteBoard({name: selected}))
         setToggle(false)
         if (len === 1) {
@@ -54,7 +58,7 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
         if (!toggle && profileShow) {
             setProfileShow(false)
         }
-    }, [toggle]);
+    }, [profileShow, toggle]);
 
     useClickOutside({
         elements: [drop, doper, formRef],
@@ -63,14 +67,17 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
     })
     ;
 
+
     return (<>
         {profileShow && <Profile setProfileShow={setProfileShow} formRef={formRef}></Profile>}
+        {registerGuest && <SessionPage registerGuest={true} setRegisterGuest={setRegisterGuest}></SessionPage>}
         <header
             style={{
                 backgroundColor: !dark ? 'white' : '', borderBottom: !dark ? '1px solid var(--second)' : '',
             }}
             className='header'
         >
+
             {sure && (<AssureDelete selected={selected} setSure={setSure}
                                     handleDelete={handleDelete} type={'board'}/>)}
             {boardShow && <MangeBoard setBoardShow={setBoardShow} operation={'edit'}/>}{' '}
@@ -89,7 +96,6 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
                                 <img src='assets/logo-dark.svg' alt=''/>)}
                         </picture>
                         <h3>{user.isGuest ? 'Guest' : user.user}</h3>
-
                     </div>
                 </>
 
@@ -152,7 +158,11 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
                     </>
                     }
 
-
+                    {user.auth && user.isGuest &&
+                        <button onClick={() => setRegisterGuest(true)} className={'addNewTask'}>
+                            Register a new user
+                        </button>
+                    }
                     <button
                         ref={doper}
                         onClick={() => setToggle(!toggle)}
@@ -160,6 +170,7 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
                     >
                         {svg2}
                     </button>
+
 
                     {toggle && <ControlBtns dark={dark} drop={drop} profileShow={setProfileShow} setToggle={setToggle}
                                             setSure={setSure}/>}
@@ -181,7 +192,7 @@ interface propTypesBtns {
     setSure: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ControlBtns: React.FC<propTypesBtns> = ({dark, drop, profileShow, setToggle, setSure}) => {
+const ControlBtns: React.FC<propTypesBtns> = ({dark, drop, profileShow}) => {
     return (
         <span
             style={{backgroundColor: !dark ? 'white' : ''}}
