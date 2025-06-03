@@ -4,6 +4,7 @@ import {useMutation} from "@apollo/client";
 import {CHANGE_PROFILE, LOGIN, LOGIN_GUEST, REGISTER} from "@/GraphQL Queries/SessionQueries.ts";
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
 import {setAuth} from "@/features/auth/AuthenticationSlice.tsx";
+import {notifyError, notifySuccess} from "@/generalComponents/toastService.ts";
 
 // import {UseAppContext} from "@/context.tsx";
 interface PropTypes {
@@ -11,7 +12,6 @@ interface PropTypes {
 }
 
 function useHandleSession({setProfileShow}: PropTypes = {}) {
-
     const formRef = useRef<HTMLFormElement>(null);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -29,8 +29,6 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
     const [changeFC, {loading: changeLoading}] = useMutation(CHANGE_PROFILE)
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.auth)
-    // const {setMessage, notify} = UseAppContext()
-    // const notify = () => toast("Logged in successfully. Welcome back!");
     const handleSubmit = (e: React.FormEvent, operation = 'default') => {
         e.preventDefault();
         const editProfile = operation === 'editProfile'
@@ -40,12 +38,12 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
         if (!name) {
             setUsedName('required');
         }
-        if (password.length < 2 && !editProfile) {
+        if (!validatePassword(password) && !editProfile) {
             setValidPassword('invalid, must be at least 6 characters long');
             return;
         }
         if (editProfile) {
-            if (repeatedPassword.length < 6) {
+            if (repeatedPassword && !validatePassword(repeatedPassword)) {
                 setNewPassword('invalid, must be at least 6 characters long');
                 return;
             }
@@ -80,6 +78,7 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
             }
             if (data?.user) {
                 const user = data.user;
+                notifySuccess(`Welcome Back ${user.username}!`)
                 newSession(user.username, user.id, data.user.email, false, (user.last_updated))
                 // setMessage(() => `Welcome Back ${user.username}!`)
                 // notify();
@@ -113,6 +112,7 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
             }
             if (data.successful && data.userId) {
                 const user = data.userId;
+                notifySuccess(`Hi ${name}, you are provided with initial data to test the functionality, feel free to delete it and create your own!`, 8000)
                 newSession(name, user)
             } else {
                 // const [exi]
@@ -122,8 +122,6 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
                 if (data.existingUser) {
                     setUsedName('this user name is already associated with an account. Please try another one.');
                 }
-                // console.warn('Login failed: no user returned');
-                // const message = data.message ?? 'invalid credentials';
             }
         } catch (err) {
             console.error('Unexpected login error:', err);
@@ -134,6 +132,7 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
         const response = await guestLogin()
         const id = response.data?.loginGuest
         if (id) {
+            notifySuccess("Hello There! You can now start using the app, the changes you make will be lost once logged out or after a period of two hours, to persist them register a new account!", 10000)
             newSession('Guest', id, '_', true)
         }
     }
@@ -147,7 +146,6 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
                 oldPassword: password
             }
         })
-        console.log(rechange)
         if (rechange?.data?.changeProfile) {
             const {message, successful} = rechange.data.changeProfile;
             if (successful && setProfileShow) {
@@ -156,13 +154,16 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
                     user: name,
                     email: email,
                 }));
+                notifySuccess(`Profile Updated Successfully!`)
                 setProfileShow(false)
             } else {
                 if (message === 'PASSWORD DOES NOT MATCH') {
+                    notifyError(`Failed to update profile, password does not match!`)
                     setValidPassword('incorrect password!');
                 }
             }
         } else {
+            notifyError(`Failed to update.`)
             console.error('failed to update')
         }
     }
@@ -175,14 +176,10 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
             email: user_email,
             last_updated: (last_updated)
         }));
-        // notify()
-        localStorage.setItem('user', JSON.stringify({
-            user: username,
-            auth: true,
-            userId: id,
-            isGuest
-        }))
-        navigate('/kanban');
+        navigate('/');
+    }
+    const validatePassword = (password: string) => {
+        return password.length >= 2;
     }
     const generalLoad = loading || registeringLoad || loggingGuest || changeLoading
     return {
@@ -204,7 +201,7 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
         navigate,
         signIn, setSignIn,
         usedEmail, handleGuest,
-        newPassword
+        newPassword, user
     }
 }
 

@@ -3,7 +3,7 @@ import type {RootState} from "@/app/store"; // Adjust the path if needed
 // to Adjust the path if needed
 import type {board} from "./features/board/boardSlice";
 import {useAppSelector} from "@/app/hooks.ts";
-import {ToastContainer, toast} from 'react-toastify';
+import {Bounce, ToastContainer} from "react-toastify";
 
 // Define the AppContext Type
 interface AppContextType {
@@ -15,8 +15,6 @@ interface AppContextType {
     hideSide: boolean;
     setHideSide: React.Dispatch<React.SetStateAction<boolean>>;
     tab: boolean;
-    setMessage: React.Dispatch<React.SetStateAction<string>>;
-    notify: () => void;
 }
 
 // Create context with default value as null
@@ -33,8 +31,7 @@ function AppContextProvider({children}: AppContextProviderProps): React.JSX.Elem
     const [tab, setTab] = useState<boolean>(false);
     const boards = useAppSelector((state: RootState) => state.boards);
     const [selected, setSelected] = useState<string>("");
-    const [message, setMessage] = useState<string>("");
-    const notify = () => toast(message);
+    // const notify = (message: string) => toast(message);
 
 
     // Set the initially selected board once boards are loaded
@@ -82,11 +79,20 @@ function AppContextProvider({children}: AppContextProviderProps): React.JSX.Elem
                 board,
                 hideSide,
                 setHideSide,
-                setMessage,
-                tab, notify
+                tab
             }}
         >
-            <ToastContainer></ToastContainer>
+            <ToastContainer position="top-right"
+                            autoClose={5000}
+                            newestOnTop={false}
+                            closeOnClick={true}
+                            rtl={false}
+                            hideProgressBar={false}
+                            pauseOnFocusLoss
+                            draggable
+                            theme="dark"
+                            transition={Bounce}
+            ></ToastContainer>
             {children}
         </AppContext.Provider>
     );

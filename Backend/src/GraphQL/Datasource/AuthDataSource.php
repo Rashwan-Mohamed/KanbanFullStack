@@ -3,6 +3,7 @@
     namespace App\GraphQL\Datasource;
 
     use App\GraphQL\Resolvers\Mutation\Auth;
+    use Exception;
     use PDOException;
 
 
@@ -17,9 +18,9 @@
         protected string $CHANGE_DETAILS = "UPDATE kanban.users t SET t.username = :username, t.email = :email WHERE t.id = :userId";
         protected string $CHANGE_PASSWORD = "UPDATE kanban.users t SET t.password = :password WHERE t.id = :userId";
         protected string $GET_USER_BY_ID = "SELECT * FROM kanban.users WHERE id = :id";
+        protected string $CHANGE_GUEST_TO_USER = "UPDATE kanban.users t SET t.username = :user, t.email=:email,isGuest=0,password=:password WHERE t.id = :userId";
 
-
-        public function handleRegister($password, $username, $email, $guest = false)
+        public function handleRegister($password, $username, $email, $guest = false, $userId = null)
         {
             $userExists = $this->db->query("SELECT COUNT(*) as count FROM kanban.users WHERE username = :username", [':username' => $username])->find()['count'] > 0;
             $emailExists = $this->db->query("SELECT COUNT(*) as count FROM kanban.users WHERE email = :email", [':email' => $email])->find()['count'] > 0;
@@ -34,7 +35,14 @@
             }
 
             try {
-                $this->db->query($this->REGISTER_NEW_USER, [':user' => $username, ':email' => $email, ':password' => $password, ':isGuest' => $guest ? 1 : 0]);
+                if (!$userId) {
+                    $this->db->query($this->REGISTER_NEW_USER, [':user' => $username, ':email' => $email, ':password' => $password, ':isGuest' => $guest ? 1 : 0]);
+                    $id = $this->db->query($this->GET_USER_ID, [':user' => $username])->find();
+                    $id = $id['id'];
+                } else {
+                    $this->db->query($this->CHANGE_GUEST_TO_USER, [':user' => $username, ':email' => $email, ':password' => $password, ':userId' => $userId]);
+                    $id = $userId;
+                }
             } catch (PDOException  $e) {
                 $code = $e->getCode();
                 if ($code == 23000) {
@@ -51,21 +59,24 @@
                 }
                 return ([]);
             }
-            $id = $this->db->query($this->GET_USER_ID, [':user' => $username])->find();
-            $id = $id['id'];
+
             $user = [
                 'id' => $id,
                 'username' => $username,
                 'email' => $email,
                 'isGuest' => $guest,
             ];
+
             Auth::newSession($user);
-            insertData();
+            if (!isset($userId)) {
+                insertData();
+            }
             return ([
                 'successful' => true,
                 'userId' => $id,
             ]);
         }
+
 
         public function handleLogin($plainPassword, $username)
         {
@@ -126,10 +137,22 @@
             return ['message' => 'PROFILE_DETAILS_CHANGED', 'successful' => true];
         }
 
+        /**
+         * @throws Exception
+         */
         public function getUser($id)
         {
-            $user = $this->db->query($this->GET_USER_BY_ID, ['id' => $id])->get()[0];
-            return self::formatUser($user);
+            try {
+                $result = $this->db->query($this->GET_USER_BY_ID, ['id' => $id])->get();
+                if (empty($result)) {
+                    return null; // No user found
+                }
+                return self::formatUser($result[0]);
+
+            } catch (PDOException $e) {
+                error_log("Database error: " . $e->getMessage()); // Log the error
+                return null; // Handle gracefully
+            }
         }
 
         protected static function formatUser($user): array

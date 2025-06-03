@@ -7,6 +7,7 @@ import {LOGOUT, LOGOUT_GUEST} from "@/GraphQL Queries/SessionQueries.ts";
 import LoadingSpinner from "@/generalComponents/loadingSpinner.tsx";
 import {setBoards} from "@/features/board/boardSlice.ts";
 import {UseAppContext} from "@/context.tsx";
+import {notifySuccess} from "@/generalComponents/toastService.ts";
 
 const Logout = () => {
     const {isGuest} = useAppSelector(state => state.auth)
@@ -22,9 +23,9 @@ const Logout = () => {
         localStorage.removeItem('user');
         dispatch(loggedOut())
         dispatch(setBoards([]))
+        notifySuccess(`Logged out completely.`)
         setSelected('')
         setTimeout(() => navigate('/'), 0);
-        // or next tick console.log("Logged out completely.");
     }
 
     if (loading || loggingGuestOut) return <p className={'LoggingOutMessage'}><LoadingSpinner

@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect, useMemo} from 'react'
-import { deleteTask} from '../../boardSlice'
+import {deleteTask} from '../../boardSlice'
 import {UseAppContext} from '@/context'
 import useCloseEscape from '../hooks/useCloseEscape.tsx'
 import CustomDrop from '../customDrop'
@@ -14,6 +14,8 @@ import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 import AssureDelete from "@/features/board/components/AssureDelete.tsx";
 import {useCallDispatchTask} from "@/features/board/components/Task/useCallDispatchTask.ts";
 import {DELETE_TASK} from "@/GraphQL Queries/TasksQueries.ts";
+import { notifySuccess} from "@/generalComponents/toastService.ts";
+import LoadingSpinner from "@/generalComponents/loadingSpinner.tsx";
 
 
 interface propTypes {
@@ -23,7 +25,8 @@ interface propTypes {
 }
 
 function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
-    const [deleteTF] = useMutation(DELETE_TASK)
+
+    const [deleteTF, {loading}] = useMutation(DELETE_TASK)
     const {selected, dark} = UseAppContext()
     const theOne = useGetBoard()
     const formRef = useRef<HTMLFormElement>(null)
@@ -51,25 +54,26 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
     const handleDelete = async () => {
         // to delete a task, we need {selected, status, id}
         await deleteTF({variables: {taskID: (id)}})
-        dispatch(deleteTask({selected, status: status.status.toString(), id}))
+        notifySuccess('Task deleted successfully')
+        dispatch(deleteTask({selected, status: status.status, id}))
         setTaskShow(false)
     }
     // this sends graphQL query to change taskStatus only when it changes
     useTaskStatusUpdater({
-        status: status.status.toString(),
-        prevStatus: prevStatus.toString(),
+        status: status.status,
+        prevStatus: prevStatus,
         id,
         statusId: status.statusId,
         order: taskIndex === -1 ? statusTasksLength + 1 : taskIndex
     });
     const object = {
-        prevStatus: prevStatus.toString(),
+        prevStatus: prevStatus,
         id,
         selected,
-        status: status.status.toString(),
+        status: status.status,
         statusId: status.statusId,
-        title: title.toString(),
-        description: description.toString(),
+        title: title,
+        description: description,
         tasks: subtasks, newSubIds: subtasks.map(t => t.id),
         order: taskIndex === -1 ? statusTasksLength + 1 : taskIndex
     }
@@ -91,24 +95,12 @@ function Task({selectedTask, setTaskShow, setEditTask}: propTypes) {
     //      thus edit board should be in board, yes
     //      prevStatus
 
-    // const callDispatch = () => {
-    //     dispatch(
-    //         editTask({
-    //             prevStatus: prevStatus.toString(),
-    //             id,
-    //             selected,
-    //             status: status.status.toString(),
-    //             statusId: status.statusId,
-    //             title: title.toString(),
-    //             description: description.toString(),
-    //             tasks: subtasks, newSubIds: subtasks.map(t => t.id), order: selectedTask.order
-    //         })
-    //     )
-    // }
+
     useClickOutside({
         active: !sure, handler: () => setTaskShow(false), elements:
             [formRef]
     })
+    if (loading) return <LoadingSpinner message={'Deleting task...'}/>
     return (
         <>
 

@@ -10,6 +10,7 @@ import {useGetBoard} from "@/features/board/components/hooks/useGetBoard";
 import useClickOutside from "@/features/board/components/hooks/useClickOutside.ts";
 
 import {ADD_TASK, EDIT_TASK} from "@/GraphQL Queries/TasksQueries.ts";
+import {notifySuccess} from "@/generalComponents/toastService.ts";
 
 
 type UseEditTaskReturn = {
@@ -121,6 +122,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
         const {data} = await addTF({variables: {inputTask: baseTask}})
         if (!data || !data.addTask) throw new Error('Mutation did not returned data')
         const {subTasksIds, taskId} = data.addTask;
+        notifySuccess("Task Added Successfully")
         if (taskId) {
             dispatch(addTask({
                 selected, ...status,
@@ -161,6 +163,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
                         return;
                     }
                     const newSubIds = data.editTask.newSubIds
+                    notifySuccess("Task Edited Successfully")
                     dispatch(
                         editTask({
                             prevStatus: current.status,
@@ -173,6 +176,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
                             , tasks: subTasks, newSubIds, order: selectedTask.order
                         })
                     )
+
                 } catch (error) {
                     console.log(error);
                 }

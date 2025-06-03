@@ -16,7 +16,7 @@ const useClickOutside = ({elements, handler, active}: PropTypes) => {
             const checkIt = (e: MouseEvent) => {
                 if (
                     elements.every(
-                        (ref) => ref.current && !ref.current.contains(e.target as Node)
+                        (ref) =>  !ref.current?.contains(e.target as Node)
                     )
                 ) {
 
@@ -32,3 +32,5 @@ const useClickOutside = ({elements, handler, active}: PropTypes) => {
 ;
 
 export default useClickOutside;
+
+

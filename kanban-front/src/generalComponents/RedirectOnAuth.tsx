@@ -5,5 +5,7 @@ import {useAppSelector} from "@/app/hooks.ts";
 
 export function RedirectOnAuth({children}: { children: React.ReactNode }) {
     const auth = useAppSelector((state: RootState) => state.auth.auth);
-    return auth ? <Navigate to="/kanban" replace /> : children;
+        return auth ?
+            <Navigate to="/kanban" replace/>
+            : children;
 }

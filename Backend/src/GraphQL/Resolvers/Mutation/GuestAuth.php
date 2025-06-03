@@ -13,6 +13,7 @@
             return $this->ds()->handleNewGuest();
         }
 
+
         public function deleteGuestSession()
         {
             $sessionInfo = self::getCurrentUser();
