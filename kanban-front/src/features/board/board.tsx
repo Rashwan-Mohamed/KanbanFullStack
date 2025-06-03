@@ -9,6 +9,7 @@ import DisplayColumns from "@/features/board/components/Columns/DisplayColumns";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard.ts";
 import {useDroppable} from "@dnd-kit/core";
 import {ApolloError} from "@apollo/client";
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 const Board = ({error, loading}: { error: ApolloError | undefined, loading: boolean }) => {
     const {dark, hideSide, setHideSide} = UseAppContext()
@@ -38,38 +39,42 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
     const {columns, id} = board
     return (
         <>
-            <section
-                ref={setNodeRef}
-                style={{
-                    backgroundColor: !dark ? 'var(--whiteFirst)' : '',
-                    left: hideSide ? '-300px' : '0',
-                }}
-                className='board-container'
-            >
-                {column && <NewColumn setColumn={setColumn}/>}
-                {taskShow && selectedTask && (
-                    <Task
-                        selectedTask={selectedTask}
-                        setTaskShow={setTaskShow}
-                        setEditTask={setEditTask}
-                    />
-                )}
-                {editTask && (
-                    <MangeTask setEditTask={setEditTask} selectedTask={selectedTask}/>
-                )}
-                {hideSide && (
-                    <div className='reverseHide' onClick={() => setHideSide(false)}>
-                        {svg1}
-                    </div>
-                )}
-                <DisplayColumns columns={columns} dark={dark} setTaskShow={setTaskShow}
-                                setSelectedTask={setSelectedTask}/>
-                <article className='boardColumn' key={id}>
-                    <ul onClick={() => setColumn(true)} className='addNewColumn'>
-                        + New Column
-                    </ul>
-                </article>
-            </section>
+            <ScrollContainer ignoreElements={'li'}>
+                <section
+                    ref={setNodeRef}
+                    style={{
+                        backgroundColor: !dark ? 'var(--whiteFirst)' : '',
+                        left: hideSide ? '-300px' : '0',
+                    }}
+                    className='board-container'
+                >
+                    {column && <NewColumn setColumn={setColumn}/>}
+                    {taskShow && selectedTask && (
+                        <Task
+                            selectedTask={selectedTask}
+                            setTaskShow={setTaskShow}
+                            setEditTask={setEditTask}
+                        />
+                    )}
+                    {editTask && (
+                        <MangeTask setEditTask={setEditTask} selectedTask={selectedTask}/>
+                    )}
+                    {hideSide && (
+                        <div className='reverseHide' onClick={() => setHideSide(false)}>
+                            {svg1}
+                        </div>
+                    )}
+                    <DisplayColumns columns={columns} dark={dark} setTaskShow={setTaskShow}
+                                    setSelectedTask={setSelectedTask}/>
+                    {columns.length < 6 && <article className='boardColumn lastAddArt' key={id}>
+                        <ul onClick={() => setColumn(true)} className='addNewColumn'>
+                            + New Column
+                        </ul>
+                    </article>}
+
+                </section>
+            </ScrollContainer>
+
         </>
     )
 }
