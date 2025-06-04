@@ -4,7 +4,8 @@ import DndMainContext from "@/features/board/components/Columns/DnDContext.tsx";
 import SortableColumnContext from "@/features/board/components/Columns/SortableColumnContext.tsx";
 import SortableTask from "@/features/board/components/Columns/SortableTask.tsx";
 import DroppableColumn from "@/features/board/components/Columns/DroppableColumn.tsx";
-import SortableTaskTest from "@/features/board/components/Columns/SortableTaskTest.tsx";
+
+// import SortableTaskTest from "@/features/board/components/Columns/SortableTaskTest.tsx";
 
 
 interface propTypes {

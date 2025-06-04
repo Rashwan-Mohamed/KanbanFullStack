@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {
     KeyboardSensor,
     type DragEndEvent,
@@ -8,11 +8,14 @@ import {
     useSensor,
     useSensors,
     type DragOverEvent,
-    closestCorners,
+    // closestCorners,
     pointerWithin,
     rectIntersection,
     MeasuringStrategy,
-    type CollisionDetection, closestCenter, getFirstCollision,
+    type Active,
+    type ClientRect,
+    type DroppableContainer,
+    // type CollisionDetection, closestCenter, getFirstCollision,
 } from '@dnd-kit/core';
 import {
     arrayMove,
@@ -24,6 +27,8 @@ import {UseAppContext} from "@/context.tsx";
 import {useAppDispatch} from "@/app/hooks.ts";
 import {useMutation} from "@apollo/client";
 import {CHANGE_TASK_ORDER} from "@/GraphQL Queries/TasksQueries.ts";
+import type {RectMap} from '@dnd-kit/core/dist/store';
+import type {Coordinates} from '@dnd-kit/core/dist/types';
 
 const DndMainContext = ({children}: { children: React.ReactNode }) => {
     const {selected} = UseAppContext()
@@ -52,7 +57,13 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
         keyboardSensor,
     );
 
-    function customCollisionDetectionAlgorithm(args) {
+    function customCollisionDetectionAlgorithm(args: {
+        active: Active;
+        collisionRect: ClientRect;
+        droppableRects: RectMap;
+        droppableContainers: DroppableContainer[];
+        pointerCoordinates: Coordinates | null;
+    }) {
         // First, let's see if there are any collisions with the pointer
         const pointerCollisions = pointerWithin(args);
 
