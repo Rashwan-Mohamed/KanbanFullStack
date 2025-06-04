@@ -10,6 +10,8 @@ import {useGetBoard} from "@/features/board/components/hooks/useGetBoard.ts";
 import {useDroppable} from "@dnd-kit/core";
 import {ApolloError} from "@apollo/client";
 import ScrollContainer from 'react-indiana-drag-scroll'
+// import {sortableKeyboardCoordinates} from '@dnd-kit/sortable';
+// import {useAutoScroll} from '@dnd-kit/core/dist/hooks/utilities/auto-scroll';
 
 const Board = ({error, loading}: { error: ApolloError | undefined, loading: boolean }) => {
     const {dark, hideSide, setHideSide} = UseAppContext()
@@ -22,6 +24,7 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
     const {setNodeRef} = useDroppable({
         id: 'unique-id',
     });
+
 
     if (!board) {
         return (
@@ -36,15 +39,21 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
             </>
         )
     }
+    //  style={{display: 'flex', gap: '0 15px'}}
     const {columns, id} = board
     return (
         <>
-            <ScrollContainer ignoreElements={'li, .modalOverlay'}>
+            <ScrollContainer style={{
+                gridColumn: hideSide ? '1/-1' : '2/3',
+                gridRow: '2/3',
+
+            }} innerRef={setNodeRef} ignoreElements={'li, .modalOverlay'}>
+
                 <section
                     ref={setNodeRef}
                     style={{
                         backgroundColor: !dark ? 'var(--whiteFirst)' : '',
-                        left: hideSide ? '-300px' : '0',
+                        // left: hideSide ? '-300px' : '0',
                     }}
                     className='board-container'
                 >
@@ -73,6 +82,7 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
                     </article>}
 
                 </section>
+
             </ScrollContainer>
 
         </>

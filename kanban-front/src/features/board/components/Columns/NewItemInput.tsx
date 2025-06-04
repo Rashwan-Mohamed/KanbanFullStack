@@ -38,7 +38,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
             {items.map((item, term) => {
                 const oldItem = item.id !== -1
                 return (
-                    <div key={term} className={'inputWrapper'} >
+                    <div key={term} className={'inputWrapper'}>
                         <label className='spanerContainer'>
                             {' '}
                             <input
@@ -53,7 +53,6 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                                     } else {
                                         handleChangeSubtaskTitle((e.target.value), term)
                                     }
-
                                 }}
                                 value={hasColumn(item) ? item.name : item.title}
                                 type='text'
@@ -61,7 +60,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                             />
                             {hasColumn(item) && oldItem && !fromBoard && (
                                 <div className='overlies'>
-                                    <input type='text'                                 className={`inputFormMain`}
+                                    <input type='text' className={`inputFormMain`}
                                            value={item.name} readOnly/>
                                 </div>
                             )}
@@ -75,12 +74,7 @@ const NewItemInput = <T extends column | subtask>({items, setItems, used, setUse
                                 onClick={() => {
                                     setItems((old) => old.filter((_, ind) => ind !== term));
                                     setUsed((prevUsed) => prevUsed.filter((_, ind) => ind !== term));
-                                }}
-                                className='deleteColIn'
-                            >
-        {svg1}
-    </span>
-                        )}
+                                }} className='deleteColIn'>{svg1}</span>)}
                     </div>
                 )
             })}
