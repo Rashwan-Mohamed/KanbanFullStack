@@ -2,14 +2,17 @@ import {CSS} from '@dnd-kit/utilities';
 import {useSortable} from '@dnd-kit/sortable';
 
 
-const SortableTask = (id: { id: number }) => {
+const SortableTask = ({id}: { id: number }) => {
     const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-    } = useSortable({id});
+            attributes,
+            listeners,
+            setNodeRef,
+            transform,
+            transition,
+        } = useSortable({
+            id
+        })
+    ;
 
 
     const style = {

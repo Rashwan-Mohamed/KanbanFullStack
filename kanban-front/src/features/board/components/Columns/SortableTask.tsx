@@ -12,6 +12,8 @@ interface propTypes {
 
 const SortableTask = ({dark, setTaskShow, setSelectedTask, task}: propTypes) => {
     const {id, title, subtasks} = task
+    const len = subtasks.length
+    const com = subtasks.filter(sub => sub.isCompleted).length;
     const {
         attributes,
         listeners,
@@ -20,21 +22,17 @@ const SortableTask = ({dark, setTaskShow, setSelectedTask, task}: propTypes) => 
         transition,
     } = useSortable({id});
 
-    const len = subtasks.length
-    const com = subtasks.filter(sub => sub.isCompleted).length;
-
 
     const style = {
         transform: CSS.Translate.toString(transform),
         transition,
-
         backgroundColor: !dark ? 'white' : '',
         color: !dark ? 'black' : '',
         border: !dark ? '1px solid var(--second)' : '',
     }
 
     return (
-        <li ref={setNodeRef} style={style} {...listeners} {...attributes}
+        <li ref={setNodeRef} style={style} {...attributes} {...listeners}
             onClick={() => {
                 setTaskShow(true)
                 setSelectedTask(task)
@@ -42,7 +40,8 @@ const SortableTask = ({dark, setTaskShow, setSelectedTask, task}: propTypes) => 
             {title}
             <p>{`${com} of ${len} subtasks`}</p>
         </li>
-    );
+    )
+        ;
 };
 
 export default SortableTask;
