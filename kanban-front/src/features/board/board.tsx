@@ -39,7 +39,7 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
     const {columns, id} = board
     return (
         <>
-            <ScrollContainer ignoreElements={'li'}>
+            <ScrollContainer ignoreElements={'li, .modalOverlay'}>
                 <section
                     ref={setNodeRef}
                     style={{
