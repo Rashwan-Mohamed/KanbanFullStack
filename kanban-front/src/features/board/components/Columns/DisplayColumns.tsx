@@ -4,6 +4,7 @@ import DndMainContext from "@/features/board/components/Columns/DnDContext.tsx";
 import SortableColumnContext from "@/features/board/components/Columns/SortableColumnContext.tsx";
 import SortableTask from "@/features/board/components/Columns/SortableTask.tsx";
 import DroppableColumn from "@/features/board/components/Columns/DroppableColumn.tsx";
+import SortableTaskTest from "@/features/board/components/Columns/SortableTaskTest.tsx";
 
 
 interface propTypes {
@@ -15,14 +16,13 @@ interface propTypes {
 
 const DisplayColumns: React.FC<propTypes> = ({columns, dark, setTaskShow, setSelectedTask}) => {
         return (
-
             <DndMainContext>
                 {columns.map((item, index) => {
                     const {id, name, tasks} = item
-                    if (!tasks) return null
+
                     return (
 
-                        <SortableColumnContext key={id ?? index} tasks={tasks?.map((task) => task.id) ?? [0]}
+                        <SortableColumnContext key={id ?? index} tasks={tasks?.map((task) => task.id) ?? []}
                                                id={id ?? index}>
                             <DroppableColumn id={id ?? index}>
                                             <span>
@@ -34,7 +34,7 @@ const DisplayColumns: React.FC<propTypes> = ({columns, dark, setTaskShow, setSel
                                 <ul
                                     className={`${!tasks?.length ? 'emptyColumn' : 'undefined'}`}
                                 >
-                                    {tasks.map((task, taskIndex) => {
+                                    {tasks?.map((task, taskIndex) => {
                                         return (
                                             <SortableTask key={task.id ?? taskIndex} dark={dark}
                                                           setTaskShow={setTaskShow}
@@ -42,12 +42,10 @@ const DisplayColumns: React.FC<propTypes> = ({columns, dark, setTaskShow, setSel
                                             </SortableTask>
                                         )
                                     })}
+                                    {tasks?.length == 0 && <SortableTaskTest id={index}></SortableTaskTest>}
                                 </ul>
-
                             </DroppableColumn>
                         </SortableColumnContext>
-
-
                     )
                 })}
             </DndMainContext>

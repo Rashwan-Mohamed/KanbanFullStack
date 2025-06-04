@@ -1130,6 +1130,13 @@ aside footer {
 }
 
 
+.boardColumn .EmptyList {
+    height: 0;
+    width: 0;
+    border: none;
+    padding: 0;
+}
+
 /******************WHITE THEME ***************/
 .editDeletWhite:hover {
     background-color: #e4ebfa;
@@ -1207,6 +1214,7 @@ aside footer {
     grid-row: 1/-1;
 }
 
+
 @media screen and (max-width: 1500px ) {
 
     .board-container {
@@ -1252,13 +1260,10 @@ aside footer {
     /*    padding: 1.5rem 0 0 1rem;*/
     /*    gap: 0 10px;*/
     /*}*/
-
     /*.board-container > article > ul {*/
     /*    !* grid-template-columns: 280px; *!*/
     /*    grid-template-columns: 220px;*/
     /*}*/
-
-
     /*.boardColumn li {*/
     /*    !* padding: 25px 20px; *!*/
     /*    !* font-size: 15px; *!*/
@@ -1268,8 +1273,6 @@ aside footer {
     /*    word-break: keep-all;*/
     /*    font-weight: 500;*/
     /*}*/
-
-
     /* Inline | http://localhost:5173/kanban */
     .header-body {
         /* padding: 0 28px; */

@@ -34,7 +34,7 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
     const touchSensor = useSensor(TouchSensor, {
         // Press delay of 250ms, with tolerance of 5px of movement
         activationConstraint: {
-            delay: 250,
+            delay: 5,
             tolerance: 5,
         },
     });
