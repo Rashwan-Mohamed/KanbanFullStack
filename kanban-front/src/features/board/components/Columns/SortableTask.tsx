@@ -32,7 +32,7 @@ const SortableTask = ({dark, setTaskShow, setSelectedTask, task}: propTypes) => 
     }
 
     return (
-        <li ref={setNodeRef} style={style} {...attributes} {...listeners}
+        <li {...attributes} {...listeners} ref={setNodeRef} style={style}
             onClick={() => {
                 setTaskShow(true)
                 setSelectedTask(task)
