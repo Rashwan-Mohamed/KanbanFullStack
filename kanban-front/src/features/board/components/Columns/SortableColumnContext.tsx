@@ -10,8 +10,7 @@ const SortableColumnContext = ({children, tasks, id}: {
     tasks: number[],
     id: number
 }) => {
-    const {setNodeRef, isOver} = useDroppable({id});
-    console.log(isOver, 'Over Me');
+    const {setNodeRef} = useDroppable({id});
     return (
         <SortableContext
             items={tasks}
