@@ -1,11 +1,18 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
     KeyboardSensor,
-    type DragEndEvent, DndContext,
+    type DragEndEvent,
+    DndContext,
     MouseSensor,
     TouchSensor,
     useSensor,
-    useSensors, type DragOverEvent, closestCorners,
+    useSensors,
+    type DragOverEvent,
+    closestCorners,
+    pointerWithin,
+    rectIntersection,
+    MeasuringStrategy,
+    type CollisionDetection, closestCenter, getFirstCollision,
 } from '@dnd-kit/core';
 import {
     arrayMove,
@@ -44,6 +51,80 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
         touchSensor,
         keyboardSensor,
     );
+
+    function customCollisionDetectionAlgorithm(args) {
+        // First, let's see if there are any collisions with the pointer
+        const pointerCollisions = pointerWithin(args);
+
+        // Collision detection algorithms return an array of collisions
+        if (pointerCollisions.length > 0) {
+            return pointerCollisions;
+        }
+
+        // If there are no collisions with the pointer, return rectangle intersections
+        return rectIntersection(args);
+    }
+
+
+    // const collisionDetectionStrategy: CollisionDetection = useCallback(
+    //     (args) => {
+    //         if (activeId && activeId in items) {
+    //             return closestCenter({
+    //                 ...args,
+    //                 droppableContainers: args.droppableContainers.filter(
+    //                     (container) => container.id in items
+    //                 ),
+    //             });
+    //         }
+    //
+    //         // Start by finding any intersecting droppable
+    //         const pointerIntersections = pointerWithin(args);
+    //         const intersections =
+    //             pointerIntersections.length > 0
+    //                 ? // If there are droppables intersecting with the pointer, return those
+    //                 pointerIntersections
+    //                 : rectIntersection(args);
+    //         let overId = getFirstCollision(intersections, 'id');
+    //
+    //         if (overId != null) {
+    //
+    //
+    //             if (overId in items) {
+    //                 const containerItems = items[overId];
+    //
+    //                 // If a container is matched and it contains items (columns 'A', 'B', 'C')
+    //                 if (containerItems.length > 0) {
+    //                     // Return the closest droppable within that container
+    //                     overId = closestCenter({
+    //                         ...args,
+    //                         droppableContainers: args.droppableContainers.filter(
+    //                             (container) =>
+    //                                 container.id !== overId &&
+    //                                 containerItems.includes(container.id)
+    //                         ),
+    //                     })[0]?.id;
+    //                 }
+    //             }
+    //
+    //             lastOverId.current = overId;
+    //
+    //             return [{id: overId}];
+    //         }
+    //
+    //         // When a draggable item moves to a new container, the layout may shift
+    //         // and the `overId` may become `null`. We manually set the cached `lastOverId`
+    //         // to the id of the draggable item that was moved to the new container, otherwise
+    //         // the previous `overId` will be returned which can cause items to incorrectly shift positions
+    //         if (recentlyMovedToNewContainer.current) {
+    //             lastOverId.current = activeId;
+    //         }
+    //
+    //         // If no droppable is matched, return the last match
+    //         return lastOverId.current ? [{id: lastOverId.current}] : [];
+    //     },
+    //     [activeId, items]
+    // );
+
 
 // here we want to alter the tasks for a specific column, so we need that column id and get its tasks then dispatch the appropriate reducer function
     function handleDragEnd(event: DragEndEvent) {
@@ -91,7 +172,9 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
             id, data
         } = active
         if (!over) return
+
         const {id: overId, data: overData} = over
+
         const prevStatus: number = data.current?.sortable.containerId
         const status: number = overData.current?.sortable.containerId ?? overId
         // console.log('taskId', id, 'isOver', Number(overId), 'prevColumn', prevStatus, 'newColumn', status)
@@ -134,7 +217,13 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
                 sensors={sensors}
                 onDragEnd={handleDragEnd}
                 onDragOver={handleDragOver}
-                collisionDetection={closestCorners}
+                // collisionDetection={closestCorners}
+                collisionDetection={customCollisionDetectionAlgorithm}
+                measuring={{
+                    droppable: {
+                        strategy: MeasuringStrategy.Always,
+                    },
+                }}
             >
                 {children}
             </DndContext>

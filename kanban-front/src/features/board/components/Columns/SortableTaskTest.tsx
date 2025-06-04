@@ -21,7 +21,9 @@ const SortableTask = ({id}: { id: number }) => {
     }
 
     return (
-        <li className={'EmptyList'} ref={setNodeRef} style={style} {...listeners} {...attributes}>
+        <li className={'EmptyList'}
+            ref={setNodeRef} style={style} {...listeners} {...attributes}
+        >
         </li>
     );
 };
