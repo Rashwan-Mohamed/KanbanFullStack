@@ -14,7 +14,7 @@ import {
     MeasuringStrategy,
     type Active,
     type ClientRect,
-    type DroppableContainer,
+    type DroppableContainer, DragOverlay, type DragStartEvent,
     // type CollisionDetection, closestCenter, getFirstCollision,
 } from '@dnd-kit/core';
 import {
@@ -33,6 +33,8 @@ import type {Coordinates} from '@dnd-kit/core/dist/types';
 const DndMainContext = ({children}: { children: React.ReactNode }) => {
     const {selected} = UseAppContext()
     const [move, setMove] = useState({id: 0, order: -1, prevStatus: 'add', status: 'add', statusId: 0});
+    const {dark} = UseAppContext();
+    const [task, setTask] = useState<task | null>(null);
     const board = useGetBoard()
     useTaskStatusUpdater(move)
     const dispatch = useAppDispatch();
@@ -46,15 +48,22 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
     const touchSensor = useSensor(TouchSensor, {
         // Press delay of 250ms, with tolerance of 5px of movement
         activationConstraint: {
-            delay: 1,
-            tolerance: 2,
+            delay: 30,
+            tolerance: 50,
         },
     });
     const keyboardSensor = useSensor(KeyboardSensor);
+    // const pointerSensor = useSensor(PointerSensor, {
+    //     activationConstraint: {
+    //         delay: 20,
+    //         tolerance: 15,
+    //     },
+    // });
     const sensors = useSensors(
         mouseSensor,
         touchSensor,
         keyboardSensor,
+        // pointerSensor
     );
 
     function customCollisionDetectionAlgorithm(args: {
@@ -75,66 +84,6 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
         // If there are no collisions with the pointer, return rectangle intersections
         return rectIntersection(args);
     }
-
-
-    // const collisionDetectionStrategy: CollisionDetection = useCallback(
-    //     (args) => {
-    //         if (activeId && activeId in items) {
-    //             return closestCenter({
-    //                 ...args,
-    //                 droppableContainers: args.droppableContainers.filter(
-    //                     (container) => container.id in items
-    //                 ),
-    //             });
-    //         }
-    //
-    //         // Start by finding any intersecting droppable
-    //         const pointerIntersections = pointerWithin(args);
-    //         const intersections =
-    //             pointerIntersections.length > 0
-    //                 ? // If there are droppables intersecting with the pointer, return those
-    //                 pointerIntersections
-    //                 : rectIntersection(args);
-    //         let overId = getFirstCollision(intersections, 'id');
-    //
-    //         if (overId != null) {
-    //
-    //
-    //             if (overId in items) {
-    //                 const containerItems = items[overId];
-    //
-    //                 // If a container is matched and it contains items (columns 'A', 'B', 'C')
-    //                 if (containerItems.length > 0) {
-    //                     // Return the closest droppable within that container
-    //                     overId = closestCenter({
-    //                         ...args,
-    //                         droppableContainers: args.droppableContainers.filter(
-    //                             (container) =>
-    //                                 container.id !== overId &&
-    //                                 containerItems.includes(container.id)
-    //                         ),
-    //                     })[0]?.id;
-    //                 }
-    //             }
-    //
-    //             lastOverId.current = overId;
-    //
-    //             return [{id: overId}];
-    //         }
-    //
-    //         // When a draggable item moves to a new container, the layout may shift
-    //         // and the `overId` may become `null`. We manually set the cached `lastOverId`
-    //         // to the id of the draggable item that was moved to the new container, otherwise
-    //         // the previous `overId` will be returned which can cause items to incorrectly shift positions
-    //         if (recentlyMovedToNewContainer.current) {
-    //             lastOverId.current = activeId;
-    //         }
-    //
-    //         // If no droppable is matched, return the last match
-    //         return lastOverId.current ? [{id: lastOverId.current}] : [];
-    //     },
-    //     [activeId, items]
-    // );
 
 
 // here we want to alter the tasks for a specific column, so we need that column id and get its tasks then dispatch the appropriate reducer function
@@ -221,13 +170,25 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
 
         }
     }
-
+    const handleDragStart = (event: DragStartEvent) => {
+        const {active} = event;
+        const {
+            id
+        } = active
+        let foundTask: task | undefined;
+        board.columns.forEach((col) => {
+            const task = col.tasks?.find((task) => task.id === id);
+            if (task) foundTask = task; // Store the found task
+        });
+        setTask(foundTask ?? null)
+    }
     return (
         <>
             <DndContext
                 sensors={sensors}
                 onDragEnd={handleDragEnd}
                 onDragOver={handleDragOver}
+                onDragStart={handleDragStart}
                 // collisionDetection={closestCorners}
                 collisionDetection={customCollisionDetectionAlgorithm}
                 measuring={{
@@ -237,6 +198,16 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
                 }}
             >
                 {children}
+                <DragOverlay>
+                    {move.id !== 0 && task && <li style={{
+                        backgroundColor: !dark ? 'white' : '',
+                        color: !dark ? 'black' : '',
+                        border: !dark ? '1px solid var(--second)' : '',
+                    }} className={'subtaskListMain'}>
+                        {task?.title}
+                        <p>{`${task?.subtasks.filter(sub => sub.isCompleted).length} of ${task?.subtasks.length} subtasks`}</p>
+                    </li>}
+                </DragOverlay>
             </DndContext>
         </>
     );

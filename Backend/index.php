@@ -25,24 +25,23 @@
     }
     header("Access-Control-Allow-Headers: Content-Type");
     header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-    const BASE_PATH = __DIR__ . '/../';
-    require BASE_PATH . 'vendor/autoload.php';
-    require BASE_PATH . 'Core/functions.php';
-    require BASE_PATH . 'bootstrap.php';
+    var_dump('fd');
+//    const BASE_PATH = __DIR__ . '/../';
+    require __DIR__ . '/vendor/autoload.php';
+    require __DIR__ . '/Core/functions.php';
+    require __DIR__ . '/bootstrap.php';
 
 
     $router = new \Core\Router();
 
-    include BASE_PATH . 'routes.php';
+    include __DIR__ . '/routes.php';
     $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-    // Remove the base path from the URI
-    $basePath = '/KANPAN_FULL_STACK/Backend/public';
-    $normalizedUri = str_replace($basePath, '', $uri);
+
 
     $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
     try {
-        $router->route($normalizedUri, $method);
+        $router->route($uri, $method);
     } catch (Exception $e) {
         echo($e);
     }

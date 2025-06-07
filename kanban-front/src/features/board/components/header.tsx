@@ -12,6 +12,7 @@ import Logout from "@/features/auth/Logout.tsx";
 import Profile from "@/features/auth/Profile.tsx";
 import {notifySuccess} from "@/generalComponents/toastService.ts";
 import SessionPage from "@/features/auth/SessionPage.tsx";
+import type {authState} from "@/features/auth/AuthenticationSlice.tsx";
 
 interface propTypes {
     selectBord: boolean
@@ -172,7 +173,8 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
                     </button>
 
 
-                    {toggle && <ControlBtns dark={dark} drop={drop} profileShow={setProfileShow} setToggle={setToggle}
+                    {toggle && <ControlBtns user={user} dark={dark} drop={drop} profileShow={setProfileShow}
+                                            setToggle={setToggle}
                                             setSure={setSure}/>}
                 </div>
 
@@ -190,16 +192,19 @@ interface propTypesBtns {
     profileShow: React.Dispatch<React.SetStateAction<boolean>>
     setToggle: React.Dispatch<React.SetStateAction<boolean>>
     setSure: React.Dispatch<React.SetStateAction<boolean>>
+    user: authState
 }
 
-const ControlBtns: React.FC<propTypesBtns> = ({dark, drop, profileShow}) => {
+const ControlBtns: React.FC<propTypesBtns> = ({dark, drop, profileShow, user}) => {
     return (
         <span
             style={{backgroundColor: !dark ? 'white' : ''}}
             ref={drop}
         >
-            <button onClick={() => profileShow(true)}>Edit Profile</button>
-                <Logout/>
+           <button disabled={user.isGuest} className={user.isGuest ? 'disabledButton' : ""}
+                   onClick={() => profileShow(true)}>Edit Profile</button>
+
+            <Logout/>
         </span>
     );
 };

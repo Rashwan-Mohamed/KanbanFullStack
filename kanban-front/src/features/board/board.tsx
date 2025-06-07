@@ -47,7 +47,9 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
                 gridColumn: hideSide ? '1/-1' : '2/3',
                 gridRow: '2/3',
 
-            }} innerRef={setNodeRef} ignoreElements={'li, .modalOverlay'} nativeMobileScroll={false}>
+            }} innerRef={setNodeRef} ignoreElements={'li, .modalOverlay'}
+                             // nativeMobileScroll={false}
+            >
 
                 <section
                     ref={setNodeRef}
