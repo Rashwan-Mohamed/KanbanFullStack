@@ -32,7 +32,7 @@ const SortableTask = ({dark, setTaskShow, setSelectedTask, task}: propTypes) => 
     }
 
     return (
-        <li {...attributes} {...listeners} ref={setNodeRef} style={style}
+        <li touch-action='manipulation' className={'subtaskListMain'} {...attributes} {...listeners} ref={setNodeRef} style={style}
             onClick={() => {
                 setTaskShow(true)
                 setSelectedTask(task)

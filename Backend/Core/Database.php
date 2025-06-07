@@ -12,17 +12,29 @@
         public $connection;
         public $statement;
 
-        public function __construct($config, $user = 'root', $password = '123321')
+        public function __construct($config)
         {
-            $dsn = 'mysql:' . http_build_query($config, '', ';');
+            $env = $config['env'] ?? 'production';
 
+            // Pick DB config based on environment
+            $dbConfig = $config['database'][$env];
+
+            $dsn = sprintf(
+                'mysql:host=%s;port=%d;dbname=%s;charset=%s',
+                $dbConfig['host'],
+                $dbConfig['port'],
+                $dbConfig['dbname'],
+                $dbConfig['charset']
+            );
             try {
-                $this->connection = new PDO($dsn, $user, $password, [
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION // Enables throwing exceptions on errors
-                ]);
+                $this->connection = new PDO(
+                    $dsn,
+                    $dbConfig['user'],
+                    $dbConfig['password'],
+                    [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+                );
             } catch (PDOException $e) {
-                die("Database connection failed: " . $e->getMessage());
+                die('Database connection failed: ' . $e->getMessage());
             }
         }
 
