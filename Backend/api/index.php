@@ -1,0 +1,58 @@
+<?php
+// (A) Enable error reporting during troubleshooting (remove in production)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// (B) Determine the request’s Origin (or fall back to Referer if Origin is missing)
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (empty($origin) && !empty($_SERVER['HTTP_REFERER'])) {
+    $ref = parse_url($_SERVER['HTTP_REFERER']);
+    if (isset($ref['scheme'], $ref['host'])) {
+        $origin = $ref['scheme'] . '://' . $ref['host'];
+        if (!empty($ref['port'])) {
+            $origin .= ':' . $ref['port'];
+        }
+    }
+}
+
+// (C) List exactly the domains you want to allow
+$allowedOrigins = [
+    'https://kanban-full-stack.vercel.app',
+];
+
+// (D) If the incoming origin is allowed, send CORS headers
+if (in_array($origin, $allowedOrigins, true)) {
+    header("Access-Control-Allow-Origin: $origin");
+    header("Access-Control-Allow-Credentials: true");
+    // If you need to allow additional headers or methods, list them here:
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+}
+
+// (E) If this is a preflight request (OPTIONS), stop here
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // We’ve already sent the appropriate headers above
+    exit(0);
+}
+    require __DIR__ .'/..' . '/vendor/autoload.php';
+    require __DIR__ . '/..' . '/Core/functions.php';
+    require __DIR__ .'/..'. '/bootstrap.php';
+
+
+    $router = new \Core\Router();
+    const BASE_PATH = __DIR__ . '/../';
+
+    include __DIR__ . '/..' . '/routes.php';
+    $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+    // Remove the base path from the URI
+    $basePath = '/api';
+    $normalizedUri = str_replace($basePath, '', $uri);
+
+    $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+
+    try {
+        $router->route($normalizedUri, $method);
+    } catch (Exception $e) {
+        echo($e);
+    }
