@@ -202,6 +202,7 @@ export type SubTask = {
 
 export type User = {
   __typename?: 'User';
+  created_at: Scalars['String']['output'];
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   isGuest?: Maybe<Scalars['Boolean']['output']>;
@@ -365,7 +366,7 @@ export type LogOutGuestMutation = { __typename?: 'Mutation', logOutGuest: boolea
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string, isGuest?: boolean | null, last_updated: string } | null } | null };
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string, isGuest?: boolean | null, last_updated: string, created_at: string } | null } | null };
 
 export type ChangeProfileMutationVariables = Exact<{
   newName: Scalars['String']['input'];
