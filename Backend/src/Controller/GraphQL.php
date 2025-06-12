@@ -22,7 +22,7 @@
     {
         private static function getSchema()
         {
-            $schemaPath = __DIR__ . '/../GraphQL/schema.graphql';
+            $schemaPath = __DIR__ . '/../GraphQL/Schema.graphql';
             $cacheFile = __DIR__ . '/schema.cache.php';
             if (!file_exists($cacheFile)) {
                 $document = Parser::parse(file_get_contents($schemaPath));
