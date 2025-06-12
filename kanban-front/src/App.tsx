@@ -38,13 +38,13 @@ function App(): React.JSX.Element {
         if (data?.getCurrentUser?.user) {
             const user = data.getCurrentUser.user;
 
-
             dispatch(setAuth({
                 user: user.username,
                 auth: true,
                 userId: user.id,
                 isGuest: user?.isGuest ?? false,
                 last_updated: user.last_updated,
+                created_at: user.created_at,
                 email: user.email,
             }));
         } else {

@@ -159,7 +159,7 @@
         {
             return ['id' => $user['id'],
                 'username' => $user['username'],
-                'email' => $user['email'], 'isGuest' => $user['isGuest'], 'last_updated' => $user['last_updated']];
+                'email' => $user['email'], 'isGuest' => $user['isGuest'], 'last_updated' => $user['last_updated'],'created_at' => $user['created_at']];
         }
 
 

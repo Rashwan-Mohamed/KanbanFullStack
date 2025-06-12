@@ -1,3 +1,2 @@
 <?php
-    $router->post('/graphql', 'GraphQL.php');
-
+$router->post('/graphql', 'GraphQL.php');

@@ -74,7 +74,7 @@ export default function SessionPage({registerGuest, setRegisterGuest}: {
                              additionalClass={'loginFormInput'}></ChangeTitle>
 
                 <ChangeTitle value={password} onChange={setPassword} usedBoard={validPassword}
-                             label={'password, min six characters long!'} additionalClass={'loginFormInput'}
+                             label={`password${!signIn?',min six characters long!':''}`} additionalClass={'loginFormInput'}
                              type={'password'}></ChangeTitle>
             </ModalFormWrapper>
 
