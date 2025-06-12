@@ -71,6 +71,7 @@ function Home() {
         }
     };
     // dispatch(setBoards(data.getBoards));
+    console.log(authState)
     return (
         <main className={!dark ? 'whiteMain' : ''}>
             <Joyride
