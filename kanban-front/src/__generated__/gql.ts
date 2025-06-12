@@ -25,7 +25,7 @@ type Documents = {
     "\n    mutation Register($username: String!, $email: String!, $password: String!){\n        register(username:$username,email:$email,password:$password){\n            successful\n            userId\n            existingUser\n            existingEmail\n        }\n    }\n": typeof types.RegisterDocument,
     "\n    mutation LoginGuest {\n        loginGuest\n    }\n": typeof types.LoginGuestDocument,
     "\n    mutation LogOutGuest {\n        logOutGuest\n    }\n": typeof types.LogOutGuestDocument,
-    "\n    query getCurrentUser {\n        getCurrentUser{\n            message\n            user{\n                id\n                username\n                email\n                isGuest\n                last_updated\n            }\n        }\n    }": typeof types.GetCurrentUserDocument,
+    "\n    query getCurrentUser {\n        getCurrentUser{\n            message\n            user{\n                id\n                username\n                email\n                isGuest\n                last_updated\n                created_at\n            }\n        }\n    }": typeof types.GetCurrentUserDocument,
     "\n    mutation ChangeProfile($newName:String!,$newEmail:String!,$newPassword:String,$oldPassword:String){\n        changeProfile(newName:$newName,newEmail:$newEmail,newPassword:$newPassword,oldPassword:$oldPassword){\n            message\n            successful\n        }\n    }\n": typeof types.ChangeProfileDocument,
     "\n    mutation DeleteProfile($userId:Int!){\n        deleteProfile(userId:$userId)}\n": typeof types.DeleteProfileDocument,
     "\n    mutation AddTask(\n        $inputTask:inputTask!\n    ) {\n        addTask(\n            inputTask:$inputTask\n        ) {\n            taskId\n            subTasksIds\n        }\n    }\n": typeof types.AddTaskDocument,
@@ -47,7 +47,7 @@ const documents: Documents = {
     "\n    mutation Register($username: String!, $email: String!, $password: String!){\n        register(username:$username,email:$email,password:$password){\n            successful\n            userId\n            existingUser\n            existingEmail\n        }\n    }\n": types.RegisterDocument,
     "\n    mutation LoginGuest {\n        loginGuest\n    }\n": types.LoginGuestDocument,
     "\n    mutation LogOutGuest {\n        logOutGuest\n    }\n": types.LogOutGuestDocument,
-    "\n    query getCurrentUser {\n        getCurrentUser{\n            message\n            user{\n                id\n                username\n                email\n                isGuest\n                last_updated\n            }\n        }\n    }": types.GetCurrentUserDocument,
+    "\n    query getCurrentUser {\n        getCurrentUser{\n            message\n            user{\n                id\n                username\n                email\n                isGuest\n                last_updated\n                created_at\n            }\n        }\n    }": types.GetCurrentUserDocument,
     "\n    mutation ChangeProfile($newName:String!,$newEmail:String!,$newPassword:String,$oldPassword:String){\n        changeProfile(newName:$newName,newEmail:$newEmail,newPassword:$newPassword,oldPassword:$oldPassword){\n            message\n            successful\n        }\n    }\n": types.ChangeProfileDocument,
     "\n    mutation DeleteProfile($userId:Int!){\n        deleteProfile(userId:$userId)}\n": types.DeleteProfileDocument,
     "\n    mutation AddTask(\n        $inputTask:inputTask!\n    ) {\n        addTask(\n            inputTask:$inputTask\n        ) {\n            taskId\n            subTasksIds\n        }\n    }\n": types.AddTaskDocument,
@@ -119,7 +119,7 @@ export function gql(source: "\n    mutation LogOutGuest {\n        logOutGuest\n
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n    query getCurrentUser {\n        getCurrentUser{\n            message\n            user{\n                id\n                username\n                email\n                isGuest\n                last_updated\n            }\n        }\n    }"): (typeof documents)["\n    query getCurrentUser {\n        getCurrentUser{\n            message\n            user{\n                id\n                username\n                email\n                isGuest\n                last_updated\n            }\n        }\n    }"];
+export function gql(source: "\n    query getCurrentUser {\n        getCurrentUser{\n            message\n            user{\n                id\n                username\n                email\n                isGuest\n                last_updated\n                created_at\n            }\n        }\n    }"): (typeof documents)["\n    query getCurrentUser {\n        getCurrentUser{\n            message\n            user{\n                id\n                username\n                email\n                isGuest\n                last_updated\n                created_at\n            }\n        }\n    }"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

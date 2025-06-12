@@ -6,6 +6,7 @@ export interface authState {
     userId: number | null
     isGuest: boolean;
     last_updated?: string;
+    created_at?: string;
     email: string
 }
 

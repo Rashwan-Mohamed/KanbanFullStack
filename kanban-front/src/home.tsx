@@ -20,8 +20,22 @@ function Home() {
     const authState = useAppSelector((state) => state.auth)
     const [getBoards, {loading, error}] = useLazyQuery(GET_BOARDS, {fetchPolicy: 'network-only'});
     const [stepIndex, setStepIndex] = useState(0);
-    const [run, setRun] = useState(true);
 
+
+    const [run, setRun] = useState(false);
+
+
+    useEffect(() => {
+        const now = new Date();
+        let newlyCreated = false;
+        if (authState.created_at) {
+            const createdAtDate = new Date(authState.created_at.replace(' ', 'T'));
+            const diffSeconds = (now.getTime() - createdAtDate.getTime()) / 1000;
+            newlyCreated = diffSeconds >= 0 && diffSeconds <= 300;
+        }
+        console.log(run,newlyCreated)
+        setRun(newlyCreated||authState.isGuest)
+    }, [authState.created_at, authState.isGuest]);
     const steps = [
         {
             target: '.firstToAddnewTask',
