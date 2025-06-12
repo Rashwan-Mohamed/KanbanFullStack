@@ -9,7 +9,6 @@ import DisplayColumns from "@/features/board/components/Columns/DisplayColumns";
 import {useGetBoard} from "@/features/board/components/hooks/useGetBoard.ts";
 import {useDroppable} from "@dnd-kit/core";
 import {ApolloError} from "@apollo/client";
-import ScrollContainer from 'react-indiana-drag-scroll'
 // import {sortableKeyboardCoordinates} from '@dnd-kit/sortable';
 // import {useAutoScroll} from '@dnd-kit/core/dist/hooks/utilities/auto-scroll';
 
@@ -43,13 +42,7 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
     const {columns, id} = board
     return (
         <>
-            {/*<ScrollContainer style={{*/}
-            {/*    gridColumn: hideSide ? '1/-1' : '2/3',*/}
-            {/*    gridRow: '2/3',*/}
 
-            {/*}} innerRef={setNodeRef} ignoreElements={'li, .modalOverlay'}*/}
-            {/*                 // nativeMobileScroll={false}*/}
-            {/*>*/}
 
                 <section
                     ref={setNodeRef}
@@ -85,7 +78,6 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
 
                 </section>
 
-            {/*</ScrollContainer>*/}
 
         </>
     )
