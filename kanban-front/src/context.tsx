@@ -3,7 +3,7 @@ import type {RootState} from "@/app/store"; // Adjust the path if needed
 // to Adjust the path if needed
 import type {board} from "./features/board/boardSlice";
 import {useAppSelector} from "@/app/hooks.ts";
-import {Bounce, ToastContainer} from "react-toastify";
+import {Slide, ToastContainer} from "react-toastify";
 
 // Define the AppContext Type
 interface AppContextType {
@@ -84,15 +84,14 @@ function AppContextProvider({children}: AppContextProviderProps): React.JSX.Elem
         >
             <ToastContainer position="top-right"
                             autoClose={5000}
-                            newestOnTop={false}
+                            newestOnTop
                             closeOnClick={true}
                             rtl={false}
                             hideProgressBar={false}
                             pauseOnFocusLoss
-                            draggable
                             theme="dark"
-                            transition={Bounce}
-            ></ToastContainer>
+                            transition={Slide}>
+            </ToastContainer>
             {children}
         </AppContext.Provider>
     );
