@@ -43,13 +43,13 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
     const {columns, id} = board
     return (
         <>
-            <ScrollContainer style={{
-                gridColumn: hideSide ? '1/-1' : '2/3',
-                gridRow: '2/3',
+            {/*<ScrollContainer style={{*/}
+            {/*    gridColumn: hideSide ? '1/-1' : '2/3',*/}
+            {/*    gridRow: '2/3',*/}
 
-            }} innerRef={setNodeRef} ignoreElements={'li, .modalOverlay'}
-                             // nativeMobileScroll={false}
-            >
+            {/*}} innerRef={setNodeRef} ignoreElements={'li, .modalOverlay'}*/}
+            {/*                 // nativeMobileScroll={false}*/}
+            {/*>*/}
 
                 <section
                     ref={setNodeRef}
@@ -85,7 +85,7 @@ const Board = ({error, loading}: { error: ApolloError | undefined, loading: bool
 
                 </section>
 
-            </ScrollContainer>
+            {/*</ScrollContainer>*/}
 
         </>
     )

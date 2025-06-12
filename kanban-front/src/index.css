@@ -320,7 +320,7 @@ aside footer {
     gap: 0 35px;
     width: fit-content;
     overflow: scroll;
-    cursor: all-scroll;
+    cursor: auto;
     grid-column: 2/-1;
     grid-row: 2/-1;
     background-color: var(--primary);
