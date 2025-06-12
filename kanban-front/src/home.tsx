@@ -20,8 +20,6 @@ function Home() {
     const authState = useAppSelector((state) => state.auth)
     const [getBoards, {loading, error}] = useLazyQuery(GET_BOARDS, {fetchPolicy: 'network-only'});
     const [stepIndex, setStepIndex] = useState(0);
-
-
     const [run, setRun] = useState(false);
 
 
@@ -33,9 +31,11 @@ function Home() {
             const diffSeconds = (now.getTime() - createdAtDate.getTime()) / 1000;
             newlyCreated = diffSeconds >= 0 && diffSeconds <= 300;
         }
-        console.log(run,newlyCreated)
-        setRun(newlyCreated||authState.isGuest)
-    }, [authState.created_at, authState.isGuest]);
+        if(authState.isGuest||newlyCreated){
+            setRun(true);
+        }
+    }, [authState.auth]);
+    console.log(run)
     const steps = [
         {
             target: '.firstToAddnewTask',
@@ -75,9 +75,13 @@ function Home() {
         }
     };
     const handleJoyrideCallback = (data: CallBackProps) => {
-        const {  index, status, type } = data;
+        const {  action,index, status, type } = data;
         if (type === 'step:after' || type === "error:target_not_found") {
-            setStepIndex(index + 1);
+            if (action === 'prev') {
+                setStepIndex(index - 1);
+            } else {
+                setStepIndex(index + 1);
+            }
         }
         if (status === 'finished' || status === 'skipped') {
             setRun(false);
@@ -85,7 +89,6 @@ function Home() {
         }
     };
     // dispatch(setBoards(data.getBoards));
-    console.log(authState)
     return (
         <main className={!dark ? 'whiteMain' : ''}>
             <Joyride
