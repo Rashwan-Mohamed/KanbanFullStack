@@ -46,10 +46,9 @@ const DndMainContext = ({children}: { children: React.ReactNode }) => {
         },
     });
     const touchSensor = useSensor(TouchSensor, {
-        // Press delay of 250ms, with tolerance of 5px of movement
         activationConstraint: {
-            delay: 30,
-            tolerance: 50,
+            delay: 130,      // Wait 250ms before starting drag
+            tolerance: 8,    // Allow only small movement before drag
         },
     });
     const keyboardSensor = useSensor(KeyboardSensor);
