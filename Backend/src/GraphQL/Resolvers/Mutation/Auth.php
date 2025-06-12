@@ -61,7 +61,9 @@
         {
             // Optional: Clear session or token
             Session::destroy();
-            return "Logged out";
+            $_SESSION = [];
+            session_write_close(); // Ensure session is closed
+            return true;
         }
 
         public function changeProfile()
@@ -92,13 +94,11 @@
                 'user' => null,
                 'message' => "Not Logged in",
             ];
-
             if (!Session::has('user')) {
                 return $noUser;
             }
 
             $user = Session::get('user');
-
             if ($user) {
                 $instance = new self(0);
                 $userData = $instance->ds()->getUser($user['id']);

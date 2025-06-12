@@ -31,21 +31,17 @@
     require BASE_PATH . 'bootstrap.php';
 
 
-    $router = new \Core\Router();
+$router = new \Core\Router();
 
-    include BASE_PATH . 'routes.php';
-    $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-    // Remove the base path from the URI
-    $basePath = '/KANPAN_FULL_STACK/Backend/public';
-    $normalizedUri = str_replace($basePath, '', $uri);
+include BASE_PATH . 'routes.php';
+$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+$method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
-    $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
-
-    try {
-        $router->route($normalizedUri, $method);
-    } catch (Exception $e) {
-        echo($e);
-    }
+try {
+    $router->route($uri, $method);
+} catch (Exception $e) {
+    echo($e);
+}
 
     /*
      * it's a new project and I want to implement the following step by step
