@@ -132,7 +132,7 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
 
                 <div className='header-btns'>
                     {boards.length > 0 && <>
-                        <button onClick={() => setTaskShow(true)} className='addNewTask'>
+                        <button onClick={() => setTaskShow(true)} className='addNewTask firstToAddnewTask'>
                             {tab ? svg1 : ('+ add new task')}
                         </button>
 
@@ -160,7 +160,7 @@ const Header = ({selectBord, setSelectBord}: propTypes) => {
                     }
 
                     {user.auth && user.isGuest &&
-                        <button onClick={() => setRegisterGuest(true)} className={'addNewTask'}>
+                        <button onClick={() => setRegisterGuest(true)} className={'addNewTask registerNewUser'}>
                             Register a new user
                         </button>
                     }

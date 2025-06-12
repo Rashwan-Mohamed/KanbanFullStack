@@ -179,7 +179,7 @@ function useHandleSession({setProfileShow}: PropTypes = {}) {
         navigate('/');
     }
     const validatePassword = (password: string) => {
-        return password.length >= 2;
+        return password.length >= 6;
     }
     const generalLoad = loading || registeringLoad || loggingGuest || changeLoading
     return {
