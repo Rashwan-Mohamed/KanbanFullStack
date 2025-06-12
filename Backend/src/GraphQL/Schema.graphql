@@ -68,6 +68,7 @@ type User {
     email: String!
     isGuest:Boolean
     last_updated:String!
+    created_at:String!
 }
 
 input userCredentials{

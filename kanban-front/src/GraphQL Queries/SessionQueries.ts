@@ -50,6 +50,7 @@ export const GET_CURRENT_USER = gql(/* GraphQL */`
                 email
                 isGuest
                 last_updated
+                created_at
             }
         }
     }`);
