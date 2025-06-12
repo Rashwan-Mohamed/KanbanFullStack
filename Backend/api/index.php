@@ -16,19 +16,6 @@ if (empty($origin) && !empty($_SERVER['HTTP_REFERER'])) {
     }
 }
 
-// (C) List exactly the domains you want to allow
-$allowedOrigins = [
-    'https://kanban-full-stack.vercel.app',
-];
-
-// (D) If the incoming origin is allowed, send CORS headers
-if (in_array($origin, $allowedOrigins, true)) {
-    header("Access-Control-Allow-Origin: $origin");
-    header("Access-Control-Allow-Credentials: true");
-    // If you need to allow additional headers or methods, list them here:
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
-    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-}
 
 // (E) If this is a preflight request (OPTIONS), stop here
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
