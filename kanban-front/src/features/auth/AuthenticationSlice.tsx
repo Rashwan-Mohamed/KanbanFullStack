@@ -8,6 +8,7 @@ export interface authState {
     last_updated?: string;
     created_at?: string;
     email: string
+    takenTour: boolean;
 }
 
 export const initialState: authState = {
@@ -15,7 +16,8 @@ export const initialState: authState = {
     auth: false,
     userId: 0,
     isGuest: false,
-    email: ''
+    email: '',
+    takenTour:false
 }
 // const initialState = { user: 'ahmed', auth: false, userId: 0 }
 

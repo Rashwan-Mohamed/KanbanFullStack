@@ -116,6 +116,14 @@
             return $noUser;
         }
 
+public function markTourTaken(){
+    $currentUser = self::getCurrentUser()['user'];
+    $userId = $currentUser['id'] ?? null;
+    if(isset($userId)){
+        return $this->ds()->markTourTaken($userId);
+    }
+    return false;
+}
 
     }
 

@@ -178,7 +178,7 @@ export function useEditTask(setEditTask: React.Dispatch<React.SetStateAction<boo
                     )
 
                 } catch (error) {
-                    console.log(error);
+                    console.error(error);
                 }
             } else {
                 await handleAddNewTask(baseTask)

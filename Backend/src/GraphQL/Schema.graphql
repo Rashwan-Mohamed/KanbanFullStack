@@ -69,6 +69,7 @@ type User {
     isGuest:Boolean
     last_updated:String!
     created_at:String!
+    takenTour:Boolean!
 }
 
 input userCredentials{
@@ -98,6 +99,7 @@ type Mutation {
     logOutGuest:Boolean!
     changeProfile(newName:String!,newEmail:String!,newPassword:String,oldPassword:String):changeProfileResponse!
     deleteProfile(userId:Int!):Boolean
+    markTourTaken:Boolean!
     # Update a subtask (returns full updated SubTask)
     editSubTask(
         subtask:subtask
