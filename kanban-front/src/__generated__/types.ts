@@ -53,6 +53,7 @@ export type Mutation = {
   login: LoginResponse;
   loginGuest: Scalars['Int']['output'];
   logout: Scalars['Boolean']['output'];
+  markTourTaken: Scalars['Boolean']['output'];
   register: RegisterResponse;
 };
 
@@ -207,6 +208,7 @@ export type User = {
   id: Scalars['Int']['output'];
   isGuest?: Maybe<Scalars['Boolean']['output']>;
   last_updated: Scalars['String']['output'];
+  takenTour: Scalars['Boolean']['output'];
   username: Scalars['String']['output'];
 };
 
@@ -366,7 +368,7 @@ export type LogOutGuestMutation = { __typename?: 'Mutation', logOutGuest: boolea
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string, isGuest?: boolean | null, last_updated: string, created_at: string } | null } | null };
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'loginResponse', message: string, user?: { __typename?: 'User', id: number, username: string, email: string, isGuest?: boolean | null, last_updated: string, created_at: string, takenTour: boolean } | null } | null };
 
 export type ChangeProfileMutationVariables = Exact<{
   newName: Scalars['String']['input'];
@@ -384,6 +386,11 @@ export type DeleteProfileMutationVariables = Exact<{
 
 
 export type DeleteProfileMutation = { __typename?: 'Mutation', deleteProfile?: boolean | null };
+
+export type MarkTourTakenMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MarkTourTakenMutation = { __typename?: 'Mutation', markTourTaken: boolean };
 
 export type AddTaskMutationVariables = Exact<{
   inputTask: InputTask;
