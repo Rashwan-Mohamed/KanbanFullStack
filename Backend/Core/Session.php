@@ -54,7 +54,12 @@
             // Remove session cookie
             $params = session_get_cookie_params();
             setcookie('PHPSESSID', '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-            session_destroy();
             error_log('Session destroyed');
+            if(session_status()=== PHP_SESSION_ACTIVE) {
+                session_destroy();
+                error_log('Session still active after destroy attempt');
+            } else {
+                error_log('Session successfully destroyed');
+            }
         }
     }

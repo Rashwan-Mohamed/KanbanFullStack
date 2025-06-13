@@ -2,7 +2,7 @@
 
 
     return [
-        'env' => 'local', // change to 'local' when developing locally
+        'env' => 'production', // change to 'local' when developing locally
 
         'database' => [
             'production' => [

@@ -5,13 +5,13 @@
     class ColumnDataSource extends BaseDataSource
     {
 
-        private string $EDIT_COLUMN_STATEMENT = " UPDATE kanban.columns t SET t.name = :name WHERE t.id = :id";
-        private string $DELETE_FROM_COLUMNS_STATEMENT = "DELETE FROM kanban.columns WHERE id = :id";
-        private string $ADD_TO_COLUMNS_STATEMENT = "INSERT INTO kanban.columns (name,boardId) VALUES (:name,:boardId)";
-        private string $GET_COLUMN_ID = "SELECT id FROM kanban.columns  ORDER BY id DESC LIMIT 1";
-        private string $GET_COLUMN_NAME = "SELECT name FROM kanban.columns WHERE id = :id";
-        private string $GET_BOARD_COLUMN = "SELECT id,name  FROM kanban.columns WHERE boardId = :id";
-        private string $GET_COLUMN_USER = 'SELECT u.id FROM kanban.columns C INNER JOIN kanban.boards b on c.boardId = b.id INNER JOIN kanban.users u on u.id = b.userId WHERE c.id = :id';
+        private string $EDIT_COLUMN_STATEMENT = " UPDATE columns t SET t.name = :name WHERE t.id = :id";
+        private string $DELETE_FROM_COLUMNS_STATEMENT = "DELETE FROM columns WHERE id = :id";
+        private string $ADD_TO_COLUMNS_STATEMENT = "INSERT INTO columns (name,boardId) VALUES (:name,:boardId)";
+        private string $GET_COLUMN_ID = "SELECT id FROM columns  ORDER BY id DESC LIMIT 1";
+        private string $GET_COLUMN_NAME = "SELECT name FROM columns WHERE id = :id";
+        private string $GET_BOARD_COLUMN = "SELECT id,name  FROM columns WHERE boardId = :id";
+        private string $GET_COLUMN_USER = 'SELECT u.id FROM columns C INNER JOIN boards b on c.boardId = b.id INNER JOIN users u on u.id = b.userId WHERE c.id = :id';
 
         public function editColumn($columnIds, $columnNames, $boardId)
         {

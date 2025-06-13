@@ -21,16 +21,16 @@
        ts.id         as subtask_id,
        ts.title      as subtask_title,
        ts.isCompleted
-FROM kanban.boards b
-         LEFT JOIN kanban.columns c on c.boardId = b.id
-         LEFT JOIN kanban.tasks t ON t.statusId = c.id
-         LEFT JOIN kanban.subtasks ts ON ts.taskId = t.id
+FROM boards b
+         LEFT JOIN columns c on c.boardId = b.id
+         LEFT JOIN tasks t ON t.statusId = c.id
+         LEFT JOIN subtasks ts ON ts.taskId = t.id
 WHERE b.userId = :userId
 ";
-        private string $EDIT_BOARD_STATEMENT = "UPDATE kanban.boards t SET t.name = :name WHERE t.id = :id";
-        private string $DELETE_FROM_BOARD_STATEMENT = "DELETE FROM kanban.boards WHERE id = :id";
-        private string $ADD_TO_BOARD_STATEMENT = "INSERT INTO kanban.boards (name, userId) VALUES (:name, :userId)";
-        private string $GET_BOARD_ID = "SELECT id FROM kanban.boards WHERE name = :name AND userId = :userId";
+        private string $EDIT_BOARD_STATEMENT = "UPDATE boards t SET t.name = :name WHERE t.id = :id";
+        private string $DELETE_FROM_BOARD_STATEMENT = "DELETE FROM boards WHERE id = :id";
+        private string $ADD_TO_BOARD_STATEMENT = "INSERT INTO boards (name, userId) VALUES (:name, :userId)";
+        private string $GET_BOARD_ID = "SELECT id FROM boards WHERE name = :name AND userId = :userId";
 
         public function getBoardsWithRelations($userId)
         {
