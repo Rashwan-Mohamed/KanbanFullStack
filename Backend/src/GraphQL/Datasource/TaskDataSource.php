@@ -7,15 +7,15 @@
     class TaskDataSource extends BaseDataSource
     {
 
-        private string $EDIT_TASK_STATEMENT = "UPDATE kanban.tasks t SET t.title = :title, t.description = :description, t.order=:order WHERE t.id = :taskId";
-        private string $EDIT_TASK_STATUS = "UPDATE kanban.tasks t SET t.status = :status, t.statusId = :statusId WHERE t.id = :taskId";
-        private string $DELETE_FROM_TASKS_STATEMENT = "DELETE FROM kanban.tasks WHERE id = :id";
-        private string $ADD_TO_TASKS_STATEMENT = "INSERT INTO kanban.tasks (title, description, status, statusId,`order`) VALUES (:title, :description,:status, :statusId,:order)";
-        private string $GET_TASK_ID = "SELECT id FROM kanban.tasks  ORDER BY id DESC LIMIT 1";
-        private string $GET_TASK_NAME = "SELECT title FROM kanban.tasks WHERE id = :id";
-        private string $GET_COLUMN_NAME = "SELECT name FROM kanban.columns WHERE id = :id";
-        private string $EDIT_TASK_ORDER = "UPDATE kanban.tasks t SET t.`order` = :order WHERE t.id = :taskId";
-        private string $CHANGE_TASK_ORDER = "UPDATE kanban.tasks t SET t.order = :order WHERE t.id = :taskId";
+        private string $EDIT_TASK_STATEMENT = "UPDATE tasks t SET t.title = :title, t.description = :description, t.order=:order WHERE t.id = :taskId";
+        private string $EDIT_TASK_STATUS = "UPDATE tasks t SET t.status = :status, t.statusId = :statusId WHERE t.id = :taskId";
+        private string $DELETE_FROM_TASKS_STATEMENT = "DELETE FROM tasks WHERE id = :id";
+        private string $ADD_TO_TASKS_STATEMENT = "INSERT INTO tasks (title, description, status, statusId,`order`) VALUES (:title, :description,:status, :statusId,:order)";
+        private string $GET_TASK_ID = "SELECT id FROM tasks  ORDER BY id DESC LIMIT 1";
+        private string $GET_TASK_NAME = "SELECT title FROM tasks WHERE id = :id";
+        private string $GET_COLUMN_NAME = "SELECT name FROM columns WHERE id = :id";
+        private string $EDIT_TASK_ORDER = "UPDATE tasks t SET t.`order` = :order WHERE t.id = :taskId";
+        private string $CHANGE_TASK_ORDER = "UPDATE tasks t SET t.order = :order WHERE t.id = :taskId";
 
         public function editTask($taskId, $taskTitle, $statusId, $status, $description, $order)
         {
