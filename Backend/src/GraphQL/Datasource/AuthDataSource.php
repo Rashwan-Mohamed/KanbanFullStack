@@ -155,11 +155,21 @@
             }
         }
 
+        public function markTourTaken($userId)
+        {
+            try {
+                $this->db->query("UPDATE kanban.users SET taken_tour = 1 WHERE id = :id", ['id' => $userId]);
+                return true;
+            } catch (PDOException $e) {
+                error_log("Failed to mark tour as taken: " . $e->getMessage());
+                return false;
+            }
+        }
         protected static function formatUser($user): array
         {
             return ['id' => $user['id'],
                 'username' => $user['username'],
-                'email' => $user['email'], 'isGuest' => $user['isGuest'], 'last_updated' => $user['last_updated'],'created_at' => $user['created_at']];
+                'email' => $user['email'], 'isGuest' => $user['isGuest'], 'last_updated' => $user['last_updated'],'created_at' => $user['created_at'],'takenTour'=>$user['taken_tour']];
         }
 
 
