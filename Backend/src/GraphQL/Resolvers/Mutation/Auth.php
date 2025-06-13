@@ -19,7 +19,7 @@
             $email = $this->args['email'];
             $password = password_hash($password, PASSWORD_DEFAULT);
             $userid = self::getCurrentUser()['user'];
-            $userid = $userid['id'];
+            $userid = $userid['id']?? null;
             return $this->ds()->handleRegister($password, $username, $email, false, $userid ?? null);
         }
 
