@@ -1,21 +1,21 @@
 import Home from "./home";
 
-import {BrowserRouter as Router, Navigate, Route, Routes,} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "./app/hooks";
+import { BrowserRouter as Router, Navigate, Route, Routes, } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
 import SessionPage from "./features/auth/SessionPage.tsx";
-import React, {useEffect, useState} from "react";
-import {initialState, setAuth} from "@/features/auth/AuthenticationSlice.tsx";
-import {RedirectOnAuth} from "@/generalComponents/RedirectOnAuth.tsx";
+import React, { useEffect, useState } from "react";
+import { initialState, setAuth } from "@/features/auth/AuthenticationSlice.tsx";
+import { RedirectOnAuth } from "@/generalComponents/RedirectOnAuth.tsx";
 import LoadingSpinner from "@/generalComponents/loadingSpinner.tsx";
-import {useQuery} from "@apollo/client";
-import {GET_CURRENT_USER} from "@/GraphQL Queries/SessionQueries.ts";
+import { useQuery } from "@apollo/client";
+import { GET_CURRENT_USER } from "@/GraphQL Queries/SessionQueries.ts";
 
 function App(): React.JSX.Element {
     const [rehydrated, setRehydrated] = useState(false);
     const dispatch = useAppDispatch();
     const auth = useAppSelector((state) => state.auth);
 
-    const {loading, error, data, refetch} = useQuery(GET_CURRENT_USER, {
+    const { loading, error, data, refetch } = useQuery(GET_CURRENT_USER, {
         pollInterval: 600000,
         fetchPolicy: 'network-only',
     });
@@ -46,6 +46,7 @@ function App(): React.JSX.Element {
                 last_updated: user.last_updated,
                 created_at: user.created_at,
                 email: user.email,
+                takenTour: user.takenTour
             }));
         } else {
             dispatch(setAuth(initialState));
@@ -54,7 +55,7 @@ function App(): React.JSX.Element {
         setRehydrated(true);
     }, [data, loading, error, dispatch]);
 
-    if (!rehydrated) return <p><LoadingSpinner message={'Loading...'}/></p>
+    if (!rehydrated) return <p><LoadingSpinner message={'Loading...'} /></p>
 
 
     return (
@@ -64,15 +65,15 @@ function App(): React.JSX.Element {
                 <Routes>
                     <Route path="/" element={
                         <RedirectOnAuth>
-                            <SessionPage/>
+                            <SessionPage />
                         </RedirectOnAuth>
-                    }/>
+                    } />
 
                     <Route
                         path="/kanban"
-                        element={auth.auth ? <Home/> : <Navigate to="/" replace/>}
+                        element={auth.auth ? <Home /> : <Navigate to="/" replace />}
                     />
-                    <Route path="*" element={<h1 className={'notFound'}>404 Not Found</h1>}/>
+                    <Route path="*" element={<h1 className={'notFound'}>404 Not Found</h1>} />
                 </Routes>
             </Router></>
     )

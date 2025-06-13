@@ -1,72 +1,91 @@
-import {gql} from '@/__generated__/gql';
+import { gql } from "@/__generated__/gql";
 
-export const LOGIN = gql(/* GraphQL */`
-    mutation Login($userCredentials:userCredentials!){
-        login(userCredentials:$userCredentials){
-            message
-            user{
-                id
-                username
-                email
-                isGuest
-                last_updated
-            }
-        }
+export const LOGIN = gql(/* GraphQL */ `
+  mutation Login($userCredentials: userCredentials!) {
+    login(userCredentials: $userCredentials) {
+      message
+      user {
+        id
+        username
+        email
+        isGuest
+        last_updated
+      }
     }
+  }
 `);
-export const LOGOUT = gql(/* GraphQL */`
-    mutation Logout {
-        logout
-    }
+export const LOGOUT = gql(/* GraphQL */ `
+  mutation Logout {
+    logout
+  }
 `);
-export const REGISTER = gql(/* GraphQL */`
-    mutation Register($username: String!, $email: String!, $password: String!){
-        register(username:$username,email:$email,password:$password){
-            successful
-            userId
-            existingUser
-            existingEmail
-        }
+export const REGISTER = gql(/* GraphQL */ `
+  mutation Register($username: String!, $email: String!, $password: String!) {
+    register(username: $username, email: $email, password: $password) {
+      successful
+      userId
+      existingUser
+      existingEmail
     }
+  }
 `);
 
-export const LOGIN_GUEST = gql(/* GraphQL */`
-    mutation LoginGuest {
-        loginGuest
-    }
+export const LOGIN_GUEST = gql(/* GraphQL */ `
+  mutation LoginGuest {
+    loginGuest
+  }
 `);
-export const LOGOUT_GUEST = gql(/* GraphQL */`
-    mutation LogOutGuest {
-        logOutGuest
-    }
+export const LOGOUT_GUEST = gql(/* GraphQL */ `
+  mutation LogOutGuest {
+    logOutGuest
+  }
 `);
-export const GET_CURRENT_USER = gql(/* GraphQL */`
-    query getCurrentUser {
-        getCurrentUser{
-            message
-            user{
-                id
-                username
-                email
-                isGuest
-                last_updated
-                created_at
-            }
-        }
-    }`);
+export const GET_CURRENT_USER = gql(/* GraphQL */ `
+  query getCurrentUser {
+    getCurrentUser {
+      message
+      user {
+        id
+        username
+        email
+        isGuest
+        last_updated
+        created_at
+        takenTour
+      }
+    }
+  }
+`);
 //
-export const CHANGE_PROFILE = gql(/* GraphQL */`
-    mutation ChangeProfile($newName:String!,$newEmail:String!,$newPassword:String,$oldPassword:String){
-        changeProfile(newName:$newName,newEmail:$newEmail,newPassword:$newPassword,oldPassword:$oldPassword){
-            message
-            successful
-        }
+export const CHANGE_PROFILE = gql(/* GraphQL */ `
+  mutation ChangeProfile(
+    $newName: String!
+    $newEmail: String!
+    $newPassword: String
+    $oldPassword: String
+  ) {
+    changeProfile(
+      newName: $newName
+      newEmail: $newEmail
+      newPassword: $newPassword
+      oldPassword: $oldPassword
+    ) {
+      message
+      successful
     }
-`)
-export const DELETE_PROFILE = gql(/* GraphQL */`
-    mutation DeleteProfile($userId:Int!){
-        deleteProfile(userId:$userId)}
-`)
+  }
+`);
+export const DELETE_PROFILE = gql(/* GraphQL */ `
+  mutation DeleteProfile($userId: Int!) {
+    deleteProfile(userId: $userId)
+  }
+`);
+
+export const MARK_TOUR_TAKEN = gql(/* GraphQL */ `
+  mutation MarkTourTaken {
+    markTourTaken
+  }
+`);
 
 /*export const DELETE_COLUMN = gql`
 mutation DeleteColumn($columnID: [Int!]!) {

@@ -1,41 +1,37 @@
-import React, {useState, useEffect, useRef} from 'react'
-import {useDispatch} from 'react-redux'
-import {UseAppContext} from './context'
-import {useLazyQuery} from '@apollo/client'
-import {setBoards} from './features/board/boardSlice'
+import React, { useState, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { UseAppContext } from './context'
+import { useLazyQuery, useMutation } from '@apollo/client'
+import { setBoards } from './features/board/boardSlice'
 import Board from './features/board/board'
 import Header from './features/board/components/header.tsx'
 import Aside from './features/board/components/Aside/aside'
 import useCloseEscape from './features/board/components/hooks/useCloseEscape.tsx'
-import {GET_BOARDS} from "@/GraphQL Queries/BoardQueries.ts";
-import {useAppSelector} from "@/app/hooks.ts";
-import Joyride, {type CallBackProps} from 'react-joyride';
+import { GET_BOARDS } from "@/GraphQL Queries/BoardQueries.ts";
+import { useAppSelector } from "@/app/hooks.ts";
+import Joyride, { type CallBackProps } from 'react-joyride';
+import { MARK_TOUR_TAKEN } from './GraphQL Queries/SessionQueries.ts'
 
 function Home() {
-    const {dark, tab} = UseAppContext()
+    const { dark, tab } = UseAppContext()
     const [selectBord, setSelectBord] = useState(false)
     const form = useRef<HTMLFormElement>(null);
     const close = useCloseEscape()
     const dispatch = useDispatch();
     const authState = useAppSelector((state) => state.auth)
-    const [getBoards, {loading, error}] = useLazyQuery(GET_BOARDS, {fetchPolicy: 'network-only'});
+    const [getBoards, { loading, error }] = useLazyQuery(GET_BOARDS, { fetchPolicy: 'network-only' });
+    const [mtFC] = useMutation(MARK_TOUR_TAKEN)
     const [stepIndex, setStepIndex] = useState(0);
-    const [run, setRun] = useState(false);
+    const [run, setRun] = useState(authState.isGuest || authState.takenTour === false);
 
+    console.log(run, authState.takenTour);
 
     useEffect(() => {
-        const now = new Date();
-        let newlyCreated = false;
-        if (authState.created_at) {
-            const createdAtDate = new Date(authState.created_at.replace(' ', 'T'));
-            const diffSeconds = (now.getTime() - createdAtDate.getTime()) / 1000;
-            newlyCreated = diffSeconds >= 0 && diffSeconds <= 300;
-        }
-        if(authState.isGuest||newlyCreated){
+
+        if (authState.isGuest || authState.takenTour === false) {
             setRun(true);
         }
-    }, [authState.auth]);
-    console.log(run)
+    }, [authState]);
     const steps = [
         {
             target: '.firstToAddnewTask',
@@ -44,7 +40,7 @@ function Home() {
         {
             target: '.boardColumn',
             content: 'you can drop & drag tasks!',
-        },{
+        }, {
             target: '.subtaskListMain',
             content: 'you can click on a task to edit it!',
         },
@@ -59,7 +55,7 @@ function Home() {
     //subtaskListMain
     useEffect(() => {
         if (authState.auth && authState.userId) {
-            getBoards({variables: {userId: authState.userId}}).then(r => dispatch(setBoards(r.data?.getBoards ?? []))).catch(e => console.log(e))
+            getBoards({ variables: { userId: authState.userId } }).then(r => dispatch(setBoards(r.data?.getBoards ?? []))).catch(e => console.log(e))
         }
     }, [authState, dispatch, authState.isGuest])
 
@@ -75,7 +71,7 @@ function Home() {
         }
     };
     const handleJoyrideCallback = (data: CallBackProps) => {
-        const {  action,index, status, type } = data;
+        const { action, index, status, type } = data;
         if (type === 'step:after' || type === "error:target_not_found") {
             if (action === 'prev') {
                 setStepIndex(index - 1);
@@ -86,6 +82,7 @@ function Home() {
         if (status === 'finished' || status === 'skipped') {
             setRun(false);
             setStepIndex(0);
+            mtFC();
         }
     };
     // dispatch(setBoards(data.getBoards));
@@ -112,16 +109,16 @@ function Home() {
                 }}
             />
 
-            <Header selectBord={selectBord} setSelectBord={setSelectBord}/>
-            {!tab && <Aside/>}
+            <Header selectBord={selectBord} setSelectBord={setSelectBord} />
+            {!tab && <Aside />}
             {tab && selectBord ? (
                 <div onClick={(e) => unShow(e)} className='modalOverlay'>
-                    {<Aside setSelectBord={setSelectBord} asideRef={form}/>}
+                    {<Aside setSelectBord={setSelectBord} asideRef={form} />}
                 </div>
             ) : (
                 ''
             )}
-            <Board error={error} loading={loading}/>
+            <Board error={error} loading={loading} />
         </main>
     )
 }
